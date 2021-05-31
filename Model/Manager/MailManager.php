@@ -4,48 +4,48 @@
 namespace Model\Manager;
 
 use Model\DB;
-use Model\Entity\Sms;
+use Model\Entity\Mail;
 use PDOStatement;
 
 
-class SmsManager extends Manager{
+class MailManager extends Manager{
 
     /**
-     * return a Sms by id
+     * return a Mail by id
      * @param int $id
-     * @return Sms|null
+     * @return Mail|null
      */
-    public function getById (int $id) : ?Sms{
-        $request = DB::getInstance()->prepare("SELECT * FROM sms where id = :id");
+    public function getById (int $id) : ?Mail{
+        $request = DB::getInstance()->prepare("SELECT * FROM mail where id = :id");
         $request->bindValue(":id",$id);
         return $this->getOne($request);
     }
 
     /**
-     * get a Sms by title
+     * get a Mail by title
      * @param string $title
-     * @return Sms|null
+     * @return Mail|null
      */
-    public function getByTitle (string $title) : ?Sms{
-        $request = DB::getInstance()->prepare("SELECT * FROM sms where title = :title");
+    public function getByTitle (string $title) : ?Mail{
+        $request = DB::getInstance()->prepare("SELECT * FROM mail where title = :title");
         $request->bindValue(":title",$title);
         return $this->getOne($request);
     }
 
     /**
-     * return a array with all the sms
+     * return a array with all the mail
      * @return array
      */
     public function getAll() : array {
         $array = [];
-        $request = DB::getInstance()->prepare("SELECT * FROM sms");
+        $request = DB::getInstance()->prepare("SELECT * FROM mail");
         $result = $request->execute();
 
         if ($result){
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $item = new Sms(intval($datum['id']), $datum['title'], $datum['content']);
+                    $item = new Mail(intval($datum['id']), $datum['title'], $datum['content']);
                     $array[] = $item;
                 }
             }
@@ -71,7 +71,7 @@ class SmsManager extends Manager{
             }
         }
 
-        $request = DB::getInstance()->prepare("UPDATE sms
+        $request = DB::getInstance()->prepare("UPDATE mail
                     SET title = :title, content = :content
                     WHERE id= :id
                     ");
@@ -83,13 +83,13 @@ class SmsManager extends Manager{
     }
 
     /**
-     * insert sms in DB
+     * insert mail in DB
      * @param string $title
      * @param string $content
      * @return bool
      */
     public function add(string $title, string $content) : bool {
-        $request = DB::getInstance()->prepare("INSERT INTO sms 
+        $request = DB::getInstance()->prepare("INSERT INTO mail 
         (title, content)
         VALUES (:title, :content)
         ");
@@ -100,12 +100,12 @@ class SmsManager extends Manager{
     }
 
     /**
-     * delete sms by id
+     * delete a mail by id
      * @param int $id
      * @return bool
      */
     public function delete(int $id) : bool {
-        $request = DB::getInstance()->prepare("DELETE FROM sms WHERE id = :id");
+        $request = DB::getInstance()->prepare("DELETE FROM mail WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
     }
@@ -114,13 +114,13 @@ class SmsManager extends Manager{
     /**
      * private request for the getBy
      * @param PDOStatement $request
-     * @return Sms|null
+     * @return Mail|null
      */
-    private function getOne(PDOStatement $request ) : ?Sms {
+    private function getOne(PDOStatement $request ) : ?Mail {
         $request->execute();
         $data = $request->fetch();
         if ($data) {
-        return new Sms (intval($data['id']), $data['title'], $data['content']);
+            return new Mail (intval($data['id']), $data['title'], $data['content']);
         }
         return null;
     }
