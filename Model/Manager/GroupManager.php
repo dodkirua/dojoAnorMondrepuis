@@ -43,7 +43,7 @@ class GroupManager extends Manager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $item = new Group(intval($datum['id']), $datum['name']);
+                    $item = new Group(intval($datum['id']), $datum['name'], $datum['duration']);
                     $array[] = $item;
                 }
             }
@@ -55,9 +55,10 @@ class GroupManager extends Manager{
      * update on DB with id
      * @param int $id
      * @param string|null $name
+     * @param int|null $duration
      * @return bool
      */
-    public function update(int $id, string $name = null) : bool{
+    public function update(int $id, string $name = null,int $duration = null) : bool{
 
         if (is_null($name)) {
             $data = $this->getById($id);
@@ -65,11 +66,12 @@ class GroupManager extends Manager{
         }
 
         $request = DB::getInstance()->prepare("UPDATE `group`
-                    SET name = :name
+                    SET name = :name, duration = :duration
                     WHERE id= :id
                     ");
         $request->bindValue(":id",$id);
         $request->bindValue(":name",mb_strtolower($name));
+        $request->bindValue(":duration",$duration);
 
         return $request->execute();
     }
@@ -79,13 +81,13 @@ class GroupManager extends Manager{
      * @param string $name
      * @return bool
      */
-    public function add(string $name) : bool {
+    public function add(string $name, int $duration) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO `group` 
-        (name)
-        VALUES (:name)
+        (name,duration)
+        VALUES (:name, :duration)
         ");
         $request->bindValue(":name",mb_strtolower($name));
-
+        $request->bindValue(":duration",$duration);
         return $request->execute();
     }
 
@@ -110,7 +112,7 @@ class GroupManager extends Manager{
         $request->execute();
         $data = $request->fetch();
         if ($data) {
-            return new Group (intval($data['id']), $data['name']);
+            return new Group (intval($data['id']), $data['name'], $data['duration']);
         }
         return null;
     }
