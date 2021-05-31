@@ -59,8 +59,8 @@ class AddressBook extends Entity implements EntityInterface{
      */
     public function getAllData(): array    {
         $array['id'] = $this->getId();
-        $array['user_id'] = $this->getUser()->getAllData();
-        $array['address_id'] = $this->getAddress()->getAllData();
+        $array['user'] = $this->getUser()->getAllData();
+        $array['address'] = $this->getAddress()->getAllData();
         return $array;
     }
 }
