@@ -64,6 +64,9 @@ class UserManager extends Manager {
      * @param string|null $username
      * @param string|null $mail
      * @param string|null $pass
+     * @param int|null $check
+     * @param int|null $validation
+     * @param string|null $key
      * @param int|null $roleId
      * @return bool
      */
@@ -115,6 +118,9 @@ class UserManager extends Manager {
      * @param string $pass
      * @param string|null $mail
      * @param int $roleId
+     * @param int|null $check
+     * @param string|null $key
+     * @param int|null $validation
      * @return bool
      */
     public function add(string $username, string $pass, string $mail = null, int $roleId = 1, int $check = null,
