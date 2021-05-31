@@ -79,6 +79,7 @@ class GroupManager extends Manager{
     /**
      * insert group in DB
      * @param string $name
+     * @param int $duration
      * @return bool
      */
     public function add(string $name, int $duration) : bool {
