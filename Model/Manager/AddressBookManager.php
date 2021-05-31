@@ -35,9 +35,9 @@ class AddressBookManager extends Manager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $user = (new UserManager())->getById(intval($datum['user_id']));
-                    $address = (new AddressManager())->getById(intval($datum['address_id']));
-                    $item = new AddressBook(intval($datum['id']),$user , $address);
+                    $userId = (new UserManager())->getById(intval($datum['user_id']));
+                    $addressId = (new AddressManager())->getById(intval($datum['address_id']));
+                    $item = new AddressBook(intval($datum['id']),$userId , $addressId);
                     $array[] = $item;
                 }
             }
@@ -48,45 +48,45 @@ class AddressBookManager extends Manager{
     /**
      * update on DB with id
      * @param int $id
-     * @param string|null $title
-     * @param string|null $content
+     * @param int|null $userId
+     * @param int|null $addressId
      * @return bool
      */
-    public function update(int $id, string $title = null, string $content = null) : bool{
-        if (is_null($title) || is_null($content)) {
+    public function update(int $id, int $userId = null, int $addressId = null) : bool{
+        if (is_null($userId) || is_null($addressId)) {
             $data = $this->getById($id);
-            if (is_null($title)) {
-                $title = $data->getTitle();
+            if (is_null($userId)) {
+                $userId = $data->getUser()->getId();
             }
-            if (is_null($content)) {
-                $content = $data->getContent();
+            if (is_null($addressId)) {
+                $addressId = $data->getAddress()->getId();
             }
         }
 
         $request = DB::getInstance()->prepare("UPDATE address_book
-                    SET title = :title, content = :content
+                    SET user_id =:user, address_id =:address
                     WHERE id= :id
                     ");
         $request->bindValue(":id",$id);
-        $request->bindValue(":title",mb_strtolower($title));
-        $request->bindValue(":content",mb_strtolower($content));
+        $request->bindValue(":user",mb_strtolower($userId));
+        $request->bindValue(":address",mb_strtolower($addressId));
 
         return $request->execute();
     }
 
     /**
      * insert addressBook in DB
-     * @param string $title
-     * @param string $content
+     * @param int $userId
+     * @param int $addressId
      * @return bool
      */
-    public function add(string $title, string $content) : bool {
-        $request = DB::getInstance()->prepare("INSERT INTO addressBook 
-        (title, content)
-        VALUES (:title, :content)
+    public function add(int $userId, int $addressId) : bool {
+        $request = DB::getInstance()->prepare("INSERT INTO address_book
+        (user_id, address_id)
+        VALUES (:user, :address)
         ");
-        $request->bindValue(":title",mb_strtolower($title));
-        $request->bindValue(":content",mb_strtolower($content));
+        $request->bindValue(":user",$userId);
+        $request->bindValue(":address",$addressId);
 
         return $request->execute();
     }
@@ -112,9 +112,9 @@ class AddressBookManager extends Manager{
         $request->execute();
         $data = $request->fetch();
         if ($data) {
-            return new AddressBook (intval($data['id']), $data['title'], $data['content']);
+            return new AddressBook (intval($data['id']), $data['user'], $data['address']);
         }
         return null;
     }
-}
+
 }
