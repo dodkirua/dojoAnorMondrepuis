@@ -6,6 +6,8 @@ namespace Model\Manager;
 use Model\DB;
 use PDOStatement;
 use Model\Entity\Lesson;
+use Model\Entity\Group;
+use Model\Manager\GroupManager;
 
 class LessonManager extends Manager{
     /**
@@ -20,13 +22,15 @@ class LessonManager extends Manager{
     }
 
     /**
-     * get a Lesson by title
-     * @param string $title
+     * get a Lesson by date and Group
+     * @param int $date
+     * @param int $groupId
      * @return Lesson|null
      */
-    public function getByTitle (string $title) : ?Lesson{
-        $request = DB::getInstance()->prepare("SELECT * FROM lesson where title = :title");
-        $request->bindValue(":title",$title);
+    public function getByDateNGroup (int $date, int $groupId) : ?Lesson{
+        $request = DB::getInstance()->prepare("SELECT * FROM lesson where date = :date AND group_id = :grp");
+        $request->bindValue(":date", $date);
+        $request->bindValue(":grp", $groupId);
         return $this->getOne($request);
     }
 
@@ -43,7 +47,8 @@ class LessonManager extends Manager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $item = new Lesson(intval($datum['id']), $datum['title'], $datum['content']);
+                    $group = (new GroupManager())->getById(intval($datum['group_id']));
+                    $item = new Lesson(intval($datum['id']), intval($datum['date']), intval($datum['hour']), $group);
                     $array[] = $item;
                 }
             }
@@ -54,45 +59,52 @@ class LessonManager extends Manager{
     /**
      * update on DB with id
      * @param int $id
-     * @param string|null $title
-     * @param string|null $content
+     * @param int|null $date
+     * @param int|null $hour
+     * @param int|null $groupId
      * @return bool
      */
-    public function update(int $id, string $title = null, string $content = null) : bool{
-        if (is_null($title) || is_null($content)) {
+    public function update(int $id, int $date =null, int $hour = null, int $groupId = null) : bool{
+        if (is_null($date) || is_null($hour) || is_null($groupId)) {
             $data = $this->getById($id);
-            if (is_null($title)) {
-                $title = $data->getTitle();
+            if (is_null($date)) {
+                $date = $data->getDate();
             }
-            if (is_null($content)) {
-                $content = $data->getContent();
+            if (is_null($hour)) {
+                $hour = $data->getHour();
+            }
+            if (is_null($groupId)) {
+                $groupId = $data->getGroup()->getId();
             }
         }
 
         $request = DB::getInstance()->prepare("UPDATE lesson
-                    SET title = :title, content = :content
+                    SET date = :date, hour = :hour, group_id = :grp
                     WHERE id= :id
                     ");
         $request->bindValue(":id",$id);
-        $request->bindValue(":title",mb_strtolower($title));
-        $request->bindValue(":content",mb_strtolower($content));
+        $request->bindValue(":date",$date);
+        $request->bindValue(":hour",$hour);
+        $request->bindValue(":grp",$groupId);
 
         return $request->execute();
     }
 
     /**
      * insert lesson in DB
-     * @param string $title
-     * @param string $content
+     * @param int $date
+     * @param int $hour
+     * @param int $groupId
      * @return bool
      */
-    public function add(string $title, string $content) : bool {
+    public function add(int $date , int $hour , int $groupId ) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO lesson 
-        (title, content)
-        VALUES (:title, :content)
+        (date, hour, group_id)
+        VALUES (:date, :hour, :grp)
         ");
-        $request->bindValue(":title",mb_strtolower($title));
-        $request->bindValue(":content",mb_strtolower($content));
+        $request->bindValue(":date",$date);
+        $request->bindValue(":hour",$hour);
+        $request->bindValue(":grp",$groupId);
 
         return $request->execute();
     }
@@ -116,9 +128,10 @@ class LessonManager extends Manager{
      */
     private function getOne(PDOStatement $request ) : ?Lesson {
         $request->execute();
-        $data = $request->fetch();
-        if ($data) {
-            return new Lesson (intval($data['id']), $data['title'], $data['content']);
+        $datum = $request->fetch();
+        if ($datum) {
+            $group = (new GroupManager())->getById(intval($datum['group_id']));
+            return new Lesson(intval($datum['id']), intval($datum['date']), intval($datum['hour']), $group);
         }
         return null;
     }

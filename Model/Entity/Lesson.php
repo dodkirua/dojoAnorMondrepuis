@@ -9,15 +9,13 @@ use Model\Entity\Group;
 class Lesson extends Entity implements EntityInterface{
     private ?int $date;
     private ?int $hour;
-    private ?int $duration;
+
     private ?Group $group;
 
-    public function __construct(int $id = null, int $date = null, int $hour = null, int $duration = null,
-                                Group $group = null )    {
+    public function __construct(int $id = null, int $date = null, int $hour = null, Group $group = null )    {
         parent::__construct($id);
         $this->date = $date;
         $this->hour = $hour;
-        $this->duration = $duration;
         $this->group = $group;
     }
 
@@ -57,23 +55,6 @@ class Lesson extends Entity implements EntityInterface{
         return $this;
     }
 
-    /**
-     * get the Duration
-     * @return int|null
-     */
-    public function getDuration(): ?int    {
-        return $this->duration;
-    }
-
-    /**
-     * set the Duration
-     * @param int|null $duration
-     * @return Lesson
-     */
-    public function setDuration(?int $duration): Lesson    {
-        $this->duration = $duration;
-        return $this;
-    }
 
     /**
      * get the Group
@@ -101,7 +82,6 @@ class Lesson extends Entity implements EntityInterface{
         $array['id'] = $this->getId();
         $array['date'] = $this->getDate();
         $array['hour'] = $this->getHour();
-        $array['duration'] = $this->getDuration();
         $array['group'] = $this->getGroup()->getAllData();
         return $array;
     }
