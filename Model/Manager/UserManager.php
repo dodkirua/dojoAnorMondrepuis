@@ -83,19 +83,35 @@ class UserManager extends Manager {
             }
             else {
                 $data = $this->getById($id);
-
-                if (is_null($username)){
-                    $username = $data->getUsername();
-                }
-
-                if (is_null($mail)){
-                    $mail = $data->getMail();
-                }
-
-                if (is_null($roleId)) {
-                    $roleId = $data->getRole()->getId();
-                }
             }
+            if (is_null($username)){
+                $username = $data->getUsername();
+            }
+
+            if (is_null($mail)){
+                $mail = $data->getMail();
+            }
+
+            if (is_null($roleId)) {
+                $roleId = $data->getRole()->getId();
+            }
+
+            if (is_null($licence)) {
+                $licence = $data->getLicence();
+            }
+
+            if (is_null($check)) {
+                $check = $data->getCheck();
+            }
+
+            if (is_null($key)) {
+                $key = $data->getKey();
+            }
+
+            if (is_null($validation)) {
+                $validation = $data->getValidation();
+            }
+
         }
         $request = DB::getInstance()->prepare("UPDATE user 
                     SET username = :name, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
