@@ -24,13 +24,13 @@ class CategoryAgeArrayManager extends Manager{
     }
 
     /**
-     * get all CategoryAgeArray by categorie age
-     * @param int $categorieAge
+     * get all CategoryAgeArray by category age
+     * @param int $categoryAge
      * @return array
      */
-    public function getAllByCategorieAge(int $categorieAge) : array{
+    public function getAllByCategoryAge(int $categoryAge) : array{
         $request = DB::getInstance()->prepare("SELECT * From category_age_array where category_age_id = :cat");
-        $request->bindValue(":cat",$categorieAge);
+        $request->bindValue(":cat",$categoryAge);
         return $this->getMany($request);
     }
 
