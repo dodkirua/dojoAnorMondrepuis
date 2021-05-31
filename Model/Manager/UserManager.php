@@ -64,16 +64,17 @@ class UserManager extends Manager {
      * @param string|null $username
      * @param string|null $mail
      * @param string|null $pass
+     * @param string|null $licence
      * @param int|null $check
      * @param int|null $validation
      * @param string|null $key
      * @param int|null $roleId
      * @return bool
      */
-    public function update(int $id, string $username = null, string $mail = null, string $pass = null,
+    public function update(int $id, string $username = null, string $mail = null, string $pass = null, string $licence = null,
                            int $check = null,int $validation= null,string $key = null,int $roleId = null): bool    {
         // modify the not null values
-        if (is_null($username) || is_null($mail) || is_null($pass) || is_null($roleId) || is_null($check)
+        if (is_null($username) || is_null($mail) || is_null($pass) || is_null($roleId) || is_null($check) || is_null($licence)
             || is_null($validation)|| is_null($key)){
             if (is_null($pass)){
                 $data = $this->getById($id,true);
@@ -97,7 +98,7 @@ class UserManager extends Manager {
         }
         $request = DB::getInstance()->prepare("UPDATE user 
                     SET username = :name, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
-                        validation_key = :key, validation = :validation
+                        validation_key = :key, validation = :validation, licence = :licence
                     WHERE id = :id
                     ");
         $request->bindValue(":id",$id);
@@ -108,6 +109,7 @@ class UserManager extends Manager {
         $request->bindValue(":check",$check);
         $request->bindValue(":key",$key);
         $request->bindValue(":validation",$validation);
+        $request->bindValue(":licence",$licence);
 
         return $request->execute();
     }
@@ -117,17 +119,18 @@ class UserManager extends Manager {
      * @param string $username
      * @param string $pass
      * @param string|null $mail
-     * @param int $roleId
+     * @param string|null $licence
      * @param int|null $check
      * @param string|null $key
      * @param int|null $validation
+     * @param int $roleId
      * @return bool
      */
-    public function add(string $username, string $pass, string $mail = null, int $roleId = 1, int $check = null,
-                        string $key = null, int $validation = null) : bool {
+    public function add(string $username, string $pass, string $mail = null,string $licence = null, int $check = null,
+                        string $key = null, int $validation = null, int $roleId = 1) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO user 
-                    (username, mail, pass, role_id, `check`, validation_key, validation)
-                    VALUES (:username, :mail, :pass, :role, :check, :key, :validation)
+                    (username, mail, pass ,licence , role_id, `check`, validation_key, validation)
+                    VALUES (:username, :mail, :pass, :licence, :role, :check, :key, :validation)
                     ");
         $request->bindValue(":username",mb_strtolower($username));
         if (is_null($mail)){
@@ -141,6 +144,7 @@ class UserManager extends Manager {
         $request->bindValue(":check",$check);
         $request->bindValue(":key",$key);
         $request->bindValue(":validation",$validation);
+        $request->bindValue(":licence",$licence);
         return $request->execute();
     }
 

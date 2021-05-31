@@ -8,6 +8,7 @@ class User extends Entity implements EntityInterface {
     private ?string $username;
     private ?string $mail;
     private ?string $pass;
+    private ?string $licence;
     private ?int $check;
     private ?int $validation;
     private ?string $key;
@@ -21,12 +22,14 @@ class User extends Entity implements EntityInterface {
      * @param Role|null $role
      * @param int|null $id
      */
-    public function __construct( int $id = null, string $username = null, string $mail = null,
-                                 string $pass = null,int $check = null,int $validation= null,string $key = null, Role $role = null)    {
+    public function __construct( int $id = null, string $username = null, string $mail = null, string $pass = null,
+                                string $licence = null, int $check = null,int $validation= null,string $key = null,
+                                 Role $role = null)    {
         parent::__construct($id);
         $this->username = $username;
         $this->mail = $mail;
         $this->pass = $pass;
+        $this->licence = $licence;
         $this->role = $role;
         $this->check = $check;
         $this->validation = $validation;
@@ -37,8 +40,7 @@ class User extends Entity implements EntityInterface {
      * get the Check
      * @return int|null
      */
-    public function getCheck(): ?int
-    {
+    public function getCheck(): ?int    {
         return $this->check;
     }
 
@@ -47,8 +49,7 @@ class User extends Entity implements EntityInterface {
      * @param int|null $check
      * @return User
      */
-    public function setCheck(?int $check): User
-    {
+    public function setCheck(?int $check): User    {
         $this->check = $check;
         return $this;
     }
@@ -57,8 +58,7 @@ class User extends Entity implements EntityInterface {
      * get the Validation
      * @return int|null
      */
-    public function getValidation(): ?int
-    {
+    public function getValidation(): ?int    {
         return $this->validation;
     }
 
@@ -67,8 +67,7 @@ class User extends Entity implements EntityInterface {
      * @param int|null $validation
      * @return User
      */
-    public function setValidation(?int $validation): User
-    {
+    public function setValidation(?int $validation): User    {
         $this->validation = $validation;
         return $this;
     }
@@ -77,8 +76,7 @@ class User extends Entity implements EntityInterface {
      * get the Key
      * @return string|null
      */
-    public function getKey(): ?string
-    {
+    public function getKey(): ?string    {
         return $this->key;
     }
 
@@ -87,8 +85,7 @@ class User extends Entity implements EntityInterface {
      * @param string|null $key
      * @return User
      */
-    public function setKey(?string $key): User
-    {
+    public function setKey(?string $key): User    {
         $this->key = $key;
         return $this;
     }
@@ -166,6 +163,24 @@ class User extends Entity implements EntityInterface {
     }
 
     /**
+     * get the Licence
+     * @return string|null
+     */
+    public function getLicence(): ?string    {
+        return $this->licence;
+    }
+
+    /**
+     * set the Licence
+     * @param string|null $licence
+     * @return User
+     */
+    public function setLicence(?string $licence): User    {
+        $this->licence = $licence;
+        return $this;
+    }
+
+    /**
      * return the value in array less pass for security
      * @return array
      */
@@ -174,6 +189,7 @@ class User extends Entity implements EntityInterface {
         $array['username'] = $this->getUsername();
         $array['mail'] = $this->getMail();
         $array['pass'] = '';
+        $array['licence'] = $this->getLicence();
         $array['check'] = $this->getCheck();
         $array['validation_key'] = $this->getKey();
         $array['validation'] = $this->getValidation();
