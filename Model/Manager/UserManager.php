@@ -49,8 +49,9 @@ class UserManager extends Manager {
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $item) {
-                    $class = new User(intval($item['id']),$item['username'],$item['mail'],'',$item['check'],
-                        $item['validation_key'],$item['validation'],(new RoleManager())->getById($data['role_id']));
+                    $class = new User(intval($item['id']),$item['username'],$item['mail'],'', $item['licence'] ,
+                        $item['check'], $item['validation_key'], $item['validation'],
+                        (new RoleManager())->getById($data['role_id']));
                     $classes[] = $class;
                 }
             }
@@ -186,8 +187,9 @@ class UserManager extends Manager {
             if ($pass){
                $pwd = $data['pass'];
             }
-            return new User(intval($data['id']), $data['username'], $data['mail'],$pwd, $data['check'], $data['validation'],
-                $data['validation_key'], (new RoleManager())->getById(intval($data['role_id'])));
+            return new User(intval($data['id']), $data['username'], $data['mail'], $pwd, $data['licence'] ,
+                $data['check'], $data['validation'], $data['validation_key'],
+                (new RoleManager())->getById(intval($data['role_id'])));
         }
 
         return null;
