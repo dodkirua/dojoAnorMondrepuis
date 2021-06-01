@@ -28,7 +28,7 @@ class LessonManager extends Manager{
      * @return Lesson|null
      */
     public function getByDateNGroup (int $date, int $groupId) : ?Lesson{
-        $request = DB::getInstance()->prepare("SELECT * FROM lesson where date = :date AND group_id = :grp");
+        $request = DB::getInstance()->prepare("SELECT * FROM lesson WHERE date = :date AND group_id = :grp");
         $request->bindValue(":date", $date);
         $request->bindValue(":grp", $groupId);
         return $this->getOne($request);
@@ -39,21 +39,19 @@ class LessonManager extends Manager{
      * @return array
      */
     public function getAll() : array {
-        $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM lesson");
-        $result = $request->execute();
+        return $this->getMany($request);
+    }
 
-        if ($result){
-            $data = $request->fetchAll();
-            if ($data) {
-                foreach ($data as $datum) {
-                    $group = (new GroupManager())->getById(intval($datum['group_id']));
-                    $item = new Lesson(intval($datum['id']), intval($datum['date']), intval($datum['hour']), $group);
-                    $array[] = $item;
-                }
-            }
-        }
-        return $array;
+    /**
+     * return a array with lesson by groupId
+     * @param int $groupId
+     * @return array
+     */
+    public function getAllByGroup(int $groupId) : array {
+        $request = DB::getInstance()->prepare("SELECT * FROM lesson WHERE group_id = :grp");
+        $request->bindValue(":grp", $groupId);
+        return $this->getMany($request);
     }
 
     /**
@@ -141,6 +139,28 @@ class LessonManager extends Manager{
             return new Lesson(intval($datum['id']), intval($datum['date']), intval($datum['hour']), $group);
         }
         return null;
+    }
+
+    /**
+     * private request for the getAll
+     * @param PDOStatement $request
+     * @return array
+     */
+    private function getMany (PDOStatement $request ) : array {
+        $array = [];
+        $result = $request->execute();
+
+        if ($result){
+            $data = $request->fetchAll();
+            if ($data) {
+                foreach ($data as $datum) {
+                    $group = (new GroupManager())->getById(intval($datum['group_id']));
+                    $item = new Lesson(intval($datum['id']), intval($datum['date']), intval($datum['hour']), $group);
+                    $array[] = $item;
+                }
+            }
+        }
+        return $array;
     }
 
 }

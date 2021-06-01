@@ -98,6 +98,19 @@ class GroupManager extends Manager{
      * @return bool
      */
     public function delete(int $id) : bool {
+        //delete the lesson
+        $manager = new LessonManager();
+        $array = $manager->getAllByGroup($id);
+        foreach ($array as $item) {
+            $manager->delete($item['id']);
+        }
+        //delete the group_category
+        $manager = new GroupCategoryManager();
+        $array = $manager->getAllByGroup($id);
+        foreach ($array as $item) {
+            $manager->delete($item['id']);
+        }
+
         $request = DB::getInstance()->prepare("DELETE FROM `group` WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
