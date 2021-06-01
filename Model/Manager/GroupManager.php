@@ -20,7 +20,7 @@ class GroupManager extends Manager{
     }
 
     /**
-     * get a Group by title
+     * get a Group by name
      * @param string $name
      * @return Group|null
      */
