@@ -115,6 +115,13 @@ class LessonManager extends Manager{
      * @return bool
      */
     public function delete(int $id) : bool {
+        //delete the attendance
+        $attendanceManger = new AttendanceManager();
+        $array = $attendanceManger->getAllByLesson($id);
+        foreach ($array as $item) {
+            $attendanceManger->delete($item['id']);
+        }
+
         $request = DB::getInstance()->prepare("DELETE FROM lesson WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();

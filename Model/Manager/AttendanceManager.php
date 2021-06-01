@@ -34,7 +34,7 @@ class AttendanceManager extends Manager{
      * @param int $lesson
      * @return array
      */
-    public function getAllByGroup(int $lesson) : array {
+    public function getAllByLesson(int $lesson) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM attendance WHERE lesson_id = :lesson");
         $request->bindValue(":lesson",$lesson);
         return $this->getMany($request);
