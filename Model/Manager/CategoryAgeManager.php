@@ -100,6 +100,19 @@ class CategoryAgeManager extends Manager{
      * @return bool
      */
     public function delete(int $id) : bool {
+        //delete the group_category
+        $manager = new GroupCategoryManager();
+        $array = $manager->getAllByCategory($id);
+        foreach ($array as $item) {
+            $manager->delete($item['id']);
+        }
+        //delete the category_age_array
+        $manager = new CategoryAgeArrayManager();
+        $array = $manager->getAllByCategoryAge($id);
+        foreach ($array as $item) {
+            $manager->delete($item['id']);
+        }
+
         $request = DB::getInstance()->prepare("DELETE FROM category_age WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
