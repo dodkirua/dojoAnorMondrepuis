@@ -118,7 +118,6 @@ class CategoryAgeManager extends Manager{
         return $request->execute();
     }
 
-
     /**
      * private request for the getBy
      * @param PDOStatement $request
