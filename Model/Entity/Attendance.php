@@ -59,11 +59,14 @@ class Attendance extends Entity implements Interfaces\EntityInterface{
         return $this;
     }
 
-
-
-
-
+    /**
+     * return all the value of object
+     * @return array
+     */
     public function getAllData(): array    {
-
+        $array['id'] = $this->getId();
+        $array['user_id'] = $this->getUser()->getAllData();
+        $array['lesson_id'] = $this->getLesson()->getAllData();
+        return $array;
     }
 }
