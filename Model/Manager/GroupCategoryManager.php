@@ -25,26 +25,34 @@ class GroupCategoryManager{
     }
 
     /**
+     * return all groupCategory for a category
+     * @param int $category
+     * @return array
+     */
+    public function getAllByCategory(int $category) : array {
+        $request = DB::getInstance()->prepare("SELECT * FROM group_category WHERE category_age_id = :cat");
+        $request->bindValue(":cat",$category);
+        return $this->getMany($request);
+    }
+
+    /**
+     * return all groupCategory for a group
+     * @param int $group
+     * @return array
+     */
+    public function getAllByGroup(int $group) : array {
+        $request = DB::getInstance()->prepare("SELECT * FROM group_category WHERE group_id = :grp");
+        $request->bindValue(":grp",$group);
+        return $this->getMany($request);
+    }
+
+    /**
      * return a array with all the groupCategory
      * @return array
      */
     public function getAll() : array {
-        $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM group_category");
-        $result = $request->execute();
-
-        if ($result){
-            $data = $request->fetchAll();
-            if ($data) {
-                foreach ($data as $datum) {
-                    $group = (new GroupManager())->getById(intval($datum['group_id']));
-                    $category = (new CategoryAgeManager())->getById(intval($datum['category_age_id']));
-                    $item = new GroupCategory(intval($datum['id']) , $category, $group);
-                    $array[] = $item;
-                }
-            }
-        }
-        return $array;
+        return $this->getMany($request);
     }
 
     /**
@@ -117,5 +125,28 @@ class GroupCategoryManager{
             return new GroupCategory (intval($data['id']), $data['category_age_id'], $data['group_id']);
         }
         return null;
+    }
+
+    /**
+     * private request for the getAll
+     * @param PDOStatement $request
+     * @return array
+     */
+    private function getMany (PDOStatement $request ) : array {
+        $array = [];
+        $result = $request->execute();
+
+        if ($result){
+            $data = $request->fetchAll();
+            if ($data) {
+                foreach ($data as $datum) {
+                    $group = (new GroupManager())->getById(intval($datum['group_id']));
+                    $categoryAge = (new CategoryAgeManager())->getById(intval($datum['category_age_id']));
+                    $item = new GroupCategory(intval($datum['id']), $categoryAge , $group );
+                    $array[] = $item;
+                }
+            }
+        }
+        return $array;
     }
 }
