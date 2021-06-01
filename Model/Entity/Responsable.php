@@ -12,7 +12,7 @@ class Responsable extends Entity implements EntityInterface {
     private ?User $child;
     private ?User $parent;
 
-    public function __construct(int $id = null, ?User $child, ?User $parent)    {
+    public function __construct(int $id = null, ?User $child = null, ?User $parent = null)    {
         parent::__construct($id);
         $this->parent = $parent;
         $this->child = $child;

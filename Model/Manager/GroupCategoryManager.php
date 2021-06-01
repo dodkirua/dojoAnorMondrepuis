@@ -50,45 +50,45 @@ class GroupCategoryManager{
     /**
      * update on DB with id
      * @param int $id
-     * @param string|null $title
-     * @param string|null $content
+     * @param int|null $categoryId
+     * @param int|null $groupId
      * @return bool
      */
-    public function update(int $id, int $category = null, string $content = null) : bool{
-        if (is_null($title) || is_null($content)) {
+    public function update(int $id, int $categoryId = null, int $groupId = null) : bool{
+        if (is_null($categoryId) || is_null($groupId)) {
             $data = $this->getById($id);
-            if (is_null($title)) {
-                $title = $data->getTitle();
+            if (is_null($categoryId)) {
+                $categoryId = $data->getGroup()->getId();
             }
-            if (is_null($content)) {
-                $content = $data->getContent();
+            if (is_null($groupId)) {
+                $groupId = $data->getCategoryAge()->getId();
             }
         }
 
         $request = DB::getInstance()->prepare("UPDATE group_category
-                    SET title = :title, content = :content
+                    SET category_age_id = :cat, group_id = :grp
                     WHERE id= :id
                     ");
         $request->bindValue(":id",$id);
-        $request->bindValue(":title",mb_strtolower($title));
-        $request->bindValue(":content",mb_strtolower($content));
+        $request->bindValue(":cat",$categoryId);
+        $request->bindValue(":grp",$groupId);
 
         return $request->execute();
     }
 
     /**
      * insert groupCategory in DB
-     * @param string $title
-     * @param string $content
+     * @param int $categoryId
+     * @param int $groupId
      * @return bool
      */
-    public function add(string $title, string $content) : bool {
+    public function add(int $categoryId, int $groupId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO group_category 
-        (title, content)
-        VALUES (:title, :content)
+        (category_age_id, group_id)
+        VALUES (:cat, :grp)
         ");
-        $request->bindValue(":title",mb_strtolower($title));
-        $request->bindValue(":content",mb_strtolower($content));
+        $request->bindValue(":cat",$categoryId);
+        $request->bindValue(":grp",$groupId);
 
         return $request->execute();
     }
@@ -114,7 +114,7 @@ class GroupCategoryManager{
         $request->execute();
         $data = $request->fetch();
         if ($data) {
-            return new GroupCategory (intval($data['id']), $data['title'], $data['content']);
+            return new GroupCategory (intval($data['id']), $data['category_age_id'], $data['group_id']);
         }
         return null;
     }
