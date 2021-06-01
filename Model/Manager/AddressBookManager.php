@@ -28,21 +28,30 @@ class AddressBookManager extends Manager{
      * @return array
      */
     public function getAll() : array {
-        $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM address_book");
-        $result = $request->execute();
-        if ($result){
-            $data = $request->fetchAll();
-            if ($data) {
-                foreach ($data as $datum) {
-                    $userId = (new UserManager())->getById(intval($datum['user_id']));
-                    $addressId = (new AddressManager())->getById(intval($datum['address_id']));
-                    $item = new AddressBook(intval($datum['id']),$userId , $addressId);
-                    $array[] = $item;
-                }
-            }
-        }
-        return $array;
+        return $this->getMany($request);
+    }
+
+    /**
+     * return a array the addressBook by userId
+     * @param int $userId
+     * @return array
+     */
+    public function getAllByUser (int $userId) : array {
+        $request = DB::getInstance()->prepare("SELECT * FROM address_book WHERE user_id = :user");
+        $request->bindValue(":user",$userId);
+        return $this->getMany($request);
+    }
+
+    /**
+     * return a array the addressBook by addressId
+     * @param int $userId
+     * @return array
+     */
+    public function getAllByAddress (int $addressId) : array {
+        $request = DB::getInstance()->prepare("SELECT * FROM address_book WHERE address_id = :address");
+        $request->bindValue(":address",$addressId);
+        return $this->getMany($request);
     }
 
     /**
@@ -117,4 +126,23 @@ class AddressBookManager extends Manager{
         return null;
     }
 
+    private function getMany(PDOStatement $request) : array {
+        $array = [];
+        $result = $request->execute();
+        if ($result){
+            $data = $request->fetchAll();
+            if ($data) {
+                foreach ($data as $datum) {
+                    $userId = (new UserManager())->getById(intval($datum['user_id']));
+                    $addressId = (new AddressManager())->getById(intval($datum['address_id']));
+                    $item = new AddressBook(intval($datum['id']),$userId , $addressId);
+                    $array[] = $item;
+                }
+            }
+        }
+        return $array;
+
+
+        return $array;
+    }
 }

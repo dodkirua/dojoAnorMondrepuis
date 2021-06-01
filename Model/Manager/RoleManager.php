@@ -84,12 +84,5 @@ class RoleManager extends Manager {
         return $request->execute();
     }
 
-    public function delete(int $id) : bool {
-        if ($id > 4) {
-            $request = DB::getInstance()->prepare("DELETE FROM role WHERE id = :id");
-            $request->bindValue(':id',$id);
-            return $request->execute();
-        }
-        return false;
-    }
+
 }

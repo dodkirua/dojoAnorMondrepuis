@@ -213,7 +213,26 @@ class UserManager extends Manager {
             $responsableManager->delete($item['id']);
         }
 
+        //delete the attendance
+        $attendanceManger = new AttendanceManager();
+        $array = $attendanceManger->getAllByUser($id);
+        foreach ($array as $item) {
+            $attendanceManger->delete($item['id']);
+        }
 
+        //delete the addressBook
+        $manager = new AddressBookManager();
+        $array = $manager->getAllByUser($id);
+        foreach ($array as $item) {
+            $manager->delete($item['id']);
+        }
+
+        //delete the category_age_array
+        $manager = new CategoryAgeArrayManager();
+        $array = $manager->getAllByUser($id);
+        foreach ($array as $item) {
+            $manager->delete($item['id']);
+        }
 
         $request = DB::getInstance()->prepare("DELETE FROM user WHERE id = :id");
         $request->bindValue(':id',$id);
