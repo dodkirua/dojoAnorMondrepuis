@@ -12,6 +12,8 @@ class User extends Entity implements EntityInterface {
     private ?int $check;
     private ?int $validation;
     private ?string $key;
+    private ?string $name;
+    private ?string $surname;
     private ?Role $role;
 
     /**
@@ -24,7 +26,7 @@ class User extends Entity implements EntityInterface {
      */
     public function __construct( int $id = null, string $username = null, string $mail = null, string $pass = null,
                                 string $licence = null, int $check = null,int $validation= null,string $key = null,
-                                 Role $role = null)    {
+                                string $name = null,string $surname =null , Role $role = null)    {
         parent::__construct($id);
         $this->username = $username;
         $this->mail = $mail;
@@ -34,6 +36,8 @@ class User extends Entity implements EntityInterface {
         $this->check = $check;
         $this->validation = $validation;
         $this->key = $key;
+        $this->name = $name;
+        $this->surname = $surname;
     }
 
     /**
@@ -181,6 +185,43 @@ class User extends Entity implements EntityInterface {
     }
 
     /**
+     * get the Name
+     * @return string|null
+     */
+    public function getName(): ?string    {
+        return $this->name;
+    }
+
+    /**
+     * set the Name
+     * @param string|null $name
+     * @return User
+     */
+    public function setName(?string $name): User    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * get the Surname
+     * @return string|null
+     */
+    public function getSurname(): ?string    {
+        return $this->surname;
+    }
+
+    /**
+     * set the Surname
+     * @param string|null $surname
+     * @return User
+     */
+    public function setSurname(?string $surname): User    {
+        $this->surname = $surname;
+        return $this;
+    }
+
+
+    /**
      * return the value in array less pass for security
      * @return array
      */
@@ -193,6 +234,8 @@ class User extends Entity implements EntityInterface {
         $array['check'] = $this->getCheck();
         $array['validation_key'] = $this->getKey();
         $array['validation'] = $this->getValidation();
+        $array['name'] = $this->getName();
+        $array['surname'] = $this->getSurname();
         $array['role'] = $this->getRole()->getAllData();
         return $array;
     }
