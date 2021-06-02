@@ -103,7 +103,7 @@ class CompetitionManager extends Manager{
      * @param $categoryAgeId
      * @return bool
      */
-    public function add(string $description, int $date, int $hour, int $addressId, $categoryAgeId) : bool {
+    public function add(string $description, int $date, int $hour, int $addressId, int $categoryAgeId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO competition 
         (description, date, hour, address_id, category_age_id)
         VALUES (:desc, :date, :hour, :add, :cat)

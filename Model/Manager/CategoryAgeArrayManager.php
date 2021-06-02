@@ -4,11 +4,11 @@
 namespace Model\Manager;
 
 use Model\DB;
+use Model\Manager\CategoryAgeManager;
+use Model\Manager\UserManager;
 use PDOStatement;
 use Model\CategoryAgeArray;
-use Model\Manager\UserManager;
 use Model\Entity\User;
-use Model\Manager\CategoryAgeManager;
 use Model\Entity\CategoryAge;
 
 class CategoryAgeArrayManager extends Manager{
@@ -89,7 +89,7 @@ class CategoryAgeArrayManager extends Manager{
      * @param $categoryAgeId
      * @return bool
      */
-    public function add(int $userId, $categoryAgeId) : bool {
+    public function add(int $userId, int $categoryAgeId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO category_age_array 
         (user_id, category_age_id)
         VALUES (:user, :cat)
@@ -121,7 +121,9 @@ class CategoryAgeArrayManager extends Manager{
         $request->execute();
         $data = $request->fetch();
         if ($data) {
-            return new CategoryAgeArray (intval($data['id']), $data['title'], $data['content']);
+            $user = (new UserManager())->getById(intval($data['user_id']));
+            $categoryAge = (new CategoryAgeManager())->getById(intval($data['category_age_id']));
+            return new CategoryAgeArray(intval($data['id']), $user, $categoryAge);
         }
         return null;
     }
