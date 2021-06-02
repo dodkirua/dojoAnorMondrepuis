@@ -43,8 +43,7 @@ class DanManager extends Manager{
     /**
      * update on DB with id
      * @param int $id
-     * @param string|null $name
-     * @param int|null $duration
+     * @param string|null $description
      * @return bool
      */
     public function update(int $id, string $description = null) : bool{
@@ -66,11 +65,10 @@ class DanManager extends Manager{
 
     /**
      * insert dan in DB
-     * @param string $name
-     * @param int $duration
+     * @param string $description
      * @return bool
      */
-    public function add(string $name, int $duration) : bool {
+    public function add(string $description) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO `dan` 
         (description)
         VALUES (:desc)
