@@ -25,4 +25,19 @@ class Utility{
             $_SESSION[$title][$key] = $tmp;
         }
     }
+
+    /**
+     * return a string with maj after dot
+     * @param string $text
+     * @return string
+     */
+    public static function addMaj(string $text) : string {
+        $tmp2 = "";
+        $tmp = explode('.',$text);
+        foreach ($tmp as $item){
+            $item = trim($item);
+            $tmp2 = $tmp2 . ucfirst($item) . ". ";
+        }
+        return trim($tmp2);
+    }
 }

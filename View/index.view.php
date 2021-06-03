@@ -1,14 +1,13 @@
 <div id="articleDisplay" class="panel">
     <?php
-    var_dump($vars);
-        if (!is_null($vars['article']['image'])){
+        if (!is_null($var['article']['image'])){
            echo "<div id='articleImage'></div>";
         }
-        echo "<h1>" . $vars['article']['title'] . "</h1>";
+        echo "<h1>" . $var['article']['title'] . "</h1>";
         $date = new DateTime();
-        $date->setTimestamp(intval($vars['article']['date']));
+        $date->setTimestamp(intval($var['article']['date']));
         echo "<p class='date'>publié le " . $date->format('d/m/Y')  . "</p>";
-        echo "<p>" . $vars['article']['title'] . "</p>";
+        echo "<p class='content'>" . $var['article']['title'] . "</p>";
     ?>
 
 

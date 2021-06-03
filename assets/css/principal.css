@@ -6,11 +6,6 @@
     justify-content: start;
     align-items: center;
     margin: 2rem;
-    background-image: url("/assets/img/standard/background/logotransparent.png") ;
-    background-color: white;
-    background-size: contain ;
-    background-repeat: no-repeat ;
-    background-position: center;
 }
 
 #menu{
@@ -50,6 +45,11 @@
     flex-direction: column;
     justify-content: space-between;
     width: 85%;
+    background-image: url("/assets/img/standard/background/logotransparent.png") ;
+    background-color: white;
+    background-size: 64% ;
+    background-repeat: no-repeat ;
+    background-position: 50% 96%;
 }
 
 .panel {
@@ -63,8 +63,10 @@
     border-radius: 10px;
     box-shadow: 0 15px 50px rgba(15,0,0,.2);
 }
+
 #articleDisplay h1{
     text-align: center;
+    text-transform: uppercase;
 }
 
 #articleImage {
@@ -78,9 +80,10 @@
 }
 
 .date {
-    font-size: 0.5rem;
+    font-size: 1rem;
     margin-bottom: 0.2rem;
     margin-top: 0.2rem;
+    text-align: end;
 }
 
 #menuLogo{
@@ -93,9 +96,13 @@
 }
 
 #header {
-    font-size: 4rem;
-    text-transform: capitalize;
+    font-size: 6rem;
+    text-transform: uppercase;
+    font-weight: bold;
     text-align: center;
     width: 100%;
     height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
