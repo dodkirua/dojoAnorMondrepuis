@@ -177,7 +177,7 @@ class UserManager extends Manager {
         $request->bindValue(":role",$roleId);
         $request->bindValue(":key",$key);
         $request->bindValue(":validation",$validation);
-        $request->bindValue(":licence",$licence);
+        $request->bindValue(":licence",mb_strtolower($licence));
         $request->bindValue(":name",mb_strtolower($name));
         $request->bindValue(":surname",mb_strtolower($surname));
         return $request->execute();
@@ -189,54 +189,59 @@ class UserManager extends Manager {
      * @return bool
      */
     public function delete(int $id) : bool {
-        // update the article and comment for this user and replace by casper
-        $CommentManager = new CommentManager();
-        $array = $CommentManager->getAllByUser($id);
-        foreach ($array as $item){
-            $CommentManager->update($item['id'],'','',2);
-        }
+        if ($id !== 1){
+            // update the article and comment for this user and replace by casper
+            $CommentManager = new CommentManager();
+            $array = $CommentManager->getAllByUser($id);
+            foreach ($array as $item){
+                $CommentManager->update($item['id'],'','',1);
+            }
 
-        $articleManager = new ArticleManager();
-        $array = $articleManager->getAllByUserId($id);
-        foreach ($array as $item){
-            $articleManager->update($item['id'],'','','',2);
-        }
+            $articleManager = new ArticleManager();
+            $array = $articleManager->getAllByUserId($id);
+            foreach ($array as $item){
+                $articleManager->update($item['id'],'','','',1);
+            }
 
-        //delete the responsable
-        $responsableManager = new ResponsableManager();
-        $array = $responsableManager->getAllByChild($id);
-        foreach ($array as $item) {
-            $responsableManager->delete($item['id']);
-        }
-        $array = $responsableManager->getAllByParent($id);
-        foreach ($array as $item) {
-            $responsableManager->delete($item['id']);
-        }
+            //delete the responsable
+            $responsableManager = new ResponsableManager();
+            $array = $responsableManager->getAllByChild($id);
+            foreach ($array as $item) {
+                $responsableManager->delete($item['id']);
+            }
+            $array = $responsableManager->getAllByParent($id);
+            foreach ($array as $item) {
+                $responsableManager->delete($item['id']);
+            }
 
-        //delete the attendance
-        $attendanceManger = new AttendanceManager();
-        $array = $attendanceManger->getAllByUser($id);
-        foreach ($array as $item) {
-            $attendanceManger->delete($item['id']);
-        }
+            //delete the attendance
+            $attendanceManger = new AttendanceManager();
+            $array = $attendanceManger->getAllByUser($id);
+            foreach ($array as $item) {
+                $attendanceManger->delete($item['id']);
+            }
 
-        //delete the addressBook
-        $manager = new AddressBookManager();
-        $array = $manager->getAllByUser($id);
-        foreach ($array as $item) {
-            $manager->delete($item['id']);
-        }
+            //delete the addressBook
+            $manager = new AddressBookManager();
+            $array = $manager->getAllByUser($id);
+            foreach ($array as $item) {
+                $manager->delete($item['id']);
+            }
 
-        //delete the category_age_array
-        $manager = new CategoryAgeArrayManager();
-        $array = $manager->getAllByUser($id);
-        foreach ($array as $item) {
-            $manager->delete($item['id']);
-        }
+            //delete the category_age_array
+            $manager = new CategoryAgeArrayManager();
+            $array = $manager->getAllByUser($id);
+            foreach ($array as $item) {
+                $manager->delete($item['id']);
+            }
 
-        $request = DB::getInstance()->prepare("DELETE FROM user WHERE id = :id");
-        $request->bindValue(':id',$id);
-        return $request->execute();
+            $request = DB::getInstance()->prepare("DELETE FROM user WHERE id = :id");
+            $request->bindValue(':id',$id);
+            return $request->execute();
+        }
+        else{
+            return false;
+        }
     }
 
     /**

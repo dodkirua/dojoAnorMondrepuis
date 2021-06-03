@@ -37,4 +37,4 @@
 
 </div>
 <script src="/assets/js/connect.js"></script>
-<script src="/assets/js/connectVerification.js" type="module"></script>
+<script src="/assets/js/registration.js" type="module"></script>

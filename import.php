@@ -16,10 +16,10 @@ require_once './Model/Manager/CommentManager.php';
 require_once './Model/Manager/ArticleManager.php';
 
 require_once './Controller/Classes/Controller.php';
-require_once './Controller/Classes/PageController.php';
 require_once './Controller/Classes/BlogController.php';
 require_once './Controller/Classes/RegistrationController.php';
 require_once './Controller/Classes/ConnectController.php';
+require_once './Controller/Classes/IndexController.php';
 
 require_once './Model/Utility/Security.php';
 require_once './Model/Utility/Utility.php';

@@ -4,5 +4,6 @@
         </div>
     </div>
 
+    <script src="/assets/js/<?= $view ?>.js"></script>
 </body>
 </html>

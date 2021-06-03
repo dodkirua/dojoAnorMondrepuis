@@ -5,11 +5,7 @@ include './View/_partials/menu.php';
 
 <div id="display">
     <div id="header">Dojo Anor Mondrepuis</div>
-    <div id="articleDisplay">
-        <div id="articleImage"></div>
-        <h1></h1>
-        <p></p>
-    </div>
+    <?= $html ?>
 </div>
 
 <?php

@@ -116,7 +116,7 @@ class User extends Entity implements EntityInterface {
      * get the Mail
      * @return string
      */
-    public function getMail(): string    {
+    public function getMail(): ?string    {
         return $this->mail;
     }
 
