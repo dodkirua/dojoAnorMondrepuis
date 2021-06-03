@@ -11,9 +11,10 @@ html {
 body {
     width: 100vw;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-
 
 .colorRed {
     color: red;
@@ -21,4 +22,15 @@ body {
 
 .colorGreen {
     color: green;
+}
+
+#menu{
+    display: flex;
+    justify-content: start;
+}
+
+#display{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
 }

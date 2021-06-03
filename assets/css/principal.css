@@ -1,10 +1,90 @@
 
 #container {
-    width: 90%;
-    height: 90%;
+    width: 98%;
+    height: 98%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     margin: 2rem;
+    background-image: url("/assets/img/standard/background/logotransparent.png") ;
+    background-color: white;
+    background-size: contain ;
+    background-repeat: no-repeat ;
+    background-position: center;
+}
+
+#menu{
+    width: 15%;
+
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    border: black 1px solid;
+}
+
+#principal {
+    height: 86%;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+#footer {
+    width: 100%;
+    height: 5%;
+    padding: 0.5rem;
+}
+
+#mobile {
+    display: none;
+}
+
+#articleSelect {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    border: black 1px solid;
+}
+
+#articleDisplay {
+    width: 100%;
+    padding: 0.5rem;
+    border: black 1px solid;
+    overflow: auto;
+    text-align: justify;
+    font-size: 1.5rem;
+    line-height: 150%;
+}
+#articleDisplay h1{
+    text-align: center;
+}
+
+#articleImage {
+    width: 25vw;
+    height: 25vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:  contain;
+    float: left;
+    margin: 0.5rem;
+    background-image: url("/assets/img/standard/background/logotransparent.png");
+}
+
+#menuLogo{
+    height: 25%;
+    background-image: url("/assets/img/standard/background/logo.png");
+    background-color: white;
+    background-size: contain ;
+    background-repeat: no-repeat ;
+    background-position: center;
+}
+
+#header {
+    font-size: 4rem;
+    text-transform: capitalize;
+    text-align: center;
+    width: 100%;
+    height: 10%;
 }
