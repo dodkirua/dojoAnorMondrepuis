@@ -11,10 +11,11 @@ class IndexController extends Controller{
 
     /**
      * display the connect page
+     * @param array|null $var
      */
-    public function display() : void{
+    public static function display(array $var = null) : void{
         $var['article'] = (new ArticleManager())->getLast()->getAllData();
-        $this->render('index','Accueil','principal',$var);
+        self::render('index','Accueil','principal',$var);
     }
 
 }

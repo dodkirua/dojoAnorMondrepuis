@@ -20,6 +20,7 @@ require_once './Controller/Classes/BlogController.php';
 require_once './Controller/Classes/RegistrationController.php';
 require_once './Controller/Classes/ConnectController.php';
 require_once './Controller/Classes/IndexController.php';
+require_once './Controller/Classes/ErrorController.php';
 
 require_once './Model/Utility/Security.php';
 require_once './Model/Utility/Utility.php';

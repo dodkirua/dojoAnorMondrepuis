@@ -28,11 +28,18 @@ class ConnectController extends Controller {
                 return 1;
             }
             else {
-                return -1;
+                return -6;
             }
         }
-        return -2;
+        return -5;
+    }
 
+    /**
+     * display the connect page
+     * @param array|null $var
+     */
+    public static function display(array $var = null) : void{
+       self::render('connect','Connectez-vous','principal',$var);
     }
 }
 
