@@ -17,9 +17,7 @@
         </div>
         <?php
         if (isset($var['error'])){
-            echo "<div class='link'>
-
-        </div>";
+            echo "<div class='error'>" .$var['error'] . "</div>";
         }
         ?>
     </form>

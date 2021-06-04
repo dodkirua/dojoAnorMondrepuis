@@ -39,7 +39,7 @@ class ConnectController extends Controller {
      * @param array|null $var
      */
     public static function display(array $var = null) : void{
-       self::render('connect','Connectez-vous','principal',$var);
+       self::render('connect','Connectez-vous',$var);
     }
 }
 

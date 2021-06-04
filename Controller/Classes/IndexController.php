@@ -15,7 +15,7 @@ class IndexController extends Controller{
      */
     public static function display(array $var = null) : void{
         $var['article'] = (new ArticleManager())->getLast()->getAllData();
-        self::render('index','Accueil','principal',$var);
+        self::render('index','Accueil',$var);
     }
 
 }

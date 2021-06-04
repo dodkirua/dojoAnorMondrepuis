@@ -7,6 +7,14 @@
     <script src="https://kit.fontawesome.com/9a391d7800.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/css/base.css">
+    <?php
+        if (isset($var['css'])){
+            $css = $var['css'];
+        }
+        else{
+            $css = 'principal';
+        }
+    ?>
     <link rel="stylesheet" href="/assets/css/<?= $css ?>.css">
     <link  rel= "shortcut icon"  href= "/assets/img/standard/favicon.ico"  type= "image/x-icon" >
     <link  rel= "icon"  href= "/assets/img/standard/favicon.ico"  type= "image/x-icon" >

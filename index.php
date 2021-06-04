@@ -1,6 +1,7 @@
 <?php
 
 use Controller\Classes\ConnectController;
+use Controller\Classes\ErrorController;
 use Controller\Classes\IndexController;
 
 session_start();
@@ -24,7 +25,7 @@ if (isset($_GET['ctrl'])){
                         IndexController::display();
                     }
                     else {
-
+                        ConnectController::display(ErrorController::Error($connec));
                     }
                     break;
             }
