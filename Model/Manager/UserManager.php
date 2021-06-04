@@ -112,11 +112,15 @@ class UserManager extends Manager {
                 $param['surname'] = $data->getSurname();
             }
 
+            if (!isset($param['phone'])) {
+            $param['phone'] = $data->getPhone();
+        }
+
 
         $request = DB::getInstance()->prepare("UPDATE user 
                     SET username = :name, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
                         validation_key = :key, validation = :validation, licence = :licence , name = :name, 
-                        surname = :surname
+                        surname = :surname, phone = :phone
                     WHERE id = :id
                     ");
         $request->bindValue(":id",$id);
@@ -128,6 +132,7 @@ class UserManager extends Manager {
         $request->bindValue(":key",$param['key']);
         $request->bindValue(":validation",$param['validation']);
         $request->bindValue(":licence",$param['licence']);
+        $request->bindValue(":phone",$param['phone']);
         $request->bindValue(":name",mb_strtolower($param['name']));
         $request->bindValue(":surname",mb_strtolower($param['surname']));
         return $request->execute();
@@ -174,9 +179,13 @@ class UserManager extends Manager {
             $param['role_id'] = 1;
         }
 
+        if (!isset($param['phone'])) {
+            $param['phone'] = null;
+        }
+
         $request = DB::getInstance()->prepare("INSERT INTO user 
-                    (username, mail, pass ,licence , role_id, `check`, validation_key, validation, name, surname)
-                    VALUES (:username, :mail, :pass, :licence, :role, :check, :key, :validation, :name, :surname)
+                    (username, mail, pass ,licence , role_id, `check`, validation_key, validation, name, surname,phone)
+                    VALUES (:username, :mail, :pass, :licence, :role, :check, :key, :validation, :name, :surname, :phone)
                     ");
         $request->bindValue(":username",mb_strtolower($username));
         $request->bindValue(":mail",mb_strtolower($param['mail']));
@@ -188,6 +197,7 @@ class UserManager extends Manager {
         $request->bindValue(":licence",$param['licence']);
         $request->bindValue(":name",mb_strtolower($param['name']));
         $request->bindValue(":surname",mb_strtolower($param['surname']));
+        $request->bindValue(":phone",$param['phone']);
         return $request->execute();
     }
 
@@ -269,8 +279,9 @@ class UserManager extends Manager {
             $username = Utility::addMaj($data['username'],true);
             $name = Utility::addMaj($data['name'],true);
             $surname = Utility::addMaj($data['surname'],true);
-            return new User(intval($data['id']), $username , $data['mail'], $pwd, $data['licence'] ,
-                $data['check'], $data['validation'], $data['validation_key'], $name, $surname,
+            $licence = strtoupper($data['licence']);
+            return new User(intval($data['id']), $username , $data['mail'], $pwd, $licence ,
+                $data['check'], $data['validation'], $data['validation_key'], $name, $surname, $data['phone'] ,
                 (new RoleManager())->getById(intval($data['role_id'])));
         }
 

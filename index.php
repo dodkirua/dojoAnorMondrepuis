@@ -1,5 +1,6 @@
 <?php
 
+use Controller\Classes\AccountController;
 use Controller\Classes\ConnectController;
 use Controller\Classes\ErrorController;
 use Controller\Classes\IndexController;
@@ -15,7 +16,7 @@ if (isset($_GET['ctrl'])){
             ConnectController::display();
             break;
         case 'account':
-
+            AccountController::display();
             break;
         case 'form':
             switch ($_GET['action']){
@@ -33,6 +34,7 @@ if (isset($_GET['ctrl'])){
         case 'disconnect' :
             DisconnectController::disconnect();
             break;
+
     }
 }
 else {

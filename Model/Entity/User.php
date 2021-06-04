@@ -14,6 +14,7 @@ class User extends Entity implements EntityInterface {
     private ?string $key;
     private ?string $name;
     private ?string $surname;
+    private ?string $phone;
     private ?Role $role;
 
     /**
@@ -26,7 +27,7 @@ class User extends Entity implements EntityInterface {
      */
     public function __construct( int $id = null, string $username = null, string $mail = null, string $pass = null,
                                 string $licence = null, int $check = null,int $validation= null,string $key = null,
-                                string $name = null,string $surname =null , Role $role = null)    {
+                                string $name = null,string $surname =null, string $phone = null, Role $role = null)    {
         parent::__construct($id);
         $this->username = $username;
         $this->mail = $mail;
@@ -38,6 +39,7 @@ class User extends Entity implements EntityInterface {
         $this->key = $key;
         $this->name = $name;
         $this->surname = $surname;
+        $this->phone = $phone;
     }
 
     /**
@@ -220,6 +222,25 @@ class User extends Entity implements EntityInterface {
         return $this;
     }
 
+    /**
+     * get the Phone
+     * @return string|null
+     */
+    public function getPhone(): ?string    {
+        return $this->phone;
+    }
+
+    /**
+     * set the Phone
+     * @param string|null $phone
+     * @return User
+     */
+    public function setPhone(?string $phone): User    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+
 
     /**
      * return the value in array less pass for security
@@ -236,6 +257,7 @@ class User extends Entity implements EntityInterface {
         $array['validation'] = $this->getValidation();
         $array['name'] = $this->getName();
         $array['surname'] = $this->getSurname();
+        $array['phone'] = $this->getPhone();
         $array['role'] = $this->getRole()->getAllData();
         return $array;
     }

@@ -2,6 +2,7 @@
 
 require_once './Model/DB.php';
 
+//Entity
 require_once './Model/Entity/Interfaces/EntityInterface.php';
 require_once './Model/Entity/Entity.php';
 require_once './Model/Entity/Role.php';
@@ -24,6 +25,7 @@ require_once './Model/Entity/Sms.php';
 require_once './Model/Entity/Responsable.php';
 require_once './Model/Entity/Result.php';
 
+//Manager
 require_once './Model/Manager/Manager.php';
 require_once './Model/Manager/RoleManager.php';
 require_once './Model/Manager/UserManager.php';
@@ -46,13 +48,18 @@ require_once './Model/Manager/ResponsableManager.php';
 require_once './Model/Manager/ResultManager.php';
 
 
+//Controller
+// require_once './Controller/Classes/';
 require_once './Controller/Classes/Controller.php';
 require_once './Controller/Classes/RegistrationController.php';
 require_once './Controller/Classes/ConnectController.php';
 require_once './Controller/Classes/IndexController.php';
 require_once './Controller/Classes/ErrorController.php';
 require_once './Controller/Classes/DisconnectController.php';
+require_once './Controller/Classes/AccountController.php';
 
+
+//Utility
 require_once './Model/Utility/Security.php';
 require_once './Model/Utility/Utility.php';
 

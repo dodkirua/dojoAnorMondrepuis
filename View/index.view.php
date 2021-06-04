@@ -11,6 +11,8 @@
     $date->setTimestamp(intval($var['article']['date']));
     echo "<p class='date'>publié le " . $date->format('d/m/Y')  . "</p>";
     echo "<p class='content'>" . Utility::addMaj($var['article']['content']) . "</p>";
+
+
     ?>
 
 </div>
