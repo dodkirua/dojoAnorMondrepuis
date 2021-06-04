@@ -30,6 +30,9 @@ if (isset($_GET['ctrl'])){
                     break;
             }
             break;
+        case 'disconnect' :
+            DisconnectController::disconnect();
+            break;
     }
 }
 else {

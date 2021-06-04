@@ -6,6 +6,7 @@ use Model\DB;
 use Model\Entity\Role;
 use Model\Manager\RoleManager;
 use Model\Entity\User;
+use Model\Utility\Utility;
 use PDOStatement;
 
 
@@ -62,68 +63,56 @@ class UserManager extends Manager {
     /**
      * update on DB by id
      * @param int $id
-     * @param string|null $username
-     * @param string|null $mail
-     * @param string|null $pass
-     * @param string|null $licence
-     * @param int|null $check
-     * @param int|null $validation
-     * @param string|null $key
-     * @param string|null $name
-     * @param string|null $surname
-     * @param int|null $roleId
+     * @param array $param
      * @return bool
      */
-    public function update(int $id, string $username = null, string $mail = null, string $pass = null, string $licence = null,
-                           int $check = null,int $validation= null,string $key = null, string $name = null,
-                           string $surname = null,int $roleId = null): bool    {
-        // modify the not null values
-        if (is_null($username) || is_null($mail) || is_null($pass) || is_null($roleId) || is_null($check) || is_null($licence)
-            || is_null($validation)|| is_null($key) || is_null($name) || is_null($surname)){
-            if (is_null($pass)){
+    public function update(int $id, array &$param): bool    {
+        // modify the values if is null for the information of DB
+
+            if (!isset($param['pass'])){
                 $data = $this->getById($id,true);
-                $pass = $data->getPass();
+                $param['pass'] = $data->getPass();
             }
             else {
                 $data = $this->getById($id);
             }
-            if (is_null($username)){
-                $username = $data->getUsername();
+            if (!isset($param['username'])){
+                $param['username'] = $data->getUsername();
             }
 
-            if (is_null($mail)){
-                $mail = $data->getMail();
+            if (!isset($param['mail'])){
+                $param['mail'] = $data->getMail();
             }
 
-            if (is_null($roleId)) {
-                $roleId = $data->getRole()->getId();
+            if (!isset($param['role_id'])) {
+                $param['role_id'] = $data->getRole()->getId();
             }
 
-            if (is_null($licence)) {
-                $licence = $data->getLicence();
+            if (!isset($param['licence'])) {
+                $param['licence'] = $data->getLicence();
             }
 
-            if (is_null($check)) {
-                $check = $data->getCheck();
+            if (!isset($param['check'])) {
+                $param['check'] = $data->getCheck();
             }
 
-            if (is_null($key)) {
-                $key = $data->getKey();
+            if (!isset($param['key'])) {
+                $param['key'] = $data->getKey();
             }
 
-            if (is_null($validation)) {
-                $validation = $data->getValidation();
+            if (!isset($param['validation'])) {
+                $param['validation'] = $data->getValidation();
             }
 
-            if (is_null($name)) {
-                $name = $data->getName();
+            if (!isset($param['name'])) {
+                $param['name'] = $data->getName();
             }
 
-            if (is_null($surname)) {
-                $surname = $data->getSurname();
+            if (!isset($param['surname'])) {
+                $param['surname'] = $data->getSurname();
             }
 
-        }
+
         $request = DB::getInstance()->prepare("UPDATE user 
                     SET username = :name, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
                         validation_key = :key, validation = :validation, licence = :licence , name = :name, 
@@ -131,16 +120,16 @@ class UserManager extends Manager {
                     WHERE id = :id
                     ");
         $request->bindValue(":id",$id);
-        $request->bindValue(":username",mb_strtolower($username));
-        $request->bindValue(":mail",mb_strtolower($mail));
-        $request->bindValue(":pass",$pass);
-        $request->bindValue(":role",$roleId);
-        $request->bindValue(":check",$check);
-        $request->bindValue(":key",$key);
-        $request->bindValue(":validation",$validation);
-        $request->bindValue(":licence",$licence);
-        $request->bindValue(":name",mb_strtolower($name));
-        $request->bindValue(":surname",mb_strtolower($surname));
+        $request->bindValue(":username",mb_strtolower($param['username']));
+        $request->bindValue(":mail",mb_strtolower($param['mail']));
+        $request->bindValue(":pass",$param['pass']);
+        $request->bindValue(":role",$param['role_id']);
+        $request->bindValue(":check",$param['check']);
+        $request->bindValue(":key",$param['key']);
+        $request->bindValue(":validation",$param['validation']);
+        $request->bindValue(":licence",$param['licence']);
+        $request->bindValue(":name",mb_strtolower($param['name']));
+        $request->bindValue(":surname",mb_strtolower($param['surname']));
         return $request->execute();
     }
 
@@ -148,38 +137,57 @@ class UserManager extends Manager {
      * insert data in DB
      * @param string $username
      * @param string $pass
-     * @param string|null $mail
-     * @param string|null $licence
-     * @param int|null $check
-     * @param string|null $key
-     * @param int|null $validation
-     * @param string|null $name
-     * @param string|null $surname
-     * @param int $roleId
+     * @param array $param
      * @return bool
      */
-    public function add(string $username, string $pass, string $mail = null,string $licence = null, int $check = null,
-                        string $key = null, int $validation = null,string $name = null, string $surname = null,
-                        int $roleId = 1) : bool {
+    public function add(string $username, string $pass, array &$param = []) : bool {
+
+        if (!isset($param['mail'])){
+            $param['mail'] = null;
+        }
+
+        if (!isset($param['licence'])) {
+            $param['licence'] = null;
+        }
+
+        if (!isset($param['check'])) {
+            $param['check'] = null;
+        }
+
+        if (!isset($param['key'])) {
+            $param['key'] = null;
+        }
+
+        if (!isset($param['validation'])) {
+            $param['validation'] = null;
+        }
+
+        if (!isset($param['name'])) {
+            $param['name'] = null;
+        }
+
+        if (!isset($param['surname'])) {
+            $param['surname'] = null;
+        }
+
+        if (!isset($param['role_id'])) {
+            $param['role_id'] = 1;
+        }
+
         $request = DB::getInstance()->prepare("INSERT INTO user 
                     (username, mail, pass ,licence , role_id, `check`, validation_key, validation, name, surname)
                     VALUES (:username, :mail, :pass, :licence, :role, :check, :key, :validation, :name, :surname)
                     ");
         $request->bindValue(":username",mb_strtolower($username));
-        if (is_null($mail)){
-            $request->bindValue(":mail",null);
-        }
-        else {
-            $request->bindValue(":mail",mb_strtolower($mail));
-        }
-        $request->bindValue(":check",$check);
+        $request->bindValue(":mail",mb_strtolower($param['mail']));
         $request->bindValue(":pass",$pass);
-        $request->bindValue(":role",$roleId);
-        $request->bindValue(":key",$key);
-        $request->bindValue(":validation",$validation);
-        $request->bindValue(":licence",mb_strtolower($licence));
-        $request->bindValue(":name",mb_strtolower($name));
-        $request->bindValue(":surname",mb_strtolower($surname));
+        $request->bindValue(":role",$param['role_id']);
+        $request->bindValue(":check",$param['check']);
+        $request->bindValue(":key",$param['key']);
+        $request->bindValue(":validation",$param['validation']);
+        $request->bindValue(":licence",$param['licence']);
+        $request->bindValue(":name",mb_strtolower($param['name']));
+        $request->bindValue(":surname",mb_strtolower($param['surname']));
         return $request->execute();
     }
 
@@ -258,8 +266,11 @@ class UserManager extends Manager {
             if ($pass){
                $pwd = $data['pass'];
             }
-            return new User(intval($data['id']), $data['username'], $data['mail'], $pwd, $data['licence'] ,
-                $data['check'], $data['validation'], $data['validation_key'], $data['name'], $data['surname'],
+            $username = Utility::addMaj($data['username'],true);
+            $name = Utility::addMaj($data['name'],true);
+            $surname = Utility::addMaj($data['surname'],true);
+            return new User(intval($data['id']), $username , $data['mail'], $pwd, $data['licence'] ,
+                $data['check'], $data['validation'], $data['validation_key'], $name, $surname,
                 (new RoleManager())->getById(intval($data['role_id'])));
         }
 
