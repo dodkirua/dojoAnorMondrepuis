@@ -12,10 +12,10 @@ class DanManager extends Manager{
      * @param int $id
      * @return Dan|null
      */
-    public function getById (int $id) : ?Dan{
+    public static function getById (int $id) : ?Dan{
         $request = DB::getInstance()->prepare("SELECT * FROM `dan` where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
 
@@ -23,7 +23,7 @@ class DanManager extends Manager{
      * return a array with all the dan
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM `dan`");
         $result = $request->execute();
@@ -46,10 +46,10 @@ class DanManager extends Manager{
      * @param string|null $description
      * @return bool
      */
-    public function update(int $id, string $description = null) : bool{
+    public static function update(int $id, string $description = null) : bool{
 
         if (is_null($description)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             $description = $data->getDescription();
         }
 
@@ -68,7 +68,7 @@ class DanManager extends Manager{
      * @param string $description
      * @return bool
      */
-    public function add(string $description) : bool {
+    public static function add(string $description) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO `dan` 
         (description)
         VALUES (:desc)
@@ -82,7 +82,7 @@ class DanManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         //delete the lesson
         $manager = new DanGettingManager();
         $array = $manager->getAllByDan($id);
@@ -101,7 +101,7 @@ class DanManager extends Manager{
      * @param PDOStatement $request
      * @return Dan|null
      */
-    private function getOne(PDOStatement $request ) : ?Dan {
+    private static function getOne(PDOStatement $request ) : ?Dan {
         $request->execute();
         $data = $request->fetch();
         if ($data) {

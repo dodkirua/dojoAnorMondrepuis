@@ -19,7 +19,7 @@ class ResponsableManager extends Manager{
     public function getById (int $id) : ?Responsable{
         $request = DB::getInstance()->prepare("SELECT * FROM responsable where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -30,7 +30,7 @@ class ResponsableManager extends Manager{
     public function getAllByChild (int $childID) : array{
         $request = DB::getInstance()->prepare("SELECT * FROM responsable where child_id= :child");
         $request->bindValue(":child",$childID);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -41,7 +41,7 @@ class ResponsableManager extends Manager{
     public function getAllByParent (int $parentID) : array{
         $request = DB::getInstance()->prepare("SELECT * FROM responsable where parent_id= :parent");
         $request->bindValue(":parent",$parentID);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -50,7 +50,7 @@ class ResponsableManager extends Manager{
      */
     public function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM responsable");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -62,7 +62,7 @@ class ResponsableManager extends Manager{
      */
     public function update(int $id, int $childId = null, int $parentId = null) : bool{
         if (is_null($childId) || is_null($parentId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($childId)) {
                 $childId = $data->getChild()->getId();
             }

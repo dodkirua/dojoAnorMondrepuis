@@ -15,10 +15,10 @@ class SmsManager extends Manager{
      * @param int $id
      * @return Sms|null
      */
-    public function getById (int $id) : ?Sms{
+    public static function getById (int $id) : ?Sms{
         $request = DB::getInstance()->prepare("SELECT * FROM sms where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -26,17 +26,17 @@ class SmsManager extends Manager{
      * @param string $title
      * @return Sms|null
      */
-    public function getByTitle (string $title) : ?Sms{
+    public static function getByTitle (string $title) : ?Sms{
         $request = DB::getInstance()->prepare("SELECT * FROM sms where title = :title");
         $request->bindValue(":title",$title);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
      * return a array with all the sms
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM sms");
         $result = $request->execute();
@@ -60,9 +60,9 @@ class SmsManager extends Manager{
      * @param string|null $content
      * @return bool
      */
-    public function update(int $id, string $title = null, string $content = null) : bool{
+    public static function update(int $id, string $title = null, string $content = null) : bool{
         if (is_null($title) || is_null($content)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($title)) {
                 $title = $data->getTitle();
             }
@@ -88,7 +88,7 @@ class SmsManager extends Manager{
      * @param string $content
      * @return bool
      */
-    public function add(string $title, string $content) : bool {
+    public static function add(string $title, string $content) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO sms 
         (title, content)
         VALUES (:title, :content)
@@ -104,7 +104,7 @@ class SmsManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM sms WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -116,7 +116,7 @@ class SmsManager extends Manager{
      * @param PDOStatement $request
      * @return Sms|null
      */
-    private function getOne(PDOStatement $request ) : ?Sms {
+    private static function getOne(PDOStatement $request ) : ?Sms {
         $request->execute();
         $data = $request->fetch();
         if ($data) {

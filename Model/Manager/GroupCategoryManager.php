@@ -21,7 +21,7 @@ class GroupCategoryManager{
     public function getById (int $id) : ?GroupCategory{
         $request = DB::getInstance()->prepare("SELECT * FROM group_category where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -32,7 +32,7 @@ class GroupCategoryManager{
     public function getAllByCategory(int $category) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM group_category WHERE category_age_id = :cat");
         $request->bindValue(":cat",$category);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -43,7 +43,7 @@ class GroupCategoryManager{
     public function getAllByGroup(int $group) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM group_category WHERE group_id = :grp");
         $request->bindValue(":grp",$group);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -52,7 +52,7 @@ class GroupCategoryManager{
      */
     public function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM group_category");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -64,7 +64,7 @@ class GroupCategoryManager{
      */
     public function update(int $id, int $categoryId = null, int $groupId = null) : bool{
         if (is_null($categoryId) || is_null($groupId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($categoryId)) {
                 $categoryId = $data->getGroup()->getId();
             }

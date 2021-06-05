@@ -18,7 +18,7 @@ class CommentManager extends Manager {
      * @param int $id
      * @return Comment|null
      */
-    public function getById(int $id): ?Comment {
+    public static function getById(int $id): ?Comment {
         $request = DB::getInstance()->prepare("SELECT * FROM comment where id = :id");
         $request->bindValue(":id",$id);
         $result = $request->execute();
@@ -39,9 +39,9 @@ class CommentManager extends Manager {
      * return a array with all the comment
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM user");
-        return $this->getTmp($request);
+        return self::getTmp($request);
     }
 
     /**
@@ -49,10 +49,10 @@ class CommentManager extends Manager {
      * @param int $userId
      * @return array
      */
-    public function getAllByUser(int $userId): array    {
+    public static function getAllByUser(int $userId): array    {
         $request = DB::getInstance()->prepare("SELECT * FROM comment WHERE user_id = :user");
         $request->bindValue(":user",$userId);
-        return $this->getTmp($request);
+        return self::getTmp($request);
     }
 
     /**
@@ -60,10 +60,10 @@ class CommentManager extends Manager {
      * @param int $articleId
      * @return array
      */
-    public function getAllByArticle(int $articleId): array    {
+    public static function getAllByArticle(int $articleId): array    {
         $request = DB::getInstance()->prepare("SELECT * FROM comment WHERE article_id = :article");
         $request->bindValue(":article",$articleId);
-        return $this->getTmp($request);
+        return self::getTmp($request);
     }
 
     /**
@@ -74,11 +74,11 @@ class CommentManager extends Manager {
      * @param int|null $userId
      * @return bool
      */
-    public function update(int $id, string $content = null, int $articleId = null, int $userId = null): bool    {
+    public static function update(int $id, string $content = null, int $articleId = null, int $userId = null): bool    {
         // modify the not null values
         if (is_null($content) || is_null($articleId) || is_null($userId) ){
 
-            $data = $this->getById($id);
+            $data = self::getById($id);
 
             if (is_null($content)){
                 $content = $data->getContent();
@@ -112,7 +112,7 @@ class CommentManager extends Manager {
      * @param int $userId
      * @return bool
      */
-    public function add(string $content , int $articleId , int $userId) : bool {
+    public static function add(string $content , int $articleId , int $userId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO comment 
                     (content, date, article_id, user_id)
                     VALUES (:content, :date, :article, :user)
@@ -130,7 +130,7 @@ class CommentManager extends Manager {
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM comment WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -141,7 +141,7 @@ class CommentManager extends Manager {
      * @param $request
      * @return array
      */
-    private function getTmp($request) : array {
+    private static function getTmp($request) : array {
         $classes = [];
         $result = $request->execute();
 

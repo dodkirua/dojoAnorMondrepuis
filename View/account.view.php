@@ -21,7 +21,17 @@
             echo "<p>Votre numéro de licence : ". $_SESSION['user']['licence'] ."</p>";
         }
 
-         echo " </div>";
+         echo " 
+         <form action='/index.php?ctrl=form&action=pass' method='post'>
+        <input type='submit' value='Changer le mot de passe'> 
+        </form>";
+        echo " 
+         <form action='/index.php?ctrl=form&action=modifyInformation' method='post'>
+        <input type='submit' value='Modifier mes informations'> 
+        </form>";
+
+
+        echo "</div>";
 
       //  \dev\Dev::pre($_SESSION['user']['surname']);
     ?>

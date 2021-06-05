@@ -18,11 +18,11 @@ class UserManager extends Manager {
      * @param bool $pass
      * @return User|null
      */
-    public function getById(int $id,bool $pass = false): ?User {
+    public static function getById(int $id,bool $pass = false): ?User {
 
         $request = DB::getInstance()->prepare("SELECT * FROM user where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request,$pass);
+        return self::getOne($request,$pass);
     }
 
     /**
@@ -30,18 +30,18 @@ class UserManager extends Manager {
      * @param string $username
      * @return User|null
      */
-    public function getByUsername(string $username): ?User {
+    public static function getByUsername(string $username): ?User {
 
         $request = DB::getInstance()->prepare("SELECT * FROM user where username = :username");
         $request->bindValue(":username",mb_strtolower($username));
-        return $this->getOne($request,true);
+        return self::getOne($request,true);
     }
 
     /**
      * return a array with all the user
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $classes = [];
         $request = DB::getInstance()->prepare("SELECT * FROM user");
         $result = $request->execute();
@@ -51,8 +51,8 @@ class UserManager extends Manager {
             if ($data) {
                 foreach ($data as $item) {
                     $class = new User(intval($item['id']),$item['username'],$item['mail'],'', $item['licence'] ,
-                        $item['check'], $item['validation_key'], $item['validation'],$item['name'],$item['surname'],
-                        (new RoleManager())->getById($data['role_id']));
+                        $item['check'], $item['validation_key'], $item['validation'], $item['name'], $item['surname'],
+                        $item['phone'] ,(new RoleManager())->getById($data['role_id']));
                     $classes[] = $class;
                 }
             }
@@ -66,15 +66,15 @@ class UserManager extends Manager {
      * @param array $param
      * @return bool
      */
-    public function update(int $id, array &$param): bool    {
+    public static function update(int $id, array &$param): bool    {
         // modify the values if is null for the information of DB
 
             if (!isset($param['pass'])){
-                $data = $this->getById($id,true);
+                $data = self::getById($id,true);
                 $param['pass'] = $data->getPass();
             }
             else {
-                $data = $this->getById($id);
+                $data = self::getById($id);
             }
             if (!isset($param['username'])){
                 $param['username'] = $data->getUsername();
@@ -145,7 +145,7 @@ class UserManager extends Manager {
      * @param array $param
      * @return bool
      */
-    public function add(string $username, string $pass, array &$param = []) : bool {
+    public static function add(string $username, string $pass, array &$param = []) : bool {
 
         if (!isset($param['mail'])){
             $param['mail'] = null;
@@ -206,7 +206,7 @@ class UserManager extends Manager {
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         if ($id !== 1){
             // update the article and comment for this user and replace by casper
             $CommentManager = new CommentManager();
@@ -268,7 +268,7 @@ class UserManager extends Manager {
      * @param bool $pass
      * @return User|null
      */
-    private function getOne(PDOStatement $request , bool $pass = false) : ?User {
+    private static function getOne(PDOStatement $request , bool $pass = false) : ?User {
         $request->execute();
         $data = $request->fetch();
         if ($data) {

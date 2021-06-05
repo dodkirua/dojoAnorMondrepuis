@@ -13,17 +13,17 @@ class CategoryAgeManager extends Manager{
      * @param int $id
      * @return CategoryAge|null
      */
-    public function getById (int $id) : ?CategoryAge{
+    public static function getById (int $id) : ?CategoryAge{
         $request = DB::getInstance()->prepare("SELECT * FROM category_age where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
      * return a array with all the CategoryAge
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM category_age");
         $result = $request->execute();
@@ -49,9 +49,9 @@ class CategoryAgeManager extends Manager{
      * @param int|null $year2
      * @return bool
      */
-    public function update(int $id, string $name = null, int $year1 = null, int $year2 = null) : bool{
+    public static function update(int $id, string $name = null, int $year1 = null, int $year2 = null) : bool{
         if (is_null($name) || is_null($year1) || is_null($year2)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($name)) {
                 $name = $data->getName();
             }
@@ -82,7 +82,7 @@ class CategoryAgeManager extends Manager{
      * @param int $year2
      * @return bool
      */
-    public function add(string $name, int $year1, int $year2 ) : bool {
+    public static function add(string $name, int $year1, int $year2 ) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO category_age
         (name, year1, year2)
         VALUES (:name, :y1, :y2)
@@ -99,7 +99,7 @@ class CategoryAgeManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         //delete the group_category
         $manager = new GroupCategoryManager();
         $array = $manager->getAllByCategory($id);
@@ -123,7 +123,7 @@ class CategoryAgeManager extends Manager{
      * @param PDOStatement $request
      * @return CategoryAge|null
      */
-    private function getOne(PDOStatement $request ) : ?CategoryAge {
+    private static function getOne(PDOStatement $request ) : ?CategoryAge {
         $request->execute();
         $data = $request->fetch();
         if ($data) {

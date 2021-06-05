@@ -12,10 +12,10 @@ class AttendanceManager extends Manager{
      * @param int $id
      * @return Attendance|null
      */
-    public function getById (int $id) : ?Attendance{
+    public  static function getById (int $id) : ?Attendance{
         $request = DB::getInstance()->prepare("SELECT * FROM attendance where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -23,10 +23,10 @@ class AttendanceManager extends Manager{
      * @param int $userId
      * @return array
      */
-    public function getAllByUser(int $userId) : array {
+    public  static function getAllByUser(int $userId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM attendance WHERE user_id = :user");
         $request->bindValue(":user",$userId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -34,19 +34,19 @@ class AttendanceManager extends Manager{
      * @param int $lesson
      * @return array
      */
-    public function getAllByLesson(int $lesson) : array {
+    public  static function getAllByLesson(int $lesson) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM attendance WHERE lesson_id = :lesson");
         $request->bindValue(":lesson",$lesson);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
      * return a array with all the Attendance
      * @return array
      */
-    public function getAll() : array {
+    public  static function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM attendance");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -56,9 +56,9 @@ class AttendanceManager extends Manager{
      * @param int|null $lessonId
      * @return bool
      */
-    public function update(int $id, int $userId = null, int $lessonId = null) : bool{
+    public  static function update(int $id, int $userId = null, int $lessonId = null) : bool{
         if (is_null($userId) || is_null($lessonId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($userId)) {
                 $userId = $data->getUser()->getId();
             }
@@ -84,7 +84,7 @@ class AttendanceManager extends Manager{
      * @param int $lessonId
      * @return bool
      */
-    public function add(int $userId, int $lessonId) : bool {
+    public  static function add(int $userId, int $lessonId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO attendance 
         (user_id, lesson_id)
         VALUES (:user, :lesson)
@@ -100,7 +100,7 @@ class AttendanceManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public  static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM attendance WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -112,7 +112,7 @@ class AttendanceManager extends Manager{
      * @param PDOStatement $request
      * @return Attendance|null
      */
-    private function getOne(PDOStatement $request ) : ?Attendance {
+    private  static function getOne(PDOStatement $request ) : ?Attendance {
         $request->execute();
         $data = $request->fetch();
         if ($data) {
@@ -126,7 +126,7 @@ class AttendanceManager extends Manager{
      * @param PDOStatement $request
      * @return array
      */
-    private function getMany (PDOStatement $request ) : array {
+    private  static function getMany (PDOStatement $request ) : array {
         $array = [];
         $result = $request->execute();
 

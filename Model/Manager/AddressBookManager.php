@@ -17,19 +17,19 @@ class AddressBookManager extends Manager{
      * @param int $id
      * @return AddressBook|null
      */
-    public function getById (int $id) : ?AddressBook{
+    public static function getById (int $id) : ?AddressBook{
         $request = DB::getInstance()->prepare("SELECT * FROM address_book where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
      /**
      * return a array with all the addressBook
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM address_book");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -37,10 +37,10 @@ class AddressBookManager extends Manager{
      * @param int $userId
      * @return array
      */
-    public function getAllByUser (int $userId) : array {
+    public static function getAllByUser (int $userId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM address_book WHERE user_id = :user");
         $request->bindValue(":user",$userId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -48,10 +48,10 @@ class AddressBookManager extends Manager{
      * @param int $userId
      * @return array
      */
-    public function getAllByAddress (int $addressId) : array {
+    public static function getAllByAddress (int $addressId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM address_book WHERE address_id = :address");
         $request->bindValue(":address",$addressId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -61,9 +61,9 @@ class AddressBookManager extends Manager{
      * @param int|null $addressId
      * @return bool
      */
-    public function update(int $id, int $userId = null, int $addressId = null) : bool{
+    public static function update(int $id, int $userId = null, int $addressId = null) : bool{
         if (is_null($userId) || is_null($addressId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($userId)) {
                 $userId = $data->getUser()->getId();
             }
@@ -89,7 +89,7 @@ class AddressBookManager extends Manager{
      * @param int $addressId
      * @return bool
      */
-    public function add(int $userId, int $addressId) : bool {
+    public static function add(int $userId, int $addressId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO address_book
         (user_id, address_id)
         VALUES (:user, :address)
@@ -105,7 +105,7 @@ class AddressBookManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM address_book WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -117,7 +117,7 @@ class AddressBookManager extends Manager{
      * @param PDOStatement $request
      * @return AddressBook|null
      */
-    private function getOne(PDOStatement $request ) : ?AddressBook {
+    private static function getOne(PDOStatement $request ) : ?AddressBook {
         $request->execute();
         $data = $request->fetch();
         if ($data) {
@@ -126,7 +126,7 @@ class AddressBookManager extends Manager{
         return null;
     }
 
-    private function getMany(PDOStatement $request) : array {
+    private static function getMany(PDOStatement $request) : array {
         $array = [];
         $result = $request->execute();
         if ($result){
@@ -142,7 +142,5 @@ class AddressBookManager extends Manager{
         }
         return $array;
 
-
-        return $array;
     }
 }

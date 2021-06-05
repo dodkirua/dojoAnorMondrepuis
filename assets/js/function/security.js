@@ -2,8 +2,7 @@
  * validate the password before validation
  */
 export function validatePass()  {
-    let msg;
-    let token = 0;
+    let token;
     const elem = document.getElementById("pass");
     let str = elem.value;
 

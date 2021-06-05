@@ -18,7 +18,7 @@ class LessonManager extends Manager{
     public function getById (int $id) : ?Lesson{
         $request = DB::getInstance()->prepare("SELECT * FROM lesson where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -31,7 +31,7 @@ class LessonManager extends Manager{
         $request = DB::getInstance()->prepare("SELECT * FROM lesson WHERE date = :date AND group_id = :grp");
         $request->bindValue(":date", $date);
         $request->bindValue(":grp", $groupId);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -40,7 +40,7 @@ class LessonManager extends Manager{
      */
     public function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM lesson");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -51,7 +51,7 @@ class LessonManager extends Manager{
     public function getAllByGroup(int $groupId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM lesson WHERE group_id = :grp");
         $request->bindValue(":grp", $groupId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -64,7 +64,7 @@ class LessonManager extends Manager{
      */
     public function update(int $id, int $date =null, int $hour = null, int $groupId = null) : bool{
         if (is_null($date) || is_null($hour) || is_null($groupId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($date)) {
                 $date = $data->getDate();
             }

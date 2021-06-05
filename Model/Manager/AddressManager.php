@@ -14,17 +14,17 @@ class AddressManager extends Manager{
      * @param int $id
      * @return Address|null
      */
-    public function getById (int $id) : ?Address{
+    public static function getById (int $id) : ?Address{
         $request = DB::getInstance()->prepare("SELECT * FROM address where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
      * return a array with all the address
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM address");
         $result = $request->execute();
@@ -53,10 +53,10 @@ class AddressManager extends Manager{
      * @param string|null $add
      * @return bool
      */
-    public function update(int $id, int $num = null, string $street = null, int $zip = null, string $city =null,
+    public static function update(int $id, int $num = null, string $street = null, int $zip = null, string $city =null,
                     string $country = null, string $add = null) : bool{
         if (is_null($num) || is_null($street) || is_null($zip) || is_null($city) || is_null($country) || is_null($add)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($num)) {
                 $num = $data->getNum();
             }
@@ -101,7 +101,7 @@ class AddressManager extends Manager{
      * @param string|null $add
      * @return bool
      */
-    public function add(int $num , string $street, int $zip , string $city, string $country, string $add = null) : bool {
+    public static function add(int $num , string $street, int $zip , string $city, string $country, string $add = null) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO address 
         (num, street, zip_code, city, country, `add`)
         VALUES (:num, :street, :zip_code, :city, :country, :add)
@@ -127,7 +127,7 @@ class AddressManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM address WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -139,7 +139,7 @@ class AddressManager extends Manager{
      * @param PDOStatement $request
      * @return Address|null
      */
-    private function getOne(PDOStatement $request ) : ?Address {
+    private static function getOne(PDOStatement $request ) : ?Address {
         $request->execute();
         $data = $request->fetch();
         if ($data) {

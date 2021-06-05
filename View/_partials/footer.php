@@ -6,11 +6,11 @@
         </div>
     </div>
     <?php
-    if (file_exists("/assets/js/$view.js")){
-        echo "<script src='/assets/js/" . $view . ".js'></script>";
+    if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/assets/js/" . $view . ".js")){ ?>
+        <script src="/assets/js/<?= $view ?>.js" type="module"></script> <?php
     }
     else {
-        echo "<script src='/assets/js/index.js'></script>";
+        echo "<script src='/assets/js/index.js' type='module'></script>";
     }
     ?>
 

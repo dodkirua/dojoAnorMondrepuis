@@ -15,7 +15,7 @@ class ResultManager extends Manager{
     public function getById (int $id) : ?Result{
         $request = DB::getInstance()->prepare("SELECT * From result where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -26,7 +26,7 @@ class ResultManager extends Manager{
     public function getAllByCategoryAge(int $competitionId) : array{
         $request = DB::getInstance()->prepare("SELECT * From result where competion_id = :comp");
         $request->bindValue(":comp",$competitionId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -37,7 +37,7 @@ class ResultManager extends Manager{
     public function getAllByUser(int $userId) : array{
         $request = DB::getInstance()->prepare("SELECT * From result where user_id = :user");
         $request->bindValue(":user",$userId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -46,7 +46,7 @@ class ResultManager extends Manager{
      */
     public function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * From result");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -59,7 +59,7 @@ class ResultManager extends Manager{
      */
     public function update(int $id, int $position = null, int $userId = null, int $competitionId = null) : bool{
         if (is_null($userId) || is_null($competitionId) || is_null($position)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($userId)) {
                 $userId = $data->getUser()->getId();
             }

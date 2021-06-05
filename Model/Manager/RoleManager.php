@@ -58,7 +58,7 @@ class RoleManager extends Manager {
     public function update(int $id, string $name = null): bool    {
         // modify the not null values
         if (is_null($name)){
-            $data = $this->getById($id);
+            $data = self::getById($id);
             $name = $data->getName();
         }
         $request = DB::getInstance()->prepare("UPDATE role 

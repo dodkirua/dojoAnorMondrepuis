@@ -18,7 +18,7 @@ class MailManager extends Manager{
     public function getById (int $id) : ?Mail{
         $request = DB::getInstance()->prepare("SELECT * FROM mail where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -29,7 +29,7 @@ class MailManager extends Manager{
     public function getByTitle (string $title) : ?Mail{
         $request = DB::getInstance()->prepare("SELECT * FROM mail where title = :title");
         $request->bindValue(":title",$title);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -62,7 +62,7 @@ class MailManager extends Manager{
      */
     public function update(int $id, string $title = null, string $content = null) : bool{
         if (is_null($title) || is_null($content)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($title)) {
                 $title = $data->getTitle();
             }

@@ -16,26 +16,26 @@ class ArticleManager extends Manager {
      * @param int $id
      * @return Article
      */
-    public function getById(int $id): Article    {
+    public  static function getById(int $id): Article    {
 
         $request = DB::getInstance()->prepare("SELECT * FROM article where id = :id");
         $request->bindValue(":id", $id);
-        return $this->getOneTmp($request);
+        return self::getOneTmp($request);
     }
 
-    public function getLast() : Article{
+    public  static function getLast() : Article{
 
         $request = DB::getInstance()->prepare("SELECT * FROM article where id = (SELECT MAX(id) from article)");
-        return $this->getOneTmp($request);
+        return self::getOneTmp($request);
     }
 
     /**
      * return a array with all the article
      * @return array
      */
-    public function getAll(): array    {
+    public  static function getAll(): array    {
         $request = DB::getInstance()->prepare("SELECT * FROM article");
-        return $this->getTmp($request);
+        return self::getTmp($request);
     }
 
     /**
@@ -43,10 +43,10 @@ class ArticleManager extends Manager {
      * @param int $userId
      * @return array
      */
-    public function getAllByUserId(int $userId): array    {
+    public  static function getAllByUserId(int $userId): array    {
         $request = DB::getInstance()->prepare("SELECT * FROM article WHERE user_id = :user");
         $request->bindValue(":user", $userId);
-        return $this->getTmp($request);
+        return self::getTmp($request);
     }
 
     /**
@@ -58,10 +58,10 @@ class ArticleManager extends Manager {
      * @param int|null $userId
      * @return bool
      */
-    public function update(int $id, string $title = null, string $content = null, string $image = null, int $userId = null): bool    {
+    public  static function update(int $id, string $title = null, string $content = null, string $image = null, int $userId = null): bool    {
         // modify the not null values
         if (is_null($content) || is_null($userId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
 
             if (is_null($content)) {
                 $content = $data->getContent();
@@ -93,7 +93,7 @@ class ArticleManager extends Manager {
      * @param string|null $title
      * @return bool
      */
-    public function add(string $content, int $userId, string $image = null, string $title = null): bool    {
+    public  static function add(string $content, int $userId, string $image = null, string $title = null): bool    {
         $request = DB::getInstance()->prepare("INSERT INTO article 
                     (title, content, date, image, user_id)
                     VALUES (:title, :content, :date, :img, :user)
@@ -112,7 +112,7 @@ class ArticleManager extends Manager {
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public  static function delete(int $id) : bool {
         // delete the comment of this article
         $manager = new CommentManager();
         $array = $manager->getAllByArticle($id);
@@ -129,7 +129,7 @@ class ArticleManager extends Manager {
      * @param $request
      * @return array
      */
-    private function getTmp($request): array    {
+    private  static function getTmp($request): array    {
         $classes = [];
         $result = $request->execute();
 
@@ -146,11 +146,11 @@ class ArticleManager extends Manager {
     }
 
     /**
-     * return a Article for the get function for one return
+     * return a Article for the get  static function for one return
      * @param $request
      * @return Article
      */
-    private function getOneTmp($request) : Article{
+    private  static function getOneTmp($request) : Article{
         $class = new Article();
         $result = $request->execute();
 

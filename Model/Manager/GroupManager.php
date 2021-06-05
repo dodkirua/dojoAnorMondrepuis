@@ -16,7 +16,7 @@ class GroupManager extends Manager{
     public function getById (int $id) : ?Group{
         $request = DB::getInstance()->prepare("SELECT * FROM `group` where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -27,7 +27,7 @@ class GroupManager extends Manager{
     public function getByName(string $name) : ?Group{
         $request = DB::getInstance()->prepare("SELECT * FROM `group` where name = :name");
         $request->bindValue(":name",$name);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
@@ -61,7 +61,7 @@ class GroupManager extends Manager{
     public function update(int $id, string $name = null,int $duration = null) : bool{
 
         if (is_null($name)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             $name = $data->getName();
         }
 

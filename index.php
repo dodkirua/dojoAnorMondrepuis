@@ -29,6 +29,12 @@ if (isset($_GET['ctrl'])){
                         ConnectController::display(ErrorController::Error($connec));
                     }
                     break;
+                case 'pass':
+                        AccountController::Pass();
+                    break;
+                case 'passChange':
+
+                    break;
             }
             break;
         case 'disconnect' :

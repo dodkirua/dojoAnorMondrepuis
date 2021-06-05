@@ -13,19 +13,19 @@ class DanGettingManager extends Manager{
      * @param int $id
      * @return DanGetting|null
      */
-    public function getById (int $id) : ?DanGetting{
+    public static function getById (int $id) : ?DanGetting{
         $request = DB::getInstance()->prepare("SELECT * FROM dan_getting where id = :id");
         $request->bindValue(":id",$id);
-        return $this->getOne($request);
+        return self::getOne($request);
     }
 
     /**
      * return a array with all the DanGetting
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM dan_getting");
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -33,10 +33,10 @@ class DanGettingManager extends Manager{
      * @param int $danId
      * @return array
      */
-    public function getAllByDan(int $danId) : array {
+    public static function getAllByDan(int $danId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM dan_getting WHERE dan_id = :dan");
         $request->bindValue(":dan",$danId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -44,10 +44,10 @@ class DanGettingManager extends Manager{
      * @param int $userId
      * @return array
      */
-    public function getAllByUser(int $userId) : array {
+    public static function getAllByUser(int $userId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM dan_getting WHERE user_id = :user");
         $request->bindValue(":user",$userId);
-        return $this->getMany($request);
+        return self::getMany($request);
     }
 
     /**
@@ -58,9 +58,9 @@ class DanGettingManager extends Manager{
      * @param int|null $userId
      * @return bool
      */
-    public function update(int $id, int $date = null, int $danId = null, int $userId = null) : bool{
+    public static function update(int $id, int $date = null, int $danId = null, int $userId = null) : bool{
         if (is_null($date) || is_null($danId) || is_null($userId)) {
-            $data = $this->getById($id);
+            $data = self::getById($id);
             if (is_null($date)) {
                 $date = $data->getDate();
             }
@@ -91,7 +91,7 @@ class DanGettingManager extends Manager{
      * @param int $userId
      * @return bool
      */
-    public function add(int $date, int $danId, int $userId ) : bool {
+    public static function add(int $date, int $danId, int $userId ) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO dan_getting
         (date, dan_id, user_id)
         VALUES (:date, :dan, :user)
@@ -108,7 +108,7 @@ class DanGettingManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM dan_getting WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -119,7 +119,7 @@ class DanGettingManager extends Manager{
      * @param PDOStatement $request
      * @return DanGetting|null
      */
-    private function getOne(PDOStatement $request ) : ?DanGetting {
+    private static function getOne(PDOStatement $request ) : ?DanGetting {
         $request->execute();
         $data = $request->fetch();
         if ($data) {
@@ -135,7 +135,7 @@ class DanGettingManager extends Manager{
      * @param PDOStatement $request
      * @return array
      */
-    private function getMany(PDOStatement $request) : array {
+    private static function getMany(PDOStatement $request) : array {
         $result = $request->execute();
         $array = [];
         if ($result){
