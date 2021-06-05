@@ -33,7 +33,7 @@
 
         echo "</div>";
 
-      //  \dev\Dev::pre($_SESSION['user']['surname']);
+       \dev\Dev::pre($_SESSION);
     ?>
 
 </div>

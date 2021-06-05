@@ -13,10 +13,10 @@ class Address extends Entity implements EntityInterface{
     private ?string $country;
     private ?string $add;
 
-    public function __construct(int $id = null ,?int $num, ?string $street, ?int $zip, ?string $city, ?string $country,
-    ?string $add) {
+    public function __construct(int $id = null ,int $num = null , string $street = null , int $zip = null ,
+                                string $city = null , string $country = null ,string $add = null ) {
         parent::__construct($id);
-        $this->$num = $num;
+        $this->num = $num;
         $this->street = $street;
         $this->zip = $zip;
         $this->city = $city;

@@ -4,8 +4,10 @@
 namespace Model\Manager;
 
 
+use dev\Dev;
 use Model\DB;
 use Model\Entity\Address;
+use Model\Utility\Utility;
 use PDOStatement;
 
 class AddressManager extends Manager{
@@ -45,7 +47,7 @@ class AddressManager extends Manager{
     /**
      * update on DB with id
      * @param int $id
-     * @param int|null $num
+     * @param int|null $num);
      * @param string|null $street
      * @param int|null $zip
      * @param string|null $city

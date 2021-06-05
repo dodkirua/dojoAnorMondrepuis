@@ -29,10 +29,10 @@ class AccountController extends Controller{
      * @param string $pass
      * @return User|null
      */
-    public function passTest(string $username, string $pass) : ?User    {
-        $user = getByUsername(mb_strtolower($username));
+    public static function passTest(string $username, string $pass) : ?User    {
+        $user = UserManager::getByUsername(mb_strtolower($username));
         if (!is_null($user)) {
-            if (password_verify($pass, $user->getPassword())) {
+            if (password_verify($pass, $user->getPass())) {
                 return $user;
             }
         }

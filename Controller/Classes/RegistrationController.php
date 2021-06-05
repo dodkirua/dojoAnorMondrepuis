@@ -25,13 +25,12 @@ class RegistrationController extends Controller{
         if (isset($_POST['username']) && isset($_POST['pass']) && isset($_POST['passVerify']) ){
             $username = Security::sanitize($_POST['username']);
             $pass = Security::checkPass(Security::sanitize($_POST['pass']));
-            $userManager = new UserManager();
-            $user = $userManager->getByUsername(strtolower($username));
+            $user = UserManager::getByUsername(strtolower($username));
 
             if (is_null($user)) {
                 if (!is_null($pass)){
                     if ($pass === $_POST['passVerify']){
-                        if ($userManager->add($username,password_hash($pass,PASSWORD_BCRYPT))) {
+                        if (UserManager::add($username,password_hash($pass,PASSWORD_BCRYPT))) {
                             return 1;
                         }
                         else {

@@ -45,7 +45,7 @@ class AddressBookManager extends Manager{
 
     /**
      * return a array the addressBook by addressId
-     * @param int $userId
+     * @param int $addressId
      * @return array
      */
     public static function getAllByAddress (int $addressId) : array {
@@ -126,6 +126,11 @@ class AddressBookManager extends Manager{
         return null;
     }
 
+    /**
+     * private request for the getAll
+     * @param PDOStatement $request
+     * @return array
+     */
     private static function getMany(PDOStatement $request) : array {
         $array = [];
         $result = $request->execute();
@@ -133,8 +138,8 @@ class AddressBookManager extends Manager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $userId = (new UserManager())->getById(intval($datum['user_id']));
-                    $addressId = (new AddressManager())->getById(intval($datum['address_id']));
+                    $userId = UserManager::getById(intval($datum['user_id']));
+                    $addressId = AddressManager::getById(intval($datum['address_id']));
                     $item = new AddressBook(intval($datum['id']),$userId , $addressId);
                     $array[] = $item;
                 }
