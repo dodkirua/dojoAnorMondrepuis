@@ -6,15 +6,7 @@ namespace Controller\Classes;
 
 class ErrorController extends Controller{
 
-    /**
-     * connection page with error
-     */
-    public static function connectError() : void {
-        $var['error'] = 'connection non valide veuillez réessayer';
-        self::render('connectError','Connectez-vous',$var);
-    }
-
-    /**
+     /**
      * page with error
      * @param int $error
      * @return array
@@ -38,6 +30,9 @@ class ErrorController extends Controller{
                 break;
             case -6:
                 $var['error'] = "Mot de passe incorrect";
+                break;
+            case -7:
+                $var['error'] = "Problème lors de la modification";
                 break;
             default :
                 exit;

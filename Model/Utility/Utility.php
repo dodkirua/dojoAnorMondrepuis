@@ -56,4 +56,18 @@ class Utility{
         }
     }
 
+    /**
+     * remove 0 in start
+     * @param string $text
+     * @return string
+     */
+    public static function removeZero(string $text) : string {
+        if (substr($text,0,1) === "0"){
+            return substr($text,1);
+        }
+        else {
+            return $text;
+        }
+    }
+
   }

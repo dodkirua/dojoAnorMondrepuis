@@ -52,7 +52,7 @@ class ConnectController extends Controller {
      * @param bool $token
      * @return int
      */
-    private static function userInfo(string $username = null, string $pass= null, int $id = null,
+    public static function userInfo(string $username = null, string $pass= null, int $id = null,
                                      string $key = 'user', string $key2 = null, $token = true) : int{
         if (is_null($key2)){
             $tmp = &$array[$key];

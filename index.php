@@ -36,7 +36,19 @@ if (isset($_GET['ctrl'])){
 
                     break;
                 case 'modifyInformation':
-                    AccountController::modifyInformation();
+                    $mod = AccountController::modifyInformation(intval($_SESSION['user']['id']));
+                    if ($mod === 1){
+                        AccountController::display();
+                    }
+                    else {
+                        AccountController::information(ErrorController::Error($mod));
+                    }
+                    break;
+                case 'information':
+                    AccountController::information();
+                    break;
+                case 'address':
+                    AccountController::address();
                     break;
             }
             break;
