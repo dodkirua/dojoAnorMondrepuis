@@ -40,7 +40,7 @@ class ConnectController extends Controller {
     }
 
     /**
-     * test connection to a user
+     * test connection to a user and add information to $_SESSION
      * return :
      * 1 : ok
      * -6 : wrong password

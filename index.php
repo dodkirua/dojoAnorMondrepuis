@@ -30,10 +30,13 @@ if (isset($_GET['ctrl'])){
                     }
                     break;
                 case 'pass':
-                    AccountController::Pass();
+                    AccountController::pass();
                     break;
                 case 'passChange':
 
+                    break;
+                case 'modifyInformation':
+                    AccountController::modifyInformation();
                     break;
             }
             break;

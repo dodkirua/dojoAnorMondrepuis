@@ -20,38 +20,15 @@ class AccountController extends Controller{
     /**
      * display the password change form
      */
-    public static function Pass(){
+    public static function pass(){
         self::render('pass','Changer de mot de passe');
     }
+
     /**
-     * test if pass and username are associated
-     * @param string $username
-     * @param string $pass
-     * @return User|null
+     * display the password change form
      */
-    public static function passTest(string $username, string $pass) : ?User    {
-        $user = UserManager::getByUsername(mb_strtolower($username));
-        if (!is_null($user)) {
-            if (password_verify($pass, $user->getPass())) {
-                return $user;
-            }
-        }
-        return null;
+    public static function modifyInformation(){
+        self::render('modifyInformation','Modifier les informations');
     }
-    public static function testConnection(): bool{
-        if (isset($_POST['username']) && isset($_POST['pass'])){
-            $user = $_POST['username'];
-            $pass = $_POST['pass'];
-            $userClass = (new UserManager())->passTest($user,$pass);
 
-            if (!is_null($userClass)){
-                foreach ($userClass->getAll() as $key => $item){
-                    $_SESSION['user'][$key] = $item;
-                }
-
-                return true;
-            }
-        }
-        return false;
-    }
 }

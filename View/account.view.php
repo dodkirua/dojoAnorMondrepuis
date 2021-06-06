@@ -180,8 +180,8 @@
         <?php
 
 
-         // \dev\Dev::pre($parent);
-         // \dev\Dev::pre2($parent);
+          // \dev\Dev::pre($user);
+         // \dev\Dev::pre2($user);
     ?>
 
 </div>
