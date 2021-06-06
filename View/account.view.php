@@ -1,4 +1,4 @@
-<div id="AccountDisplay" class="panel">
+<div id="accountDisplay" class="panel">
     <?php
     $user = $_SESSION['user'];
     $parent = $_SESSION['parent'];
@@ -63,7 +63,7 @@
                 ?>
             </div>
             <div class="center">
-                <form action='/index.php?ctrl=form&action=address&id=<?= $user['id'] ?>' method='post'>
+                <form action='/index.php?ctrl=form&action=address' method='post'>
                     <input type='submit' value="Modifier l'adresse" class="margin">
                 </form>
             </div>
@@ -72,6 +72,7 @@
     } ?>
 
     <?php
+    // parent display
     if (isset($parent)){
         ?>
         <div id='parentInformation' class='margin'>
@@ -127,6 +128,7 @@
         }
         echo "</div>";
     }
+    // Child display
     if (isset($child)){
         ?>
         <div id='childInformation' class='margin'>
@@ -183,8 +185,8 @@
     }
     ?>
     <?php
-      // \dev\Dev::pre($user);
-      // \dev\Dev::pre2($_SESSION);
+      // \dev\Dev::pre($_SESSION);
+      \dev\Dev::pre2($_SESSION);
 ?>
 
 </div>

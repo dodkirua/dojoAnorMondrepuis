@@ -33,7 +33,13 @@ if (isset($_GET['ctrl'])){
                     AccountController::pass();
                     break;
                 case 'passChange':
-
+                    $mod = AccountController::changePass();
+                    if ($mod === 1){
+                        AccountController::display();
+                    }
+                    else {
+                        AccountController::pass(ErrorController::Error($mod));
+                    }
                     break;
                 case 'modifyInformation':
                     $mod = AccountController::modifyInformation(intval($_SESSION['user']['id']));
@@ -49,6 +55,15 @@ if (isset($_GET['ctrl'])){
                     break;
                 case 'address':
                     AccountController::address();
+                    break;
+                case 'modifyAddress':
+                    $mod = AccountController::modifyAddress();
+                    if ($mod === 1){
+                        AccountController::display();
+                    }
+                    else {
+                        AccountController::address(ErrorController::Error($mod));
+                    }
                     break;
             }
             break;

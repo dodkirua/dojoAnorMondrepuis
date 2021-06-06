@@ -161,6 +161,12 @@ form {
     font-size: 1rem;
 }
 
+#account {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 /*#account {
     display: flex;
     flex-direction: column;

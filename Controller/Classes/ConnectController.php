@@ -20,6 +20,7 @@ class ConnectController extends Controller {
      * 1 : ok
      * -6 : wrong password
      * -5 : $_POST variable problem
+     * -9 : unknown username
      * @return int
      */
     public static function connection() : int{
@@ -62,11 +63,17 @@ class ConnectController extends Controller {
         }
         if (is_null($id)) { //add data user in $array
             $user = UserManager::getByUsername($username);
-            if (password_verify($pass,$user->getPass())){ //add data user in $_SESSION
-                $tmp = $user->getAllData();
-            } else {
-                return -6;
+            if ($user){
+                if (password_verify($pass,$user->getPass())){ //add data user in $_SESSION
+                    $tmp = $user->getAllData();
+                } else {
+                    return -6;
+                }
             }
+            else {
+                return -9;
+            }
+
         }
         else {
             $tmp = UserManager::getById($id)->getAllData();

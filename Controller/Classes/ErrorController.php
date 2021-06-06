@@ -34,6 +34,15 @@ class ErrorController extends Controller{
             case -7:
                 $var['error'] = "Problème lors de la modification";
                 break;
+            case -8:
+                $var['error'] = "Ancien mot de passe incorrect";
+                break;
+            case -9:
+                $var['error'] = "Utilisateur inconnu";
+                break;
+            case -10:
+                $var['error'] = "Problème lors de l'ajout'";
+                break;
             default :
                 exit;
         }

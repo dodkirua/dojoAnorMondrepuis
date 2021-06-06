@@ -118,7 +118,7 @@ class UserManager extends Manager {
 
 
         $request = DB::getInstance()->prepare("UPDATE user 
-                    SET username = :name, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
+                    SET username = :username, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
                         validation_key = :key, validation = :validation, licence = :licence , name = :name, 
                         surname = :surname, phone = :phone
                     WHERE id = :id

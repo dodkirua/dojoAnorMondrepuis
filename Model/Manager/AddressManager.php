@@ -57,7 +57,7 @@ class AddressManager extends Manager{
      */
     public static function update(int $id, int $num = null, string $street = null, int $zip = null, string $city =null,
                     string $country = null, string $add = null) : bool{
-        if (is_null($num) || is_null($street) || is_null($zip) || is_null($city) || is_null($country) || is_null($add)) {
+        if (is_null($num) || is_null($street) || is_null($zip) || is_null($city) || is_null($country)) {
             $data = self::getById($id);
             if (is_null($num)) {
                 $num = $data->getNum();
@@ -75,7 +75,10 @@ class AddressManager extends Manager{
                 $country = $data->getCountry();
             }
             if (is_null($add)) {
-                $add = $data->getAdd();
+                $add = null;
+            }
+            else {
+                $add = mb_strtolower($add);
             }
         }
         $request = DB::getInstance()->prepare("UPDATE address
@@ -88,7 +91,7 @@ class AddressManager extends Manager{
         $request->bindValue(":zip",$zip);
         $request->bindValue(":city",mb_strtolower($city));
         $request->bindValue(":country",mb_strtolower($country));
-        $request->bindValue(":add",mb_strtolower($add));
+        $request->bindValue(":add",$add);
 
         return $request->execute();
     }
@@ -103,23 +106,18 @@ class AddressManager extends Manager{
      * @param string|null $add
      * @return bool
      */
-    public static function add(int $num , string $street, int $zip , string $city, string $country, string $add = null) : bool {
+    public static function add(int $num , string $street, int $zip , string $city, string $country,
+                               string $add = null) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO address 
         (num, street, zip_code, city, country, `add`)
-        VALUES (:num, :street, :zip_code, :city, :country, :add)
+        VALUES (:num, :street, :zip, :city, :country, :add)
         ");
         $request->bindValue(":num",$num);
         $request->bindValue(":street",mb_strtolower($street));
         $request->bindValue(":zip",$zip);
         $request->bindValue(":city",mb_strtolower($city));
         $request->bindValue(":country",mb_strtolower($country));
-
-        if (is_null($add)) {
-            $request->bindValue(":add", null);
-        }
-        else {
-            $request->bindValue(":add", mb_strtolower($add));
-        }
+        $request->bindValue(":add",mb_strtolower($add));
 
         return $request->execute();
     }
@@ -133,6 +131,37 @@ class AddressManager extends Manager{
         $request = DB::getInstance()->prepare("DELETE FROM address WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
+    }
+
+    /**
+     * search address in db
+     * @param int $num
+     * @param string $street
+     * @param int $zip
+     * @param string $city
+     * @param string $country
+     * @param string|null $add
+     * @return int
+     */
+    public static function search(int $num , string $street, int $zip , string $city, string $country,
+                                  string $add = null) : int  {
+        $request = DB::getInstance()->prepare("SELECT * FROM address WHERE 
+        num = :num AND street = :street AND zip_code = :zip AND city = :city AND country = :country AND `add` = :add        
+        ");
+        $request->bindValue(":num",$num);
+        $request->bindValue(":street",mb_strtolower($street));
+        $request->bindValue(":zip",$zip);
+        $request->bindValue(":city",mb_strtolower($city));
+        $request->bindValue(":country",mb_strtolower($country));
+        $request->bindValue(":add",mb_strtolower($add));
+        $request->execute();
+        $data = $request->fetch();
+        if ($data) {
+            return $data['id'];
+        }
+        else {
+            return -1;
+        }
     }
 
 
