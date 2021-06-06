@@ -8,14 +8,14 @@ use Model\Entity\Group;
 
 class Lesson extends Entity implements EntityInterface{
     private ?int $date;
-    private ?int $hour;
+    private ?bool $checked;
 
     private ?Group $group;
 
-    public function __construct(int $id = null, int $date = null, int $hour = null, Group $group = null )    {
+    public function __construct(int $id = null, int $date = null, bool $checked = false, Group $group = null )    {
         parent::__construct($id);
         $this->date = $date;
-        $this->hour = $hour;
+        $this->checked = $checked;
         $this->group = $group;
     }
 
@@ -38,20 +38,20 @@ class Lesson extends Entity implements EntityInterface{
     }
 
     /**
-     * get the Hour
-     * @return int|null
+     * get checked
+     * @return bool|null
      */
-    public function getHour(): ?int    {
-        return $this->hour;
+    public function getChecked(): ?bool    {
+        return $this->checked;
     }
 
     /**
-     * set the Hour
-     * @param int|null $hour
+     * set checked
+     * @param bool|null $hour
      * @return Lesson
      */
-    public function setHour(?int $hour): Lesson    {
-        $this->hour = $hour;
+    public function setChecked(?bool $hour): Lesson    {
+        $this->checked = $hour;
         return $this;
     }
 
@@ -81,7 +81,7 @@ class Lesson extends Entity implements EntityInterface{
     public function getAllData(): array    {
         $array['id'] = $this->getId();
         $array['date'] = $this->getDate();
-        $array['hour'] = $this->getHour();
+        $array['checked'] = $this->getChecked();
         $array['group'] = $this->getGroup()->getAllData();
         return $array;
     }

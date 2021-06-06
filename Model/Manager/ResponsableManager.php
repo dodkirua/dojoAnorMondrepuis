@@ -16,7 +16,7 @@ class ResponsableManager extends Manager{
      * @param int $id
      * @return Responsable|null
      */
-    public function getById (int $id) : ?Responsable{
+    public static function getById (int $id) : ?Responsable{
         $request = DB::getInstance()->prepare("SELECT * FROM responsable where id = :id");
         $request->bindValue(":id",$id);
         return self::getOne($request);
@@ -27,7 +27,7 @@ class ResponsableManager extends Manager{
      * @param int $childID
      * @return array
      */
-    public function getAllByChild (int $childID) : array{
+    public static function getAllByChild (int $childID) : array{
         $request = DB::getInstance()->prepare("SELECT * FROM responsable where child_id= :child");
         $request->bindValue(":child",$childID);
         return self::getMany($request);
@@ -38,7 +38,7 @@ class ResponsableManager extends Manager{
      * @param int $parentID
      * @return array
      */
-    public function getAllByParent (int $parentID) : array{
+    public static function getAllByParent (int $parentID) : array{
         $request = DB::getInstance()->prepare("SELECT * FROM responsable where parent_id= :parent");
         $request->bindValue(":parent",$parentID);
         return self::getMany($request);
@@ -48,7 +48,7 @@ class ResponsableManager extends Manager{
      * return a array with all the responsable
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM responsable");
         return self::getMany($request);
     }
@@ -60,7 +60,7 @@ class ResponsableManager extends Manager{
      * @param int|null $parentId
      * @return bool
      */
-    public function update(int $id, int $childId = null, int $parentId = null) : bool{
+    public static function update(int $id, int $childId = null, int $parentId = null) : bool{
         if (is_null($childId) || is_null($parentId)) {
             $data = self::getById($id);
             if (is_null($childId)) {
@@ -88,7 +88,7 @@ class ResponsableManager extends Manager{
      * @param int $childId
      * @return bool
      */
-    public function add(int $parentId, int $childId) : bool {
+    public static function add(int $parentId, int $childId) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO responsable 
         (child_id, parent_id)
         VALUES (:child, :parent)
@@ -104,7 +104,7 @@ class ResponsableManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         $request = DB::getInstance()->prepare("DELETE FROM responsable WHERE id = :id");
         $request->bindValue(':id',$id);
         return $request->execute();
@@ -116,7 +116,7 @@ class ResponsableManager extends Manager{
      * @param PDOStatement $request
      * @return Responsable|null
      */
-    private function getOne(PDOStatement $request ) : ?Responsable {
+    private static function getOne(PDOStatement $request ) : ?Responsable {
         $request->execute();
         $data = $request->fetch();
         if ($data) {
@@ -132,7 +132,7 @@ class ResponsableManager extends Manager{
      * @param PDOStatement $request
      * @return array
      */
-    private function getMany (PDOStatement $request ) : array {
+    private static function getMany (PDOStatement $request ) : array {
         $array = [];
         $result = $request->execute();
 

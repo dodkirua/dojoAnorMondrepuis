@@ -58,18 +58,18 @@ class LessonManager extends Manager{
      * update on DB with id
      * @param int $id
      * @param int|null $date
-     * @param int|null $hour
+     * @param bool|null $check
      * @param int|null $groupId
      * @return bool
      */
-    public function update(int $id, int $date =null, int $hour = null, int $groupId = null) : bool{
-        if (is_null($date) || is_null($hour) || is_null($groupId)) {
+    public function update(int $id, int $date =null, bool $check = null, int $groupId = null) : bool{
+        if (is_null($date) || is_null($check) || is_null($groupId)) {
             $data = self::getById($id);
             if (is_null($date)) {
                 $date = $data->getDate();
             }
-            if (is_null($hour)) {
-                $hour = $data->getHour();
+            if (is_null($check)) {
+                $check = $data->getChecked();
             }
             if (is_null($groupId)) {
                 $groupId = $data->getGroup()->getId();
@@ -77,12 +77,12 @@ class LessonManager extends Manager{
         }
 
         $request = DB::getInstance()->prepare("UPDATE lesson
-                    SET date = :date, hour = :hour, group_id = :grp
+                    SET date = :date, checked = :check, group_id = :grp
                     WHERE id= :id
                     ");
         $request->bindValue(":id",$id);
         $request->bindValue(":date",$date);
-        $request->bindValue(":hour",$hour);
+        $request->bindValue(":check",$check);
         $request->bindValue(":grp",$groupId);
 
         return $request->execute();
@@ -91,17 +91,17 @@ class LessonManager extends Manager{
     /**
      * insert lesson in DB
      * @param int $date
-     * @param int $hour
+     * @param bool $check
      * @param int $groupId
      * @return bool
      */
-    public function add(int $date , int $hour , int $groupId ) : bool {
+    public function add(int $date , bool $check , int $groupId ) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO lesson 
-        (date, hour, group_id)
-        VALUES (:date, :hour, :grp)
+        (date, checked, group_id)
+        VALUES (:date, :ckeck, :grp)
         ");
         $request->bindValue(":date",$date);
-        $request->bindValue(":hour",$hour);
+        $request->bindValue(":check",$check);
         $request->bindValue(":grp",$groupId);
 
         return $request->execute();

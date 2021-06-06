@@ -150,6 +150,9 @@ class UserManager extends Manager {
         if (!isset($param['mail'])){
             $param['mail'] = null;
         }
+        else{
+            $param['mail'] = mb_strtolower($param['mail']);
+        }
 
         if (!isset($param['licence'])) {
             $param['licence'] = null;
@@ -188,7 +191,7 @@ class UserManager extends Manager {
                     VALUES (:username, :mail, :pass, :licence, :role, :check, :key, :validation, :name, :surname, :phone)
                     ");
         $request->bindValue(":username",mb_strtolower($username));
-        $request->bindValue(":mail",mb_strtolower($param['mail']));
+        $request->bindValue(":mail",$param['mail']);
         $request->bindValue(":pass",$pass);
         $request->bindValue(":role",$param['role_id']);
         $request->bindValue(":check",$param['check']);

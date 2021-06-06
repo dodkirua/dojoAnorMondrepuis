@@ -141,8 +141,8 @@ class Address extends Entity implements EntityInterface{
         $array['num'] = $this->getNum();
         $array['street'] = $this->getStreet();
         $array['zip_code'] = $this->getZip();
-        $array['city'] = $this->getCity();
-        $array['country'] = $this->getCountry();
+        $array['city'] = ucfirst($this->getCity());
+        $array['country'] = ucfirst($this->getCountry());
         $array['add'] = $this->getAdd();
         return $array;
     }
