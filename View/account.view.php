@@ -1,6 +1,8 @@
 <div id="AccountDisplay" class="panel">
         <?php 
-        $user = $_SESSION['user'];
+        $user = $_SESSION;
+        $parent = $_SESSION['parent'];
+        $child = $_SESSION['child'];
         ?>
 
         <div id='userInformation' class='display'>
@@ -55,13 +57,131 @@
                 }
                 ?>
             </div>
+        <?php
+        } ?>
+
+
+        <?php
+        if (isset($parent)){
+            ?>
+            <div id='parentInformation' class='display'>
+                <h2>Les personnes à contacter</h2>
+            <?php
+            foreach ($parent as $key => $item){
+                ?>
+                <div class="information">
+                    <div>
+                    <h2>personne n° <?=  $key ?></h2>
+                    <p>Username : <?=  $item['username'] ?></p>
+
+                    <?php
+                    if (!is_null($item['name']) && $item['name'] !== ""){?>
+                        <p>Nom : <?=  $item['name'] ?></p><?php
+                    }
+                    if (!is_null($item['surname']) && $item['surname'] !== "") {?>
+                        <p>Prénom : <?=  $item['surname'] ?></p><?php
+                    }
+                    if (!is_null($item['mail']) && $item['mail'] !== "") {?>
+                        <p>Mail : <?=  $item['mail'] ?></p><?php
+                    }
+                    if (!is_null($item['phone']) && $item['phone'] !== "") {?>
+                        <p>Téléphone : 0<?=  $item['phone'] ?></p><?php
+                    }
+                    if (!is_null($item['licence']) && $item['licence'] !== "") {?>
+                        <p>Votre numéro de licence : <?=  $item['licence'] ?></p><?php
+                    }
+                    echo "</div>";
+
+                        if (isset($item['address'])){
+                            $address = $item['address'][0];
+                            ?>
+
+                            <div id='userAddress' class='display'>
+                                <h3>Adresse</h3>
+                                <p>Adresse : <?= $address['num'] . " " . $address['street'] ?></p>
+                                <p>Code Postale : <?= $address['zip_code'] ?></p>
+                                <p>Ville : <?= $address['city'] ?></p>
+                                <p>Pays : <?= $address['country'] ?></p>
+
+                                <?php
+                                if  (!is_null($address['add'])){
+                                    ?>
+                                    <p>Information complémentaire: <?= $address['add'] ?></p>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        <?php
+                        }
+                echo "</div>";
+            }
+            echo "</div>";
+        }
+        if (isset($child)){
+            ?>
+            <div id='childInformation' class='display'>
+                <h2>Personne contact pour : </h2>
+            <?php
+
+            foreach ($child as $key => $item){?>
+                <div class="information">
+                    <div>
+                        <h2>personne n° <?=  $key ?></h2>
+                        <p>Username : <?=  $item['username'] ?></p>
+
+                        <?php
+                        if (!is_null($item['name']) && $item['name'] !== ""){?>
+                            <p>Nom : <?=  $item['name'] ?></p><?php
+                        }
+                        if (!is_null($item['surname']) && $item['surname'] !== "") {?>
+                            <p>Prénom : <?=  $item['surname'] ?></p><?php
+                        }
+                        if (!is_null($item['mail']) && $item['mail'] !== "") {?>
+                            <p>Mail : <?=  $item['mail'] ?></p><?php
+                        }
+                        if (!is_null($item['phone']) && $item['phone'] !== "") {?>
+                            <p>Téléphone : 0<?=  $item['phone'] ?></p><?php
+                        }
+                        if (!is_null($item['licence']) && $item['licence'] !== "") {?>
+                            <p>Votre numéro de licence : <?=  $item['licence'] ?></p><?php
+                        }
+                        echo "</div>";
+
+                        if (isset($item['address'])){
+                            $address = $item['address'][0];
+                            ?>
+
+                            <div id='userAddress' class='display'>
+                                <h3>Adresse</h3>
+                                <p>Adresse : <?= $address['num'] . " " . $address['street'] ?></p>
+                                <p>Code Postale : <?= $address['zip_code'] ?></p>
+                                <p>Ville : <?= $address['city'] ?></p>
+                                <p>Pays : <?= $address['country'] ?></p>
+
+                                <?php
+                                if  (!is_null($address['add'])){
+                                    ?>
+                                    <p>Information complémentaire: <?= $address['add'] ?></p>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                            <?php
+                        }
+                        echo "</div>";}
+            echo "</div>";
+        }
+        ?>
+
+
 
 
 
         <?php
-        }
 
-        \dev\Dev::pre($_SESSION);
+
+         // \dev\Dev::pre($parent);
+         // \dev\Dev::pre2($parent);
     ?>
 
 </div>

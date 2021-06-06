@@ -9,9 +9,15 @@ class Utility{
     /**
      * function for add a array in $_SESSION
      * @param array $array
-     * @param string $title
+     * @param string|null $title
      */
-    public static function addToSession(array $array, string $title = "user") : void{
+    public static function addToSession(array $array, string $title = null) : void{
+        if (is_null($title)){
+            $tmpArray = &$_SESSION;
+        }
+        else {
+            $tmpArray = &$_SESSION[$title];
+        }
         foreach ($array as $key => $data) {
             $tmp = null;
             if (is_array($data)){
@@ -22,7 +28,7 @@ class Utility{
             else {
                 $tmp = $data;
             }
-            $_SESSION[$title][$key] = $tmp;
+            $tmpArray[$key] = $tmp;
         }
     }
 

@@ -64,6 +64,10 @@
     box-shadow: 0 15px 50px rgba(15,0,0,.2);
 }
 
+.display {
+    margin: 1rem;
+}
+
 #articleDisplay h1{
     text-align: center;
     text-transform: uppercase;
@@ -120,6 +124,15 @@ form {
     justify-content: center;
     align-items: center;
     margin: 0.5rem;
+}
+
+.information {
+    display: flex;
+    flex-direction: row;
+}
+
+.information div {
+    margin: 1rem;
 }
 
 /*#account {

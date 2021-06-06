@@ -49,10 +49,11 @@ class ConnectController extends Controller {
      * @param int|null $id
      * @param string $key
      * @param string|null $key2
+     * @param bool $token
      * @return int
      */
     private static function userInfo(string $username = null, string $pass= null, int $id = null,
-                                     string $key = 'user', string $key2 = null) : int{
+                                     string $key = 'user', string $key2 = null, $token = true) : int{
         if (is_null($key2)){
             $tmp = &$array[$key];
         }
@@ -77,21 +78,40 @@ class ConnectController extends Controller {
             }
         }
         Utility::addToSession($array);
+        if ($token){
+            $tmpArray = [];
+            $parent =ResponsableManager::getAllByChild($tmp['id']); //add parent information in $_SESSION
+            if ($parent !== []){
+                $i = 1;
+                foreach ($parent as $add){
+                    $tmpArray[$i] = $add->getAllData()['parent'];
+                    $address = AddressBookManager::getAllByUser($tmpArray[$i]['id']); //add data address in $array
+                    if ($address !== []) {
+                        foreach ($address as $item) {
+                            $tmpArray[$i]['address'][] = $item->getAllData()['address'];
+                        }
+                        $i++;
+                    }
 
-        $parent =ResponsableManager::getAllByChild($tmp['id']); //add parent information in $_SESSION
-        if ($parent !== []){
-            $i = 1;
-            foreach ($parent as $add){
-                self::userInfo(null,null,$add->getAllData()['parent']['id'],'parent',$i);
-                    $i++;
+                }
+                Utility::addToSession($tmpArray,'parent');
             }
-        }
-        $child =ResponsableManager::getAllByParent($tmp['id']); //add parent information in $_SESSION
-        if ($child !== []){
-            $i = 1;
-            foreach ($child as $add){
-                self::userInfo(null,null,$add->getAllData()['child']['id'],'child',$i);
-                $i++;
+            else {
+                $child =ResponsableManager::getAllByParent($tmp['id']); //add parent information in $_SESSION
+                if ($child !== []){
+                    $i = 1;
+                    foreach ($child as $add){
+                        $tmpArray[$i] = $add->getAllData()['child'];
+                        $address = AddressBookManager::getAllByUser($tmpArray[$i]['id']); //add data address in $array
+                        if ($address !== []) {
+                            foreach ($address as $item) {
+                                $tmpArray[$i]['address'][] = $item->getAllData()['address'];
+                            }
+                            $i++;
+                        }
+                    }
+                    Utility::addToSession($tmpArray,'child');
+                }
             }
         }
 
