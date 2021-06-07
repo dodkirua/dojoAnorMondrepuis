@@ -4,7 +4,7 @@
     use Model\Utility\Utility;
 
     if (!is_null($var['article']['image'])){
-           echo "<div id='articleImage'></div>";
+           echo "<div id='articleImage'><img src='/assets/img/article/". $var['article']['image'] ."' alt='". $var['article']['title'] ."'></div>";
     }
     echo "<h1>" . $var['article']['title'] . "</h1>";
     $date = new DateTime();

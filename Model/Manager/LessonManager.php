@@ -15,7 +15,7 @@ class LessonManager extends Manager{
      * @param int $id
      * @return Lesson|null
      */
-    public function getById (int $id) : ?Lesson{
+    public static function getById (int $id) : ?Lesson{
         $request = DB::getInstance()->prepare("SELECT * FROM lesson where id = :id");
         $request->bindValue(":id",$id);
         return self::getOne($request);
@@ -27,7 +27,7 @@ class LessonManager extends Manager{
      * @param int $groupId
      * @return Lesson|null
      */
-    public function getByDateNGroup (int $date, int $groupId) : ?Lesson{
+    public static function getByDateNGroup (int $date, int $groupId) : ?Lesson{
         $request = DB::getInstance()->prepare("SELECT * FROM lesson WHERE date = :date AND group_id = :grp");
         $request->bindValue(":date", $date);
         $request->bindValue(":grp", $groupId);
@@ -38,7 +38,7 @@ class LessonManager extends Manager{
      * return a array with all the lesson
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $request = DB::getInstance()->prepare("SELECT * FROM lesson");
         return self::getMany($request);
     }
@@ -48,7 +48,7 @@ class LessonManager extends Manager{
      * @param int $groupId
      * @return array
      */
-    public function getAllByGroup(int $groupId) : array {
+    public static function getAllByGroup(int $groupId) : array {
         $request = DB::getInstance()->prepare("SELECT * FROM lesson WHERE group_id = :grp");
         $request->bindValue(":grp", $groupId);
         return self::getMany($request);
@@ -62,7 +62,7 @@ class LessonManager extends Manager{
      * @param int|null $groupId
      * @return bool
      */
-    public function update(int $id, int $date =null, bool $check = null, int $groupId = null) : bool{
+    public static function update(int $id, int $date =null, bool $check = null, int $groupId = null) : bool{
         if (is_null($date) || is_null($check) || is_null($groupId)) {
             $data = self::getById($id);
             if (is_null($date)) {
@@ -95,7 +95,7 @@ class LessonManager extends Manager{
      * @param int $groupId
      * @return bool
      */
-    public function add(int $date , bool $check , int $groupId ) : bool {
+    public static function add(int $date , bool $check , int $groupId ) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO lesson 
         (date, checked, group_id)
         VALUES (:date, :ckeck, :grp)
@@ -112,7 +112,7 @@ class LessonManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         //delete the attendance
         $attendanceManger = new AttendanceManager();
         $array = $attendanceManger->getAllByLesson($id);
@@ -131,7 +131,7 @@ class LessonManager extends Manager{
      * @param PDOStatement $request
      * @return Lesson|null
      */
-    private function getOne(PDOStatement $request ) : ?Lesson {
+    private static function getOne(PDOStatement $request ) : ?Lesson {
         $request->execute();
         $datum = $request->fetch();
         if ($datum) {
@@ -146,7 +146,7 @@ class LessonManager extends Manager{
      * @param PDOStatement $request
      * @return array
      */
-    private function getMany (PDOStatement $request ) : array {
+    private static function getMany (PDOStatement $request ) : array {
         $array = [];
         $result = $request->execute();
 

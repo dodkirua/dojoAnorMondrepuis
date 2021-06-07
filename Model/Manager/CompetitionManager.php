@@ -166,8 +166,8 @@ class CompetitionManager extends Manager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $address = (new AddressManager())->getById(intval($datum['address_id']));
-                    $categoryAge = (new CategoryAgeManager())->getById(intval($datum['category_age_id']));
+                    $address = AddressManager::getById(intval($datum['address_id']));
+                    $categoryAge = CategoryAgeManager::getById(intval($datum['category_age_id']));
                     $item = new Competition(intval($datum['id']),$datum['description'],intval($datum['date']), 
                         intval($datum['hour']), $address, $categoryAge);
                     $array[] = $item;

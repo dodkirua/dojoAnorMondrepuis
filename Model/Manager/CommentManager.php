@@ -150,8 +150,8 @@ class CommentManager extends Manager {
             if ($data) {
 
                 foreach ($data as $item) {
-                    $article = (new ArticleManager())->getById(intval($item['article_id']));
-                    $user = (new UserManager())->getById(intval($item['user_id']));
+                    $article = ArticleManager::getById(intval($item['article_id']));
+                    $user = UserManager::getById(intval($item['user_id']));
 
                     $class = new Comment(intval($item['id']), $item['content'], $item['date'], $article , $user );
                     $classes[] = $class;

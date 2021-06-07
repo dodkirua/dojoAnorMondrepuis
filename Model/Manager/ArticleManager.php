@@ -31,10 +31,16 @@ class ArticleManager extends Manager {
 
     /**
      * return a array with all the article
+     * @param bool $asc
      * @return array
      */
-    public  static function getAll(): array    {
-        $request = DB::getInstance()->prepare("SELECT * FROM article");
+    public  static function getAll(bool $asc = true): array    {
+        if($asc){
+            $request = DB::getInstance()->prepare("SELECT * FROM article");
+        }
+        else {
+            $request = DB::getInstance()->prepare("SELECT * FROM article order by id DESC");
+        }
         return self::getTmp($request);
     }
 
@@ -162,7 +168,7 @@ class ArticleManager extends Manager {
                     ->setContent($data['content'])
                     ->setDate($data['date'])
                     ->setImage($data['image'])
-                    ->setUser((new UserManager())->getById($data['user_id']));
+                    ->setUser((UserManager::getById($data['user_id'])));
             }
         }
         return $class;

@@ -140,8 +140,8 @@ class GroupCategoryManager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $group = (new GroupManager())->getById(intval($datum['group_id']));
-                    $categoryAge = (new CategoryAgeManager())->getById(intval($datum['category_age_id']));
+                    $group = GroupManager::getById(intval($datum['group_id']));
+                    $categoryAge = CategoryAgeManager::getById(intval($datum['category_age_id']));
                     $item = new GroupCategory(intval($datum['id']), $categoryAge , $group );
                     $array[] = $item;
                 }

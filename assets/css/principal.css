@@ -79,11 +79,13 @@
 #articleImage {
     width: 25vw;
     height: 25vw;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size:  contain;
     float: left;
     margin: 0.5rem;
+}
+
+#articleImage img{
+    width: 100%;
+    width: 100%;
 }
 
 .date {
@@ -161,7 +163,7 @@ form {
     font-size: 1rem;
 }
 
-#account {
+#account, #link, #connect {
     display: flex;
     flex-direction: column;
     justify-content: space-around;

@@ -135,7 +135,7 @@ class AttendanceManager extends Manager{
             if ($data) {
                 foreach ($data as $datum) {
                     $user = (new UserManager())->getById(intval($datum['user_id']));
-                    $lesson = (new LessonManager())->getById(intval($datum['lesson_id']));
+                    $lesson = (LessonManager::getById(intval($datum['lesson_id']));
                     $item = new Attendance(intval($datum['id']), $user , $lesson);
                     $array[] = $item;
                 }

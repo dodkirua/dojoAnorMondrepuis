@@ -13,7 +13,7 @@ class RoleManager extends Manager {
      * @param int $id
      * @return Role|null
      */
-    public function getById(int $id): ?Role {
+    public static function getById(int $id): ?Role {
 
         $request = DB::getInstance()->prepare("SELECT * FROM role where id = :id");
         $request->bindValue(":id",$id);
@@ -32,7 +32,7 @@ class RoleManager extends Manager {
      * return a array with all the role
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $classes = [];
         $request = DB::getInstance()->prepare("SELECT * FROM role");
         $result = $request->execute();
@@ -55,7 +55,7 @@ class RoleManager extends Manager {
      * @param string|null $name
      * @return bool
      */
-    public function update(int $id, string $name = null): bool    {
+    public static function update(int $id, string $name = null): bool    {
         // modify the not null values
         if (is_null($name)){
             $data = self::getById($id);
@@ -75,7 +75,7 @@ class RoleManager extends Manager {
      * @param string $name
      * @return bool
      */
-    public function add(string $name) : bool {
+    public static function add(string $name) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO role 
                     (name)
                     VALUES (:name)

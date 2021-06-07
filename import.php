@@ -57,7 +57,7 @@ require_once './Controller/Classes/IndexController.php';
 require_once './Controller/Classes/ErrorController.php';
 require_once './Controller/Classes/DisconnectController.php';
 require_once './Controller/Classes/AccountController.php';
-
+require_once './Controller/Classes/ArticleController.php';
 
 //Utility
 require_once './Model/Utility/Security.php';

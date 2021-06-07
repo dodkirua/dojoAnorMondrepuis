@@ -142,8 +142,8 @@ class DanGettingManager extends Manager{
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $datum) {
-                    $dan = (new DanManager())->getById(intval($datum['dan_id']));
-                    $user = (new UserManager())->getById(intval($datum['user_id']));
+                    $dan = DanManager::getById(intval($datum['dan_id']));
+                    $user = UserManager::getById(intval($datum['user_id']));
                     $item = new DanGetting(intval($datum['id']), $datum['name'], $dan, $user);
                     $array[] = $item;
                 }

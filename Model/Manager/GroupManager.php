@@ -13,7 +13,7 @@ class GroupManager extends Manager{
      * @param int $id
      * @return Group|null
      */
-    public function getById (int $id) : ?Group{
+    public static function getById (int $id) : ?Group{
         $request = DB::getInstance()->prepare("SELECT * FROM `group` where id = :id");
         $request->bindValue(":id",$id);
         return self::getOne($request);
@@ -24,7 +24,7 @@ class GroupManager extends Manager{
      * @param string $name
      * @return Group|null
      */
-    public function getByName(string $name) : ?Group{
+    public static function getByName(string $name) : ?Group{
         $request = DB::getInstance()->prepare("SELECT * FROM `group` where name = :name");
         $request->bindValue(":name",$name);
         return self::getOne($request);
@@ -34,7 +34,7 @@ class GroupManager extends Manager{
      * return a array with all the group
      * @return array
      */
-    public function getAll() : array {
+    public static function getAll() : array {
         $array = [];
         $request = DB::getInstance()->prepare("SELECT * FROM `group`");
         $result = $request->execute();
@@ -58,7 +58,7 @@ class GroupManager extends Manager{
      * @param int|null $duration
      * @return bool
      */
-    public function update(int $id, string $name = null,int $duration = null) : bool{
+    public static function update(int $id, string $name = null,int $duration = null) : bool{
 
         if (is_null($name)) {
             $data = self::getById($id);
@@ -82,7 +82,7 @@ class GroupManager extends Manager{
      * @param int $duration
      * @return bool
      */
-    public function add(string $name, int $duration) : bool {
+    public static function add(string $name, int $duration) : bool {
         $request = DB::getInstance()->prepare("INSERT INTO `group` 
         (name,duration)
         VALUES (:name, :duration)
@@ -97,7 +97,7 @@ class GroupManager extends Manager{
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool {
+    public static function delete(int $id) : bool {
         //delete the lesson
         $manager = new LessonManager();
         $array = $manager->getAllByGroup($id);
@@ -122,7 +122,7 @@ class GroupManager extends Manager{
      * @param PDOStatement $request
      * @return Group|null
      */
-    private function getOne(PDOStatement $request ) : ?Group {
+    private static function getOne(PDOStatement $request ) : ?Group {
         $request->execute();
         $data = $request->fetch();
         if ($data) {

@@ -285,7 +285,7 @@ class UserManager extends Manager {
             $licence = strtoupper($data['licence']);
             return new User(intval($data['id']), $username , $data['mail'], $pwd, $licence ,
                 $data['check'], $data['validation'], $data['validation_key'], $name, $surname, $data['phone'] ,
-                (new RoleManager())->getById(intval($data['role_id'])));
+                (RoleManager::getById(intval($data['role_id']))));
         }
 
         return null;

@@ -186,7 +186,7 @@
     ?>
     <?php
       // \dev\Dev::pre($_SESSION);
-       \dev\Dev::pre2($_SESSION);
+      // \dev\Dev::pre2($_SESSION);
 ?>
 
 </div>
