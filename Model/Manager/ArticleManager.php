@@ -143,7 +143,9 @@ class ArticleManager extends Manager {
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $item) {
-                    $class = new Article(intval($item['id']), $item['title'], $item['content'], $item['date'], $item['image'], (new UserManager())->getById(intval($data['user_id'])));
+                    $user = UserManager::getById(intval($item['user_id']));
+                    $class = new Article(intval($item['id']), $item['title'], $item['content'], $item['date'],
+                        $item['image'], $user);
                     $classes[] = $class;
                 }
             }
@@ -168,7 +170,7 @@ class ArticleManager extends Manager {
                     ->setContent($data['content'])
                     ->setDate($data['date'])
                     ->setImage($data['image'])
-                    ->setUser((UserManager::getById($data['user_id'])));
+                    ->setUser(UserManager::getById($data['user_id']));
             }
         }
         return $class;
