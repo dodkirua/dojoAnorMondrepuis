@@ -23,6 +23,10 @@ class ArticleManager extends Manager {
         return self::getOneTmp($request);
     }
 
+    /**
+     * return rhe last article
+     * @return Article
+     */
     public  static function getLast() : Article{
 
         $request = DB::getInstance()->prepare("SELECT * FROM article where id = (SELECT MAX(id) from article)");
@@ -111,6 +115,17 @@ class ArticleManager extends Manager {
         $request->bindValue(":user", $userId);
 
         return $request->execute();
+    }
+
+    public static function lastId() : int{
+        $request = DB::getInstance()->prepare("SELECT MAX(id) FROM `article`");
+        if ($request->execute()){
+            $data = $request->fetch();
+            return $data['MAX(id)'];
+        }
+        else {
+            return -1;
+        }
     }
 
     /**

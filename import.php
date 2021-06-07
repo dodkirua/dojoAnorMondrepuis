@@ -58,6 +58,7 @@ require_once './Controller/Classes/ErrorController.php';
 require_once './Controller/Classes/DisconnectController.php';
 require_once './Controller/Classes/AccountController.php';
 require_once './Controller/Classes/ArticleController.php';
+require_once './Controller/Classes/AdminController.php';
 
 //Utility
 require_once './Model/Utility/Security.php';

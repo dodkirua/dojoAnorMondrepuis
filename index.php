@@ -1,6 +1,7 @@
 <?php
 
 use Controller\Classes\AccountController;
+use Controller\Classes\AdminController;
 use Controller\Classes\ArticleController;
 use Controller\Classes\ConnectController;
 use Controller\Classes\ErrorController;
@@ -24,6 +25,12 @@ if (isset($_GET['ctrl'])){
             break;
         case 'article' :
            ArticleController::display();
+            break;
+        case 'articleAdmin' :
+            AdminController::article();
+            break;
+        case 'admin' :
+            AdminController::display();
             break;
         case 'form':
             switch ($_GET['action']){
@@ -70,6 +77,15 @@ if (isset($_GET['ctrl'])){
                     }
                     else {
                         AccountController::address(ErrorController::Error($mod));
+                    }
+                    break;
+                case 'addArticle' :
+                        $mod = AdminController::addArticle();
+                    if ($mod === 1){
+                        AdminController::article();
+                    }
+                    else {
+                        AdminController::article(ErrorController::Error($mod));
                     }
                     break;
             }

@@ -43,6 +43,12 @@ class ErrorController extends Controller{
             case -10:
                 $var['error'] = "Problème lors de l'ajout'";
                 break;
+            case -11:
+                $var['error'] = "Problème lors de l'upload du fichier";
+                break;
+            case -12:
+                $var['error'] = "Mauvais type de fichier (jpg,jpeg,png)";
+                break;
             default :
                 exit;
         }

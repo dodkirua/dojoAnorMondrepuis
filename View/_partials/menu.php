@@ -22,6 +22,15 @@
         <div id="link">
             <a href='/index.php' title='Home'>Accueil</a>
             <a href='/index.php?ctrl=article' title='News'>Nouvelle</a>
+            <?php
+
+            if ($_SESSION['user']['role']['id'] !== 1){
+                ?>
+                <a href='/index.php?ctrl=admin' title='Admin'>Administration</a>
+            <?php
+            }
+            ?>
+
         </div>
 
     </div>
