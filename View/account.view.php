@@ -33,7 +33,7 @@
                 <input type='submit' value='Changer le mot de passe' class="margin">
             </form>
 
-            <form action='/index.php?ctrl=form&action=information&id=<?= $user['id'] ?>' method='post'>
+            <form action='/index.php?ctrl=form&action=information' method='post'>
                 <input type='submit' value='Modifier mes informations' class="margin">
             </form>
         </div>
