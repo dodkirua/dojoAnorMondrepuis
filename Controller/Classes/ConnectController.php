@@ -82,6 +82,7 @@ class ConnectController extends Controller {
         if ($address !== []){
             foreach ($address as $add){
                 $tmp['address'] = $add->getAllData()['address'];
+                $tmp['address']['address_book_id'] = $add->getId();
             }
         }
         Utility::addToSession($array);
@@ -96,6 +97,7 @@ class ConnectController extends Controller {
                     if ($address !== []) {
                         foreach ($address as $item) {
                             $tmpArray[$i]['address'][] = $item->getAllData()['address'];
+                            $tmpArray[$i]['address']['address_book_id'] = $add->getId();
                         }
                         $i++;
                     }
@@ -113,6 +115,7 @@ class ConnectController extends Controller {
                         if ($address !== []) {
                             foreach ($address as $item) {
                                 $tmpArray[$i]['address'][] = $item->getAllData()['address'];
+                                $tmpArray[$i]['address']['address_book_id'] = $add->getId();
                             }
                             $i++;
                         }

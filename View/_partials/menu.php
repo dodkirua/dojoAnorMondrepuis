@@ -6,8 +6,8 @@
         if (isset($_SESSION['user']) && !is_null($_SESSION['user'])){?>
         <div id='account'>
             <p>Bienvenue  <?= $_SESSION['user']['username'] ?> </p>
-            <a href='/index.php' title='home'>Accueil</a>
-            <a href='/index.php?ctrl=account' title='account'>Votre espace</a>
+            <a href='/index.php' title='Home'>Accueil</a>
+            <a href='/index.php?ctrl=account' title='Account'>Votre espace</a>
             <a href='/index.php?ctrl=disconnect' title='Disconnect'>Déconnexion</a>
         </div>
         <?php

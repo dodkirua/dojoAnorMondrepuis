@@ -135,7 +135,6 @@ class AccountController extends Controller{
             isset($_POST['country'])){
             if (isset($_POST['num'])) {
                 $num = intval($_POST['num']);
-                $_SESSION['address']['num'] = $num;
             }
             else {
                 $num = null;
@@ -144,7 +143,6 @@ class AccountController extends Controller{
             if (isset($_POST['street'])) {
                 $street = mb_strtolower(Security::sanitize($_POST['street2'])). " " .
                     mb_strtolower(Security::sanitize($_POST['street']));
-                $_SESSION['address']['street'] = $street;
             }
             else {
                 $street = null;
@@ -152,7 +150,6 @@ class AccountController extends Controller{
 
             if (isset($_POST['zip'])) {
                 $zip = intval($_POST['zip']);
-                $_SESSION['address']['zip'] = $zip;
             }
             else {
                 $zip = null;
@@ -160,7 +157,6 @@ class AccountController extends Controller{
 
             if (isset($_POST['city'])) {
                 $city = mb_strtolower(Security::sanitize($_POST['city']));
-                $_SESSION['address']['city'] = ucfirst($city);
             }
             else {
                 $city = null;
@@ -168,7 +164,6 @@ class AccountController extends Controller{
 
             if (isset($_POST['country'])) {
                 $country = mb_strtolower(Security::sanitize($_POST['country']));
-                $_SESSION['address']['country'] = ucfirst($country);
             }
             else {
                 $country = null;
@@ -176,37 +171,48 @@ class AccountController extends Controller{
 
             if (isset($_POST['add']) && $_POST['add'] !== "") {
                 $add = mb_strtolower(Security::sanitize($_POST['add']));
-                $_SESSION['address']['add'] = $add;
             }
             else {
                 $add = null;
             }
+
+            // add or update address
             $addressId = AddressManager::search($num,$street,$zip,$city,$country,$add);
             if ($addressId !== -1) {
-                if (count(AddressBookManager::getAllByAddress($addressId)) === 1) {
-                    if (AddressManager::update($addressId, $num, $street, $zip, $city, $country, $add)) {
-                        ConnectController::userInfo(null,null,$_SESSION['user']['id']);
-                        return 1;
-                    } else {
-                        return -7;
+                if (AddressBookManager::update($_SESSION['user']['address']['address_book_id'],$_SESSION['user']['id'], $addressId)) {
+                    //test for delete old
+                    $addressOldId = $_SESSION['user']['address']['id'];
+                    $oldBook = AddressBookManager::getAllByAddress($addressOldId);
+                    if (count($oldBook) === 0) {
+                        AddressManager::delete($addressOldId);
                     }
-                }
+                    ConnectController::userInfo(null,null,$_SESSION['user']['id']);
+                    return 1;
+                    }
+                else {
+                    return -7;
+                    }
             }
            if (AddressManager::add($num, $street, $zip, $city,$country,$add)){
                $addressId = AddressManager::search($num,$street,$zip,$city,$country,$add);
-               if (AddressBookManager::add($_SESSION['user']['id'],$addressId)){
-                   ConnectController::userInfo(null,null,$_SESSION['user']['id']);
+               if (AddressBookManager::update($_SESSION['user']['address']['address_book_id'],$_SESSION['user']['id'],
+                   $addressId)) {
+                   //test for delete old
+                   $addressOldId = $_SESSION['user']['address']['id'];
+                   $oldBook = AddressBookManager::getAllByAddress($addressOldId);
+                   if (count($oldBook) === 0) {
+                       AddressManager::delete($addressOldId);
+                   }
+                   ConnectController::userInfo(null, null, $_SESSION['user']['id']);
                    return 1;
                }
                else {
-                   return -10;
+                   return -7;
                }
            }
            else{
                return -10;
            }
-
-
         }
         else {
             return -5;

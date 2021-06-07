@@ -55,7 +55,7 @@
                 <p>Pays : <?= $address['country'] ?></p>
 
                 <?php
-                if  (!is_null($address['add'])){
+                if  (!is_null($address['add']) && $address['add'] !== "" ){
                     ?>
                     <p>Information complémentaire: <?= $address['add'] ?></p>
                     <?php
@@ -82,7 +82,7 @@
             ?>
             <div class="information">
                 <div>
-                <h2>personne n° <?=  $key ?></h2>
+                <h2>Personne n° <?=  $key ?></h2>
                 <p>Username : <?=  $item['username'] ?></p>
 
                 <?php
@@ -115,7 +115,7 @@
                             <p>Pays : <?= $address['country'] ?></p>
 
                             <?php
-                            if  (!is_null($address['add'])){
+                            if  (!is_null($address['add']) && $address['add'] !== "" ){
                                 ?>
                                 <p>Information complémentaire: <?= $address['add'] ?></p>
                                 <?php
@@ -138,7 +138,7 @@
         foreach ($child as $key => $item){?>
             <div class="information">
                 <div>
-                    <h2>personne n° <?=  $key ?></h2>
+                    <h2>Personne n° <?=  $key ?></h2>
                     <p>Username : <?=  $item['username'] ?></p>
 
                     <?php
@@ -171,7 +171,7 @@
                             <p>Pays : <?= $address['country'] ?></p>
 
                             <?php
-                            if  (!is_null($address['add'])){
+                            if  (!is_null($address['add']) && $address['add'] !== "" ){
                                 ?>
                                 <p>Information complémentaire: <?= $address['add'] ?></p>
                                 <?php
@@ -186,7 +186,7 @@
     ?>
     <?php
       // \dev\Dev::pre($_SESSION);
-      \dev\Dev::pre2($_SESSION);
+       \dev\Dev::pre2($_SESSION);
 ?>
 
 </div>
