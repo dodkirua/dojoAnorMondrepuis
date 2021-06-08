@@ -7,6 +7,7 @@ namespace Controller\Classes;
 
 use Model\DB;
 use Model\Entity\Article;
+use Model\Manager\AddressBookManager;
 use Model\Manager\ArticleManager;
 use Model\Manager\RoleManager;
 use Model\Manager\UserManager;
@@ -36,7 +37,16 @@ class AdminController extends Controller {
 
     public static function user(array $var = null){
         foreach (UserManager::getAll() as $user){
-            $var['user'][] = $user->getAllData();
+            $tmp = $user->getAllData();
+            $address = AddressBookManager::getAllByUser($user->getId()); //add data address in $array
+            if ($address !== []){
+                foreach ($address as $add){
+                    $tmp['address'] = $add->getAllData()['address'];
+                    $tmp['address_book_id'] = $add->getId();
+                }
+
+            }
+            $var['user'][] = $tmp;
         }
         foreach (RoleManager::getAll() as $role){
             $var['role'][] = $role->getAlldata();
@@ -177,5 +187,20 @@ class AdminController extends Controller {
             return -5;
         }
     }
+
+    public static function delUser() :int{
+        if (isset($_POST['userId'])) {
+            if(UserManager::delete(intval($_POST['userId']))){
+                return 1;
+            }
+            else {
+                return -13;
+            }
+        }
+        else {
+            return -5;
+        }
+    }
+
 
 }

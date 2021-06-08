@@ -112,6 +112,16 @@ if (isset($_GET['ctrl'])){
                         AdminController::article(ErrorController::Error($mod));
                     }
                     break;
+                case 'delUser' :
+                    $mod = AdminController::delUser();
+
+                    if ($mod === 1){
+                        AdminController::user();
+                    }
+                    else {
+                        AdminController::user(ErrorController::Error($mod));
+                    }
+                    break;
             }
             break;
 

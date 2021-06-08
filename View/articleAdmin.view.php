@@ -11,6 +11,7 @@
 
     //\dev\Dev::pre($user);
 
+    // display for delete
     if (isset($del)){
         $article = $var['article'][$del];
         ?>
@@ -43,7 +44,7 @@
         </div>
     <?php
     }
-
+    //display for mod
     elseif (isset($mod)){
         $article = $var['article'][$mod];
         ?>
@@ -71,15 +72,15 @@
     }
 
     else {
+        // display action button
         ?>
-
         <div id='article' class='display information'>
             <div id="addButton">
                 <button class="button" value="addArticle">Ajout d'un article</button>
                 <button class="button" value="delArticle">Supprimer un article</button>
                 <button class="button" value="modArticle">Modifier un article</button>
             </div>
-
+        <!--display for add-->
             <div id="addArticle" class="articleSelect">
                 <h2>Ajout d'un article</h2>
                 <form id="modifyAddress" action="/index.php?ctrl=form&action=addArticle" method="post" class="panel" enctype="multipart/form-data">
@@ -103,7 +104,7 @@
                 </form>
 
             </div>
-
+            <!--display array of article title-->
             <div id="select" class="articleSelect">
                 <h2 id="titleArticle"></h2>
                 <form id="formSelect" action="/index.php?ctrl=articleAdmin" method="post" class="panel">
@@ -126,7 +127,7 @@
             </div>
 
 
-
+        <!--error display-->
             <div>
                 <p class="error"><?= $var['error'] ?></p>
             </div>

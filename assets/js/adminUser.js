@@ -1,7 +1,7 @@
 
 
 const button = document.getElementsByClassName('button');
-const addArticle = document.getElementById('addArticle');
+const add = document.getElementById('add');
 const addButton = document.getElementById('addButton');
 const select = document.getElementById('select');
 const selectSubmit = document.getElementById('selectSubmit');
@@ -10,23 +10,23 @@ const title = document.getElementById('titleArticle');
 
 for (let i = 0 ; i < button.length ; i++){
     button[i].addEventListener('click',function (e){
-        console.log(articleSelect)
+        console.log(e.target)
         addButton.style.display = "none";
         switch (e.target.value) {
-            case 'addArticle':
-                addArticle.style.display = 'flex';
+            case 'add':
+                add.style.display = 'flex';
                 break;
-            case 'delArticle':
+            case 'del':
                 select.style.display = 'flex';
-                selectSubmit.value = "Sélectionner article à supprimer";
+                selectSubmit.value = "Sélectionner un utilisateur à supprimer";
                 articleSelect.setAttribute('name','del');
-                title.innerHTML = "Suppression d'un article"
+                title.innerHTML = "Suppression d'un utilisateur"
                 break;
-            case 'modArticle':
+            case 'mod':
                 select.style.display = 'flex';
-                selectSubmit.value = "Sélectionner article à modifier";
+                selectSubmit.value = "Sélectionner un utilisateur à modifier";
                 articleSelect.setAttribute('name','mod');
-                title.innerHTML = "Modification d'un article"
+                title.innerHTML = "Modification d'un utilisateur";
                 break;
         }
     });
