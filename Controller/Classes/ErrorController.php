@@ -49,6 +49,9 @@ class ErrorController extends Controller{
             case -12:
                 $var['error'] = "Mauvais type de fichier (jpg,jpeg,png)";
                 break;
+            case -13:
+                $var['error'] = "Problème lors de la suppression";
+                break;
             default :
                 exit;
         }

@@ -11,7 +11,7 @@ use Model\Manager\GroupManager;
 use Model\Entity\CategoryAge;
 use Model\Manager\CategoryAgeManager;
 
-class GroupCategoryManager{
+class GroupCategoryManager extends Manager {
 
     /**
      * return a GroupCategory by id

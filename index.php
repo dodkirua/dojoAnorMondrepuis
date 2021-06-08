@@ -32,6 +32,9 @@ if (isset($_GET['ctrl'])){
         case 'admin' :
             AdminController::display();
             break;
+        case 'articleDelete':
+            AdminController::delArticle();
+            break;
         case 'form':
             switch ($_GET['action']){
                 case 'connect':
@@ -81,6 +84,24 @@ if (isset($_GET['ctrl'])){
                     break;
                 case 'addArticle' :
                         $mod = AdminController::addArticle();
+                    if ($mod === 1){
+                        AdminController::article();
+                    }
+                    else {
+                        AdminController::article(ErrorController::Error($mod));
+                    }
+                    break;
+                case 'delArticle' :
+                    $mod = AdminController::delArticle();
+                    if ($mod === 1){
+                        AdminController::article();
+                    }
+                    else {
+                        AdminController::article(ErrorController::Error($mod));
+                    }
+                    break;
+                case 'modArticle' :
+                    $mod = AdminController::modArticle();
                     if ($mod === 1){
                         AdminController::article();
                     }

@@ -4,6 +4,7 @@
 namespace Controller\Classes;
 
 
+
 use Model\Entity\Article;
 use Model\Manager\ArticleManager;
 use Model\Utility\Security;
@@ -23,6 +24,9 @@ class AdminController extends Controller {
      * @param array|null $var
      */
     public static function article(array $var = null){
+        foreach (ArticleManager::getAll() as $article){
+            $var['article'][] = $article->getAlldata();
+        }
         self::render('articleAdmin',"Gestion des articles",$var);
     }
 
@@ -60,7 +64,8 @@ class AdminController extends Controller {
      *  -11 : upload problem
      * -12 : wrong type of image
      * -13 : file size too large
-     * @param Article $id
+     * -10 : upgrade problem
+     * @param int $id
      * @return int
      */
     private static function addImage(int $id) : int {
@@ -76,10 +81,13 @@ class AdminController extends Controller {
 
                     $tmpName = $_FILES['image']['tmp_name'];
                     $path = pathinfo($_FILES['image']['name']);
-                    $name = "article".$id->getId();
+                    $name = "article".$id;
                     move_uploaded_file($tmpName,'/assets/img/article/' . $name . $path['extension']);
-                    if (ArticleManager::update($id->getId(),null,null,$name)) {
+                    if (ArticleManager::update($id,null,null,$name)) {
                         return 1;
+                    }
+                    else {
+                       return -10;
                     }
                 }
                 else {
@@ -92,6 +100,67 @@ class AdminController extends Controller {
         }
         else {
             return -11;
+        }
+    }
+
+    /**
+     * delete an article
+     * -5 : $_Post problem
+     * -13 : delete problem
+     * @return int
+     */
+    public static function delArticle() : int{
+        if (isset($_POST['articleId'])) {
+            if(ArticleManager::delete(intval($_POST['articleId']))){
+                return 1;
+            }
+            else {
+                return -13;
+            }
+        }
+        else {
+            return -5;
+        }
+    }
+
+    /**
+     * modify article
+     * @return int
+     */
+    public static function modArticle() : int {
+        if (isset($_POST['title'],$_POST['content'])){
+            if (isset($_POST['title'])){
+                $title = mb_strtolower(Security::sanitize($_POST['title']));
+            }
+            else {
+                $title = null;
+            }
+            if (isset($_POST['content'])){
+                $content = mb_strtolower(Security::sanitize($_POST['content']));
+            }
+            else {
+                $content = null;
+            }
+
+            /*if (isset($_FILES['image'])){
+                $return = self::addImage($article->getId());
+            }
+            else {
+                $img = $article->getImage();
+                if (!is_null($img)){
+
+                }
+            }*/
+            if (ArticleManager::update(intval($_POST['articleId']),$title,$content)){
+                return 1;
+            }
+            else {
+                return -7;
+            }
+
+        }
+        else {
+            return -5;
         }
     }
 
