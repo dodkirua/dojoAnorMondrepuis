@@ -117,17 +117,6 @@ class ArticleManager extends Manager {
         return $request->execute();
     }
 
-    public static function lastId() : int{
-        $request = DB::getInstance()->prepare("SELECT MAX(id) FROM `article`");
-        if ($request->execute()){
-            $data = $request->fetch();
-            return $data['MAX(id)'];
-        }
-        else {
-            return -1;
-        }
-    }
-
     /**
      * delete a article by id
      * @param int $id

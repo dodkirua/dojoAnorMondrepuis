@@ -5,11 +5,13 @@ namespace Controller\Classes;
 
 
 
+use Model\DB;
 use Model\Entity\Article;
 use Model\Manager\ArticleManager;
 use Model\Manager\RoleManager;
 use Model\Manager\UserManager;
 use Model\Utility\Security;
+use PDO;
 
 class AdminController extends Controller {
 
@@ -56,7 +58,7 @@ class AdminController extends Controller {
 
             if (ArticleManager::add($content,$userId,null,$title)){
                 if (isset($_FILES['image'])){
-                    return self::addImage(ArticleManager::lastId());
+                    return self::addImage(intval(DB::getInstance()->lastInsertId()) );
                 }
                 else {
                     return 1;
