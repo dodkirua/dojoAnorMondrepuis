@@ -35,6 +35,9 @@ if (isset($_GET['ctrl'])){
         case 'articleDelete':
             AdminController::delArticle();
             break;
+        case 'userAdmin':
+            AdminController::user();
+            break;
         case 'form':
             switch ($_GET['action']){
                 case 'connect':

@@ -50,9 +50,10 @@ class UserManager extends Manager {
             $data = $request->fetchAll();
             if ($data) {
                 foreach ($data as $item) {
+                    $role = RoleManager::getById(intval($item['role_id']));
                     $class = new User(intval($item['id']),$item['username'],$item['mail'],'', $item['licence'] ,
                         $item['check'], $item['validation_key'], $item['validation'], $item['name'], $item['surname'],
-                        $item['phone'] ,(new RoleManager())->getById($data['role_id']));
+                        $item['phone'] ,$role );
                     $classes[] = $class;
                 }
             }

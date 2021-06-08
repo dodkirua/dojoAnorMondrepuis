@@ -48,7 +48,7 @@
         $article = $var['article'][$mod];
         ?>
         <div id="modArticle" >
-                <h2>Ajout d'un article</h2>
+                <h2>Modification d'un article</h2>
                 <form id="modifyAddress" action="/index.php?ctrl=form&action=modArticle" method="post" class="panel">
                     <div class="label">
                         <label for="title" >Titre </label>
@@ -82,7 +82,7 @@
 
             <div id="addArticle" class="articleSelect">
                 <h2>Ajout d'un article</h2>
-                <form id="modifyAddress" action="/index.php?ctrl=form&action=addArticle" method="post" class="panel">
+                <form id="modifyAddress" action="/index.php?ctrl=form&action=addArticle" method="post" class="panel" enctype="multipart/form-data">
                     <div class="label">
                         <label for="title" >Titre </label>
                         <input id="title" name="title"  type="text">
@@ -99,13 +99,13 @@
                         <input id="user" name="user"  value="<?= $user["id"] ?>" type="hidden">
                     </div >
 
-                    <input type="submit" id="modifysubmit"  value="Enregistrer les modifications">
+                    <input type="submit" id="modifysubmit"  value="Valider">
                 </form>
 
             </div>
 
             <div id="select" class="articleSelect">
-                <h2>Suppression d'un article</h2>
+                <h2 id="titleArticle"></h2>
                 <form id="formSelect" action="/index.php?ctrl=articleAdmin" method="post" class="panel">
                     <div class="label">
                         <label for="articleSelect" >Titre </label>

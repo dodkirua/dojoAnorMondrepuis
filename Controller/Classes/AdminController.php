@@ -7,6 +7,8 @@ namespace Controller\Classes;
 
 use Model\Entity\Article;
 use Model\Manager\ArticleManager;
+use Model\Manager\RoleManager;
+use Model\Manager\UserManager;
 use Model\Utility\Security;
 
 class AdminController extends Controller {
@@ -28,6 +30,16 @@ class AdminController extends Controller {
             $var['article'][] = $article->getAlldata();
         }
         self::render('articleAdmin',"Gestion des articles",$var);
+    }
+
+    public static function user(array $var = null){
+        foreach (UserManager::getAll() as $user){
+            $var['user'][] = $user->getAllData();
+        }
+        foreach (RoleManager::getAll() as $role){
+            $var['role'][] = $role->getAlldata();
+        }
+        self::render('adminUser',"Gestion des utilisateurs",$var);
     }
 
     /**
