@@ -20,7 +20,7 @@ for (let i = 0 ; i < button.length ; i++){
                 select.style.display = 'flex';
                 selectSubmit.value = "Sélectionner un utilisateur à supprimer";
                 articleSelect.setAttribute('name','del');
-                title.innerHTML = "Suppression d'un utilisateur"
+                title.innerHTML = "Suppression d'un utilisateur";
                 break;
             case 'mod':
                 select.style.display = 'flex';

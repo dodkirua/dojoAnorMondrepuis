@@ -132,7 +132,8 @@ class AccountController extends Controller{
     public static function modifyAddress() :int   {
 
         if (isset($_POST['num']) || isset($_POST['street']) || isset($_POST['zip']) || isset($_POST['city']) ||
-            isset($_POST['country'])){
+            isset($_POST['country'] ) && isset($_POST['userId'] ) && isset($_POST['addressBookId'] )&&
+            isset($_POST['oldAddressId'] )){
             if (isset($_POST['num'])) {
                 $num = intval($_POST['num']);
             }
@@ -179,14 +180,14 @@ class AccountController extends Controller{
             // add or update address
             $addressId = AddressManager::search($num,$street,$zip,$city,$country,$add);
             if ($addressId !== -1) {
-                if (AddressBookManager::update($_SESSION['user']['address']['address_book_id'],$_SESSION['user']['id'], $addressId)) {
+                if (AddressBookManager::update(intval($_POST['addressBookId']), intval($_POST['userId']), $addressId)) {
                     //test for delete old
-                    $addressOldId = $_SESSION['user']['address']['id'];
+                    $addressOldId = intval($_POST['oldAddressId']);
                     $oldBook = AddressBookManager::getAllByAddress($addressOldId);
                     if (count($oldBook) === 0) {
                         AddressManager::delete($addressOldId);
                     }
-                    ConnectController::userInfo(null,null,$_SESSION['user']['id']);
+                    ConnectController::userInfo(null,null, intval($_POST['userId']));
                     return 1;
                     }
                 else {
@@ -195,15 +196,14 @@ class AccountController extends Controller{
             }
            if (AddressManager::add($num, $street, $zip, $city,$country,$add)){
                $addressId = AddressManager::search($num,$street,$zip,$city,$country,$add);
-               if (AddressBookManager::update($_SESSION['user']['address']['address_book_id'],$_SESSION['user']['id'],
+               if (AddressBookManager::update(intval($_POST['addressBookId']),intval($_POST['userId']),
                    $addressId)) {
-                   //test for delete old
-                   $addressOldId = $_SESSION['user']['address']['id'];
+                   //test for delete old address
+                   $addressOldId = intval($_POST['oldAddressId']);
                    $oldBook = AddressBookManager::getAllByAddress($addressOldId);
                    if (count($oldBook) === 0) {
                        AddressManager::delete($addressOldId);
                    }
-                   ConnectController::userInfo(null, null, $_SESSION['user']['id']);
                    return 1;
                }
                else {

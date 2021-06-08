@@ -68,8 +68,9 @@ class UserManager extends Manager {
      * @return bool
      */
     public static function update(int $id, array &$param): bool    {
-        // modify the values if is null for the information of DB
 
+        if ($id !== 1){
+            // modify the values if is null for the information of DB
             if (!isset($param['pass'])){
                 $data = self::getById($id,true);
                 $param['pass'] = $data->getPass();
@@ -115,28 +116,31 @@ class UserManager extends Manager {
 
             if (!isset($param['phone'])) {
             $param['phone'] = $data->getPhone();
+            }
+
+            $request = DB::getInstance()->prepare("UPDATE user 
+                        SET username = :username, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
+                            validation_key = :key, validation = :validation, licence = :licence , name = :name, 
+                            surname = :surname, phone = :phone
+                        WHERE id = :id
+                        ");
+            $request->bindValue(":id",$id);
+            $request->bindValue(":username",mb_strtolower($param['username']));
+            $request->bindValue(":mail",mb_strtolower($param['mail']));
+            $request->bindValue(":pass",$param['pass']);
+            $request->bindValue(":role",$param['role_id']);
+            $request->bindValue(":check",$param['check']);
+            $request->bindValue(":key",$param['key']);
+            $request->bindValue(":validation",$param['validation']);
+            $request->bindValue(":licence",$param['licence']);
+            $request->bindValue(":phone",$param['phone']);
+            $request->bindValue(":name",mb_strtolower($param['name']));
+            $request->bindValue(":surname",mb_strtolower($param['surname']));
+            return $request->execute();
         }
-
-
-        $request = DB::getInstance()->prepare("UPDATE user 
-                    SET username = :username, mail = :mail, pass = :pass, role_id = :role , `check` = :check, 
-                        validation_key = :key, validation = :validation, licence = :licence , name = :name, 
-                        surname = :surname, phone = :phone
-                    WHERE id = :id
-                    ");
-        $request->bindValue(":id",$id);
-        $request->bindValue(":username",mb_strtolower($param['username']));
-        $request->bindValue(":mail",mb_strtolower($param['mail']));
-        $request->bindValue(":pass",$param['pass']);
-        $request->bindValue(":role",$param['role_id']);
-        $request->bindValue(":check",$param['check']);
-        $request->bindValue(":key",$param['key']);
-        $request->bindValue(":validation",$param['validation']);
-        $request->bindValue(":licence",$param['licence']);
-        $request->bindValue(":phone",$param['phone']);
-        $request->bindValue(":name",mb_strtolower($param['name']));
-        $request->bindValue(":surname",mb_strtolower($param['surname']));
-        return $request->execute();
+        else {
+            return false;
+        }
     }
 
     /**

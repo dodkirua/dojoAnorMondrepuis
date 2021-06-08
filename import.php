@@ -51,7 +51,6 @@ require_once './Model/Manager/ResultManager.php';
 //Controller
 // require_once './Controller/Classes/';
 require_once './Controller/Classes/Controller.php';
-require_once './Controller/Classes/RegistrationController.php';
 require_once './Controller/Classes/ConnectController.php';
 require_once './Controller/Classes/IndexController.php';
 require_once './Controller/Classes/ErrorController.php';

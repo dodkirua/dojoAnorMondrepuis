@@ -29,7 +29,7 @@ $street = implode(" ",$street);
             <input id="cityModify" name="city"  value="<?= $address["city"] ?>" type="text">
         </div>
         <div class="label">
-            <label for="countryModify" >Licence </label>
+            <label for="countryModify" >Pays </label>
             <input id="countryModify" name="country"  value="<?= $address["country"] ?>" type="text" >
         </div>
         <div class="label">

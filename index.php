@@ -114,7 +114,15 @@ if (isset($_GET['ctrl'])){
                     break;
                 case 'delUser' :
                     $mod = AdminController::delUser();
-
+                    if ($mod === 1){
+                        AdminController::user();
+                    }
+                    else {
+                        AdminController::user(ErrorController::Error($mod));
+                    }
+                    break;
+                case 'userModify' :
+                    $mod = AdminController::modUser();
                     if ($mod === 1){
                         AdminController::user();
                     }

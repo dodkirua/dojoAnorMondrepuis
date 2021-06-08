@@ -40,6 +40,6 @@ else {
     <div>
         <p class="error"><?= $var['error'] ?></p>
     </div>
-    <?php  //\dev\Dev::pre($user); ?>
+
 </div>
 

@@ -52,13 +52,13 @@ class Utility{
             }
             return ucfirst($tmp);
         } else {
-            return str_replace(" ", "-", ucwords(str_replace("-", " ", $text)));
+            return str_replace(" ","-", ucwords(str_replace("-"," ", $text)));
         }
     }
 
     /**
      * remove 0 in start
-     * @param string $text
+     * @param string $text$param['surname']
      * @return string
      */
     public static function removeZero(string $text) : string {
@@ -70,4 +70,33 @@ class Utility{
         }
     }
 
+    /**
+     * create username by name an surname
+     * @param string $name
+     * @param string $surname
+     * @return string
+     */
+    public static function createUsername(string $name, string $surname) :string {
+        $nameExplode = explode('-',$name);
+        foreach ($nameExplode as $n){
+            $initial = $initial . substr($n, 0, 1);
+        }
+        return $initial . $surname;
+
+    }
+    
+    public static function createPassword(){    
+        $min = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+        $maj = ["A","Z","E","R","T","Y","U","I","O","P","Q","S","D","F","G","H","J","K","L","M","W","X","C","V","B","N"];
+        $number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $spe = ["+,-,*,/,%,@"];
+        $password = array_rand($min) . array_rand($maj). array_rand($number). array_rand($spe);
+        $characters = new \ArrayObject()
+        for($i=0 ; $i < 10 ; $i++) {
+            $password .= ($i%2) ? strtoupper($characters[array_rand($characters)]) : $characters[array_rand($characters)];
+        }
+
+        return $password;
+      
+    }
   }

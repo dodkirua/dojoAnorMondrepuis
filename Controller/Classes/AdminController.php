@@ -8,10 +8,12 @@ namespace Controller\Classes;
 use Model\DB;
 use Model\Entity\Article;
 use Model\Manager\AddressBookManager;
+use Model\Manager\AddressManager;
 use Model\Manager\ArticleManager;
 use Model\Manager\RoleManager;
 use Model\Manager\UserManager;
 use Model\Utility\Security;
+use Model\Utility\Utility;
 use PDO;
 
 class AdminController extends Controller {
@@ -35,6 +37,10 @@ class AdminController extends Controller {
         self::render('articleAdmin',"Gestion des articles",$var);
     }
 
+    /**
+     * display user admin panel
+     * @param array|null $var
+     */
     public static function user(array $var = null){
         foreach (UserManager::getAll() as $user){
             $tmp = $user->getAllData();
@@ -188,6 +194,12 @@ class AdminController extends Controller {
         }
     }
 
+    /**
+     * de user in admin pannel
+     *  -5 : $_Post problem
+     * -13 : delete problem
+     * @return int
+     */
     public static function delUser() :int{
         if (isset($_POST['userId'])) {
             if(UserManager::delete(intval($_POST['userId']))){
@@ -202,5 +214,129 @@ class AdminController extends Controller {
         }
     }
 
+    /**
+     * Add user in admin panel
+     * -5 : $_POST problem
+     * -7 :  update problem
+     * -10 : upgrade problem
+     * @return int
+     */
+    public static function modUser() : int    {
+        //modify user information
+        if (isset($_POST['name']) || isset($_POST['surname']) || isset($_POST['mail']) || isset($_POST['phone']) ||
+            isset($_POST['licence']) || isset($_POST['num']) || isset($_POST['street2']) || isset($_POST['street']) ||
+            isset($_POST['zip']) || isset($_POST['city']) || isset($_POST['country']) || isset($_POST['add']) ||
+            isset($_POST['userId'])) {
+            $id = intval($_POST['userId']);
 
+            if (isset($_POST['name'])) {
+                $param['name'] = mb_strtolower(Security::sanitize($_POST['name']));
+            }
+            if (isset($_POST['surname'])) {
+                $param['surname'] = mb_strtolower(Security::sanitize($_POST['surname']));
+            }
+            if (isset($_POST['licence'])) {
+                $param['licence'] = mb_strtolower(Security::sanitize($_POST['surname']));
+            }
+            if (isset($_POST['mail'])) {
+                $param['mail'] = mb_strtolower(Security::sanitize($_POST['mail']));
+            }
+            if (isset($_POST['phone'])) {
+                $param['phone'] = Utility::removeZero(mb_strtolower(Security::sanitize($_POST['phone'])));
+            }
+
+            if (UserManager::update($id, $param)) {
+
+                if (isset($_POST['num'])) {
+                    $num = intval($_POST['num']);
+                } else {
+                    $num = null;
+                }
+
+                if (isset($_POST['street'])) {
+                    $street = mb_strtolower(Security::sanitize($_POST['street2'])) . " " .
+                        mb_strtolower(Security::sanitize($_POST['street']));
+                } else {
+                    $street = null;
+                }
+
+                if (isset($_POST['zip'])) {
+                    $zip = intval($_POST['zip']);
+                } else {
+                    $zip = null;
+                }
+
+                if (isset($_POST['city'])) {
+                    $city = mb_strtolower(Security::sanitize($_POST['city']));
+                } else {
+                    $city = null;
+                }
+
+                if (isset($_POST['country'])) {
+                    $country = mb_strtolower(Security::sanitize($_POST['country']));
+                } else {
+                    $country = null;
+                }
+
+                if (isset($_POST['add']) && $_POST['add'] !== "") {
+                    $add = mb_strtolower(Security::sanitize($_POST['add']));
+                } else {
+                    $add = null;
+                }
+
+                // add or update address
+                $addressId = AddressManager::search($num, $street, $zip, $city, $country, $add);
+                if ($addressId !== -1) {
+                    if (AddressBookManager::update($_SESSION['user']['address']['address_book_id'], $_SESSION['user']['id'], $addressId)) {
+                        //test for delete old
+                        $addressOldId = $_SESSION['user']['address']['id'];
+                        $oldBook = AddressBookManager::getAllByAddress($addressOldId);
+                        if (count($oldBook) === 0) {
+                            AddressManager::delete($addressOldId);
+                        }
+                        return 1;
+                    } else {
+                        return -7;
+                    }
+                }
+                if (AddressManager::add($num, $street, $zip, $city, $country, $add)) {
+                    $addressId = AddressManager::search($num, $street, $zip, $city, $country, $add);
+                    if (AddressBookManager::update($_SESSION['user']['address']['address_book_id'], $_SESSION['user']['id'],
+                        $addressId)) {
+                        //test for delete old
+                        $addressOldId = $_SESSION['user']['address']['id'];
+                        $oldBook = AddressBookManager::getAllByAddress($addressOldId);
+                        if (count($oldBook) === 0) {
+                            AddressManager::delete($addressOldId);
+                        }
+                        return 1;
+                    } else {
+                        return -7;
+                    }
+                } else {
+                    return -10;
+                }
+            }
+        }
+        else {
+            return -5;
+        }
+    }
+
+    public static function addUser() : int {
+        if (isset($_POST['name'], $_POST['surname'])){
+            $param['name'] = mb_strtolower(Security::sanitize($_POST['name']));
+            $param['surname'] = mb_strtolower(Security::sanitize($_POST['surname']));
+            $param['username'] = Utility::createUsername($param['name'],$param['surname']);
+            if (isset($_POST['mail'])) {
+                $param['mail'] = mb_strtolower(Security::sanitize($_POST['mail']));
+            }
+            if (isset($_POST['mail'])) {
+                $param['mail'] = mb_strtolower(Security::sanitize($_POST['mail']));
+            }
+        }
+        else {
+            return -5;
+        }
+    }
 }
