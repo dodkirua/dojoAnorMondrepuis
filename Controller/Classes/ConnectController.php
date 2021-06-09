@@ -128,6 +128,15 @@ class ConnectController extends Controller {
         return 1;
     }
 
+    /**
+     * disconnect
+     */
+    public static function disconnect() {
+        $_SESSION = [];
+        session_destroy();
+        $var['action'] = 'Vous êtes bien déconnecté';
+        IndexController::display($var);
+    }
 
 }
 

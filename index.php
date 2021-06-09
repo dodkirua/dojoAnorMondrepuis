@@ -21,7 +21,7 @@ if (isset($_GET['ctrl'])){
             AccountController::display();
             break;
         case 'disconnect' :
-            DisconnectController::disconnect();
+            ConnectController::disconnect();
             break;
         case 'article' :
            ArticleController::display();

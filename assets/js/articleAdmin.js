@@ -15,16 +15,17 @@ for (let i = 0 ; i < button.length ; i++){
        switch (e.target.value) {
            case 'addArticle':
                addArticle.style.display = 'flex';
+               select.style.display = 'none';
                break;
            case 'delArticle':
                select.style.display = 'flex';
-               selectSubmit.value = "Sélectionner article à supprimer";
+               selectSubmit.value = "Supprimer";
                articleSelect.setAttribute('name','del');
                title.innerHTML = "Suppression d'un article"
                break;
            case 'modArticle':
                select.style.display = 'flex';
-               selectSubmit.value = "Sélectionner article à modifier";
+               selectSubmit.value = "Modifier";
                articleSelect.setAttribute('name','mod');
                title.innerHTML = "Modification d'un article"
                break;

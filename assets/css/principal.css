@@ -14,7 +14,7 @@
     flex-direction: column;
     padding: 0.5rem;
     border-radius: 10px;
-    box-shadow: 0 15px 50px rgba(15,0,0,.2);
+    box-shadow: 0 5px 10px rgba(15,0,0,.2);
     margin-right: 0.1rem;
 }
 
@@ -33,11 +33,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-}
-
-#mobile {
-    display: none;
 }
 
 #display{
@@ -54,7 +49,6 @@
 }
 
 .panel {
-
     width: 100%;
     height: 100%;
     margin-bottom: 0.5rem;
@@ -71,11 +65,12 @@
     margin: 1rem;
 }
 
-
-
 #articleDisplay h1{
-    text-align: center;
     text-transform: uppercase;
+}
+
+h1, h2 , h3 {
+    text-align: center;
 }
 
 #articleImage {
@@ -118,28 +113,29 @@
     align-items: center;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#form_connect {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0.5rem;
+input, button, textarea, select {
+    border-radius: 15px;
+    padding: 0.5rem;
+    border: #d30000 1px solid;
+    box-shadow: 0 5px 10px rgba(211,0,0,.2);
 }
 
 .information {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .information div {
     margin: 1rem;
+}
+
+#userFormMod, #userFormAdd{
+    width: 90%;
+}
+
+#userFormModLabel > label,#userFormAddLabel > label{
+    margin-bottom: 1rem;
 }
 
 .center {
@@ -149,28 +145,124 @@ form {
     flex-direction: column;
 }
 
-.label {
-    width: 70%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 1rem;
-}
-
-.label input {
-    padding-left: 0.2rem;
-}
-
 .smallText {
     font-size: 1rem;
 }
 
-#account, #link, #connect {
+.link{
+    text-decoration-line: none;
+    margin-top: 2rem;
+}
+
+.formDisplay {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-shrink: 1;
+}
+
+/*.formDisplay > .input, .formDisplay > .label {
+    flex-direction: column;
+}*/
+
+.form, .form ~ div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem;
+}
+
+.form ~ div, .form {
+    width: 100%;
+}
+
+.image {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.label, .input{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 100%;
+    margin: 0;
+}
+
+.label {
+    width: 70%;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+.label {
+    width: 30%;
+    align-items: center;
+
+}
+
+.input {
+    width: 70%;
+    align-items: flex-end;
+}
+
+.label label, .input input, .input textarea{
+    margin: 0.5rem ;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+}
+
+.input input:last-child{
+    width: 40%;
+    margin-top: 2rem;
+}
+
+.submit{
+    background-color: lightgray;
+    color: #d30000;
+}
+
+#link {
+    width: 30%;
+}
+
+#account, #linkMenu, #connect, #link {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 0.5rem;
 }
+
+#account a, #linkMenu a, #connect a, #link a {
+    margin: 0.5rem;
+    padding: 1rem;
+    text-decoration-line: none;
+    color: black;
+    border: #d30000 1px solid;
+    width:80%;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(211,0,0,.2);
+}
+
+
+#addButton {
+    width: 25%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#addButton button{
+    margin: 1rem;
+    border: #d30000 1px solid;
+    border-radius: 10px;
+    box-shadow: 0 15px 50px rgba(211,0,0,.2);
+ }
 
 .articleSelect {
     display: none;
@@ -183,10 +275,6 @@ form {
 
 #articleExemple {
     display: none;
-}
-
-input, button {
-    padding: 0.5rem;
 }
 
 button a {
