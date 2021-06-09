@@ -11,7 +11,7 @@
     <div id='article <?= $article['id'] ?>' class='panel' >
 
         <?php
-        if (!is_null($article['image'])){
+        if (!is_null($article['image']) && $article['image'] !== ""){
             if (!is_null($article['image'])){?>
                 <div id='articleImage'><img src='/assets/img/article/<?= $article['image']?>' alt='<?= $article['title'] ?>'></div>
                 <?php

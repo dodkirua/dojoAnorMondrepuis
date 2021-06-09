@@ -85,18 +85,23 @@ class Utility{
 
     }
     
-    public static function createPassword(){    
+    public static function createPassword() : string{
         $min = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
         $maj = ["A","Z","E","R","T","Y","U","I","O","P","Q","S","D","F","G","H","J","K","L","M","W","X","C","V","B","N"];
         $number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        $spe = ["+,-,*,/,%,@"];
-        $password = array_rand($min) . array_rand($maj). array_rand($number). array_rand($spe);
-        $characters = new \ArrayObject()
-        for($i=0 ; $i < 10 ; $i++) {
-            $password .= ($i%2) ? strtoupper($characters[array_rand($characters)]) : $characters[array_rand($characters)];
+        $spe = ["(", "-", ")", "@", ];
+        $m = $min[array_rand($min)];
+        $M = $maj[array_rand($maj)];
+        $num = $number[array_rand($number)];
+        $s = $spe[array_rand($spe)];
+        $password = $m . $M . $num . $s ;
+        $characters = array_merge($number,$maj,$min,$spe);
+        shuffle($characters);
+        for($i=0 ; $i < 10; $i++) {
+            $password .= $characters[array_rand($characters)];
         }
 
-        return $password;
+        return str_shuffle($password);
       
     }
   }

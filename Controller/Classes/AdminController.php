@@ -236,7 +236,7 @@ class AdminController extends Controller {
                 $param['surname'] = mb_strtolower(Security::sanitize($_POST['surname']));
             }
             if (isset($_POST['licence'])) {
-                $param['licence'] = mb_strtolower(Security::sanitize($_POST['surname']));
+                $param['licence'] = mb_strtolower(Security::sanitize($_POST['licence']));
             }
             if (isset($_POST['mail'])) {
                 $param['mail'] = mb_strtolower(Security::sanitize($_POST['mail']));
