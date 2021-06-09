@@ -130,12 +130,15 @@ input, button, textarea, select {
     margin: 1rem;
 }
 
-#userFormMod, #userFormAdd{
+#userFormMod, #userFormAdd, #passChgForm{
     width: 90%;
 }
 
 #userFormModLabel > label,#userFormAddLabel > label{
     margin-bottom: 1rem;
+}
+#passChgFormLabel > label{
+    margin-bottom: 2rem;
 }
 
 .center {
@@ -160,10 +163,6 @@ input, button, textarea, select {
     width: 100%;
     flex-shrink: 1;
 }
-
-/*.formDisplay > .input, .formDisplay > .label {
-    flex-direction: column;
-}*/
 
 .form, .form ~ div {
     display: flex;
@@ -201,7 +200,6 @@ input, button, textarea, select {
 .label {
     width: 30%;
     align-items: center;
-
 }
 
 .input {
@@ -247,7 +245,6 @@ input, button, textarea, select {
     border-radius: 10px;
     box-shadow: 0 5px 10px rgba(211,0,0,.2);
 }
-
 
 #addButton {
     width: 25%;

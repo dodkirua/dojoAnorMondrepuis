@@ -6,39 +6,32 @@ unset($street[0]);
 $street = implode(" ",$street);
 ?>
 <div id="contactAddressModify" class="panel center">
+    <div>
     <h2>Modification de l'adresse</h2>
-    <form id="modifyAddress" action="/index.php?ctrl=form&action=modifyAddress" method="post" class="panel">
-        <div class="label">
-            <label for="numModify" >Numéro </label>
-            <input id="numModify" name="num"  value="<?= $address['num'] ?>" type="text">
-        </div>
-        <div class="label">
-            <label for="street2Modify" >bis</label>
-            <input id="street2Modify" name="street2"  value="<?= $street2 ?>" type="text">
-        </div>
-        <div class="label">
-            <label for="streetModify" >Rue</label>
-            <input id="streetModify" name="street"  value="<?= $street ?>" type="text">
-        </div>
-        <div class="label">
-            <label for="zipModify" >Code postal </label>
-            <input id="zipModify" name="zip"  value="<?= $address["zip_code"] ?>" type="text">
-        </div >
-        <div class="label">
-            <label for="cityModify" >Ville </label>
-            <input id="cityModify" name="city"  value="<?= $address["city"] ?>" type="text">
-        </div>
-        <div class="label">
-            <label for="countryModify" >Pays </label>
-            <input id="countryModify" name="country"  value="<?= $address["country"] ?>" type="text" >
-        </div>
-        <div class="label">
-            <label for="addModify" >Complément (étage,...) </label>
-            <input id="addModify" name="add"  value="<?= $address["add"] ?>" type="text" >
-        </div>
-
-        <input type="submit" id="modifysubmit"  value="Enregistrer les modifications">
-    </form>
+        <form id="modifyAddress" action="/index.php?ctrl=form&action=modifyAddress" method="post" class="panel">
+            <div class="formDisplay">
+                <div class="label">
+                    <label for="numModify" >Numéro </label>
+                    <label for="street2Modify" >bis</label>
+                    <label for="streetModify" >Rue</label>
+                    <label for="zipModify" >Code postal </label>
+                    <label for="cityModify" >Ville </label>
+                    <label for="countryModify" >Pays </label>
+                    <label for="addModify" >Complément (étage,...) </label>
+                </div>
+                <div class="input">
+                    <input id="numModify" name="num"  value="<?= $address['num'] ?>" type="text">
+                    <input id="street2Modify" name="street2"  value="<?= $street2 ?>" type="text">
+                    <input id="streetModify" name="street"  value="<?= $street ?>" type="text">
+                    <input id="zipModify" name="zip"  value="<?= $address["zip_code"] ?>" type="text">
+                    <input id="cityModify" name="city"  value="<?= $address["city"] ?>" type="text">
+                    <input id="countryModify" name="country"  value="<?= $address["country"] ?>" type="text" >
+                    <input id="addModify" name="add"  value="<?= $address["add"] ?>" type="text" >
+                    <input type="submit" id="modifysubmit"  class="submit" value="Enregistrer">
+                </div>
+            </div>
+        </form>
+    </div>
     <div>
         <p class="error"><?= $var['error'] ?></p>
     </div>
