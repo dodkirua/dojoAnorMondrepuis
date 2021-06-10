@@ -5,7 +5,6 @@ namespace Model\Manager;
 
 
 class Manager{
-
     private static ?self $manager = null;
 
     /**
@@ -18,6 +17,4 @@ class Manager{
         }
         return self::$manager;
     }
-
-
 }

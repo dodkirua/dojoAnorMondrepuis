@@ -19,11 +19,18 @@ class User extends Entity implements EntityInterface {
 
     /**
      * User constructor.
+     * @param int|null $id
      * @param string|null $username
      * @param string|null $mail
      * @param string|null $pass
+     * @param string|null $licence
+     * @param int|null $check
+     * @param int|null $validation
+     * @param string|null $key
+     * @param string|null $name
+     * @param string|null $surname
+     * @param string|null $phone
      * @param Role|null $role
-     * @param int|null $id
      */
     public function __construct( int $id = null, string $username = null, string $mail = null, string $pass = null,
                                 string $licence = null, int $check = null,int $validation= null,string $key = null,

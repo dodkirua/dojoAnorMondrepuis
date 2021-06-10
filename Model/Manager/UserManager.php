@@ -67,6 +67,7 @@ class UserManager extends Manager {
      * @param array $param
      * @return bool
      */
+
     public static function update(int $id, array &$param): bool    {
 
         if ($id !== 1){
@@ -216,7 +217,7 @@ class UserManager extends Manager {
      */
     public static function delete(int $id) : bool {
         if ($id !== 1){
-            // update the article and comment for this user and replace by casper
+            // update the article and comment for this user and replace by  admin
             $CommentManager = new CommentManager();
             $array = $CommentManager->getAllByUser($id);
             foreach ($array as $item){
