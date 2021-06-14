@@ -62,5 +62,6 @@ require_once './Controller/Classes/AdminController.php';
 require_once './Model/Utility/Security.php';
 require_once './Model/Utility/Utility.php';
 
-
-require_once './dev/Dev.php';
+if (file_exists($_SERVER['DOCUMENT_ROOT'] . "./dev/Dev.php")){
+    require_once './dev/Dev.php';
+}
