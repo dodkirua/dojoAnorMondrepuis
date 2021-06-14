@@ -323,6 +323,9 @@ button a {
     #phone {
         display: none;
     }
+    #link {
+        width: 40%;
+    }
 }
 
 @media screen and (max-width: 1000px) {
@@ -341,6 +344,10 @@ button a {
     }
     #phone {
         display: none;
+    }
+
+    #link {
+        width: 40%;
     }
 }
 
