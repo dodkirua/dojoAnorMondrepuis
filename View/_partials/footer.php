@@ -9,9 +9,8 @@
     if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/assets/js/" . $view . ".js")){ ?>
         <script src="/assets/js/<?= $view ?>.js" type="module"></script> <?php
     }
-    else {
-        echo "<script src='/assets/js/index.js' type='module'></script>";
-    }
+    echo "<script src='/assets/js/index.js' type='module'></script>";
+
     ?>
 
 </body>
