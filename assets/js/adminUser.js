@@ -1,5 +1,6 @@
 
 
+const identity = document.getElementById('identity');
 const button = document.getElementsByClassName('button');
 const add = document.getElementById('add');
 const addButton = document.getElementById('addButton');
@@ -10,6 +11,9 @@ const title = document.getElementById('title');
 
 for (let i = 0 ; i < button.length ; i++){
     button[i].addEventListener('click',function (e){
+        if (identity !== null){
+            identity.innerHTML = '';
+        }
 
         addButton.style.display = "none";
         switch (e.target.value) {

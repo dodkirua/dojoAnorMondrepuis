@@ -109,6 +109,7 @@
                                 <?php
                             }
                             ?>
+                            <button><a href="/index.php?ctrl=resetPass&id=<?= $user['id'] ?>" title="resetPassword">Reset de password</a></button>
                         </div>
                         <div class="input">
                             <input id="nameModify" name="name"  value="<?= $user['name'] ?>" type="text">
@@ -173,18 +174,18 @@
                     <form id="userAdd" action="/index.php?ctrl=form&action=userAdd" method="post" class="panel">
                         <div class="formDisplay">
                             <div class="label" id="userFormAddLabel">
-                                <label for="nameModify" >Prénom </label>
-                                <label for="surnameModify" >Nom </label>
-                                <label for="mailModify" >Email </label>
-                                <label for="phoneModify" >Téléphone </label>
-                                <label for="licenceModify" >Licence </label>
-                                <label for="numModify" >Numéro </label>
-                                <label for="street2Modify" >bis</label>
-                                <label for="streetModify" >Rue</label>
-                                <label for="zipModify" >Code postal </label>
-                                <label for="cityModify" >Ville </label>
-                                <label for="countryModify" >Pays </label>
-                                <label for="addModify" >Complément (étage,...) </label>
+                                <label for="name" >Prénom </label>
+                                <label for="surname" >Nom </label>
+                                <label for="mail" >Email </label>
+                                <label for="phone" >Téléphone </label>
+                                <label for="licence" >Licence </label>
+                                <label for="num" >Adresse : n° </label>
+                                <label for="street2" >bis</label>
+                                <label for="street" >Rue</label>
+                                <label for="zip" >Code postal </label>
+                                <label for="city" >Ville </label>
+                                <label for="country" >Pays </label>
+                                <label for="add" >Complément (étage,...) </label>
                                 <?php
                                 if ($_SESSION['user']['role']['id'] === 4){
                                     ?>
@@ -194,18 +195,18 @@
                                 ?>
                             </div>
                             <div class="input">
-                                <input id="nameModify" name="name"   type="text">
-                                <input id="surnameModify" name="surname"   type="text">
-                                <input id="mailModify" name="mail"   type="email">
-                                <input id="phoneModify" name="phone"   type="tel">
-                                <input id="licenceModify" name="licence"   type="text" >
-                                <input id="numModify" name="num"   type="text">
-                                <input id="street2Modify" name="street2"   type="text">
-                                <input id="streetModify" name="street"  type="text">
-                                <input id="zipModify" name="zip"   type="text">
-                                <input id="cityModify" name="city"   type="text">
-                                <input id="countryModify" name="country"  type="text" >
-                                <input id="addModify" name="add"  type="text" >
+                                <input id="name" name="name"   type="text">
+                                <input id="surname" name="surname"   type="text">
+                                <input id="mail" name="mail"   type="email">
+                                <input id="phone" name="phone"   type="tel">
+                                <input id="licence" name="licence"   type="text" >
+                                <input id="num" name="num"   type="text">
+                                <input id="street2" name="street2"   type="text">
+                                <input id="street" name="street"  type="text">
+                                <input id="zip" name="zip"   type="text">
+                                <input id="city" name="city"   type="text">
+                                <input id="country" name="country"  type="text" >
+                                <input id="add" name="add"  type="text" >
                                 <?php
                                 if ($_SESSION['user']['role']['id'] === 4){
                                     $role = $var['role'];
@@ -263,6 +264,17 @@
             <!--display error-->
             <div>
                 <p class="error"><?= $var['error'] ?></p>
+            </div>
+            <!--display add return-->
+            <div>
+                <?php
+
+               if (isset($_SESSION['add']['username'])){
+                   echo "<p id='identity'>identifiant :" . $_SESSION['add']['username'] ." : pass:" . $_SESSION['add']['pass']."</p>";
+                   $_SESSION['add'] = [];
+               }
+
+               ?>
             </div>
         </div>
     <?php } ?>

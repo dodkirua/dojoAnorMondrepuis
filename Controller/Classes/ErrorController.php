@@ -13,6 +13,9 @@ class ErrorController extends Controller{
      */
     public static function Error(int $error) : array{
         switch ($error){
+            case -0:
+                $var['error'] = "On ne modifie pas le compte admin";
+                break;
             case -1 :
                 $var['error'] = "Problème lors de l'ajout";
                 break;

@@ -38,6 +38,15 @@ if (isset($_GET['ctrl'])){
         case 'userAdmin':
             AdminController::user();
             break;
+        case 'resetPass':
+            $mod = AdminController::resetPass();
+            if ($mod === 1){
+                AdminController::user();
+            }
+            else {
+                AdminController::user(ErrorController::Error($mod));
+            }
+            break;
         case 'form':
             switch ($_GET['action']){
                 case 'connect':
@@ -123,6 +132,15 @@ if (isset($_GET['ctrl'])){
                     break;
                 case 'userModify' :
                     $mod = AdminController::modUser();
+                    if ($mod === 1){
+                        AdminController::user();
+                    }
+                    else {
+                        AdminController::user(ErrorController::Error($mod));
+                    }
+                    break;
+                case 'userAdd':
+                    $mod = AdminController::addUser();
                     if ($mod === 1){
                         AdminController::user();
                     }

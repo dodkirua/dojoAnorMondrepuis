@@ -327,16 +327,139 @@ class AdminController extends Controller {
         if (isset($_POST['name'], $_POST['surname'])){
             $param['name'] = mb_strtolower(Security::sanitize($_POST['name']));
             $param['surname'] = mb_strtolower(Security::sanitize($_POST['surname']));
-            $param['username'] = Utility::createUsername($param['name'],$param['surname']);
-            if (isset($_POST['mail'])) {
+            $username = Utility::createUsername($param['name'],$param['surname']);
+            $tmpuser = $username;
+            $i = 1;
+            while (is_object(UserManager::getByUsername($tmpuser))){
+                $tmpuser = $username . $i;
+                $i++;
+            }
+            $username= $tmpuser;
+            $pass = Utility::createPassword();
+            $_SESSION['add']['username'] = $username;
+            $_SESSION['add']['pass'] = $pass;
+            if (isset($_POST['mail']) && $_POST['mail']!== "") {
                 $param['mail'] = mb_strtolower(Security::sanitize($_POST['mail']));
             }
-            if (isset($_POST['mail'])) {
-                $param['mail'] = mb_strtolower(Security::sanitize($_POST['mail']));
+            else{
+                $param['mail'] = null;
+            }
+            if (isset($_POST['phone'])) {
+                $param['phone'] = mb_strtolower(Security::sanitize($_POST['phone']));
+            }
+            if (isset($_POST['licence'])) {
+                $param['licence'] = mb_strtolower(Security::sanitize($_POST['licence']));
+            }
+            if (isset($_POST['roleId'])) {
+                $param['role_id'] = intval($_POST['roleId']);
+            }
+            else {
+                $param['role_id'] = 1;
+            }
+            if (UserManager::add($username,password_hash($pass,PASSWORD_BCRYPT),$param)){
+                $userId = DB::getInstance()->lastInsertId();
+                if (isset($_POST['num'])) {
+                    $num = intval($_POST['num']);
+                } else {
+                    $num = null;
+                }
+
+                if (isset($_POST['street'])) {
+                    $street = mb_strtolower(Security::sanitize($_POST['street2'])) . " " .
+                        mb_strtolower(Security::sanitize($_POST['street']));
+                } else {
+                    $street = null;
+                }
+
+                if (isset($_POST['zip'])) {
+                    $zip = intval($_POST['zip']);
+                } else {
+                    $zip = null;
+                }
+
+                if (isset($_POST['city'])) {
+                    $city = mb_strtolower(Security::sanitize($_POST['city']));
+                } else {
+                    $city = null;
+                }
+
+                if (isset($_POST['country'])) {
+                    $country = mb_strtolower(Security::sanitize($_POST['country']));
+                } else {
+                    $country = null;
+                }
+
+                if (isset($_POST['add']) && $_POST['add'] !== "") {
+                    $add = mb_strtolower(Security::sanitize($_POST['add']));
+                } else {
+                    $add = null;
+                }
+
+                // add  address
+                $addressId = AddressManager::search($num, $street, $zip, $city, $country, $add);
+                if ($addressId !== -1) {
+                    if (AddressBookManager::add($userId, $addressId)) {
+
+                        return 1;
+                    } else {
+                        return -7;
+                    }
+                }
+                elseif (AddressManager::add($num, $street, $zip, $city, $country, $add)) {
+                    $addressId = DB::getInstance()->lastInsertId();
+                    if (AddressBookManager::add( $userId, $addressId)) {
+                         return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    return -1;
+                }
+            }
+            else {
+                return -1;
             }
         }
         else {
             return -5;
         }
     }
+
+    /**
+     * modify password by admin panel
+     * -7 : update problem
+     * -9 : user unknown
+     * -5 : $_GET problem
+     * @return int
+     */
+    public static function resetPass() : int   {
+        if (isset($_GET['id'])){
+            if ($_GET['id'] !== 1){
+                $user = UserManager::getById(intval($_GET['id']));
+                if (!is_null($user)){
+                    $pass = Utility::createPassword();
+                    $_SESSION['add']['pass'] = $pass;
+                    $_SESSION['add']['username'] = $user->getUsername();
+                    $param['pass'] = password_hash($pass,PASSWORD_BCRYPT);
+                    if (UserManager::update($user->getId(),$param)){
+                        return 1;
+                    }
+                    else {
+                        return -7;
+                    }
+                }
+                else {
+                    return -9;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+       else{
+           return -5;
+       }
+
+    }
+
 }
